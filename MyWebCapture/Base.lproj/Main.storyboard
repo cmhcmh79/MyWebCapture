@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="4TL-EE-QOF">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits" keyboardType="URL" returnKeyType="go"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="2a7-hA-ATW"/>
+                                </connections>
+                            </searchBar>
+                            <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Phh-DV-LNg">
+                                <rect key="frame" x="0.0" y="64" width="600" height="497"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Iyu-jr-kzE"/>
+                                </connections>
+                            </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HDK-vx-Uwl">
+                                <rect key="frame" x="0.0" y="561" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="홈으로" id="nr5-ld-Q7Z"/>
+                                    <barButtonItem id="ZwX-DX-V5J">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hUn-0A-ZAs">
+                                            <rect key="frame" x="75" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="즐겨찾기추가"/>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HDK-vx-Uwl" firstAttribute="top" secondItem="Phh-DV-LNg" secondAttribute="bottom" id="3SH-r7-Oud"/>
+                            <constraint firstAttribute="trailing" secondItem="HDK-vx-Uwl" secondAttribute="trailing" id="ANp-7t-oho"/>
+                            <constraint firstItem="Phh-DV-LNg" firstAttribute="top" secondItem="4TL-EE-QOF" secondAttribute="bottom" id="CIY-yZ-imX"/>
+                            <constraint firstItem="4TL-EE-QOF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Laa-lz-ww8"/>
+                            <constraint firstAttribute="bottom" secondItem="HDK-vx-Uwl" secondAttribute="bottom" id="NYw-RV-qv6"/>
+                            <constraint firstAttribute="trailing" secondItem="4TL-EE-QOF" secondAttribute="trailing" id="VhZ-h0-oJv"/>
+                            <constraint firstItem="Phh-DV-LNg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bFi-xc-zyR"/>
+                            <constraint firstAttribute="trailing" secondItem="Phh-DV-LNg" secondAttribute="trailing" id="esR-Py-bFf"/>
+                            <constraint firstItem="HDK-vx-Uwl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="h4Q-q9-QmP"/>
+                            <constraint firstItem="4TL-EE-QOF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="qkX-O7-Xpp"/>
+                        </constraints>
+                    </view>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="searchBar" destination="4TL-EE-QOF" id="s8M-MO-dkc"/>
+                        <outlet property="webPage" destination="Phh-DV-LNg" id="0Tf-Al-Hv2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="298" y="323"/>
+        </scene>
+    </scenes>
+</document>
