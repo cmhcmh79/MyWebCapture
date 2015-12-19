@@ -74,6 +74,12 @@
     [searchBar resignFirstResponder];
     
     NSURL *url = [NSURL URLWithString:_searchBar.text];
+    NSLog(@"scheme>>%@", url.scheme);
+    if( url.scheme == nil ) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", _searchBar.text]];
+    }
+    NSLog(@"URL > %@", url);
+    
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [_webPage loadRequest:requestObj];
 }
@@ -98,15 +104,19 @@
 }
 - (IBAction)pressedBackwardButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    [_webPage goBack];
 }
 - (IBAction)pressedForward:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    [_webPage goForward];
 }
 - (IBAction)pressedStopButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    [_webPage stopLoading];
 }
 - (IBAction)pressedReloadButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    [_webPage reload];
 }
 - (IBAction)pressedActionButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
