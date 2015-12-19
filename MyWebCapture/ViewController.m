@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "AddPageViewController.h"
 
 @interface ViewController ()
 {
@@ -40,9 +41,14 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     NSLog(@"%s > %@", __FUNCTION__, segue.identifier);
-    if( [segue.identifier isEqualToString:@"SegueName"]) {
+    if( [segue.identifier isEqualToString:@"AddPage"]) {
+        AddPageViewController *destVeiw = segue.destinationViewController;
+        destVeiw.stringTitle = [_webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
+        destVeiw.stringURL = _searchBar.text;
+        NSString *stringIconURL = [_webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];
+        destVeiw.stringIconURL = stringIconURL;
         
-        //[segue.destinationViewController doSomthing];
+        NSLog(@"url:%@ title:%@ icon:%@", destVeiw.stringURL, destVeiw.stringTitle, stringIconURL );
     }
 }
 

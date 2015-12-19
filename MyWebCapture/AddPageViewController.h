@@ -10,4 +10,12 @@
 
 @interface AddPageViewController : UIViewController
 
+@property (strong, nonatomic) NSString *stringTitle;
+@property (strong, nonatomic) NSString *stringURL;
+@property (strong, nonatomic) NSString *stringIconURL;
+
+@property (strong, nonatomic) IBOutlet UITextField *textURL;
+@property (strong, nonatomic) IBOutlet UITextField *textTitle;
+@property (strong, nonatomic) IBOutlet UIImageView *imageIcon;
+
 @end

@@ -175,15 +175,16 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tIv-21-xyD">
                                 <rect key="frame" x="20" y="92" width="70" height="70"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XnC-bd-57H">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XnC-bd-57H">
                                 <rect key="frame" x="100" y="92" width="480" height="30"/>
+                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PiN-e7-q7Y">
                                 <rect key="frame" x="100" y="132" width="480" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -201,6 +202,11 @@
                             <constraint firstItem="tIv-21-xyD" firstAttribute="top" secondItem="l5x-TG-yrz" secondAttribute="bottom" constant="20" id="x2N-LA-ova"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageIcon" destination="tIv-21-xyD" id="cbM-nI-Otq"/>
+                        <outlet property="textTitle" destination="PiN-e7-q7Y" id="LWU-Ii-Ag8"/>
+                        <outlet property="textURL" destination="XnC-bd-57H" id="l8D-VY-khs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iCl-JP-cvi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -208,6 +214,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FQB-I8-wPn"/>
+        <segue reference="OcF-ah-IFD"/>
     </inferredMetricsTieBreakers>
 </document>

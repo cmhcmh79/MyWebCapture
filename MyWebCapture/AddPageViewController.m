@@ -6,9 +6,14 @@
 //  Copyright © 2015년 jschoi. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "AddPageViewController.h"
 
+
 @interface AddPageViewController ()
+
+@property (nonatomic) NSURLSession *session;
+@property (nonatomic) NSURLSessionDownloadTask *downloadTask;
 
 @end
 
@@ -17,6 +22,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"%s", __FUNCTION__);
+    
+    _textTitle.text = _stringTitle;
+    _textURL.text = _stringURL;
+    
+    // 아이콘 파일 다운로드
+    NSURL  *url = [NSURL URLWithString:_stringIconURL];
+    NSData *urlData = [NSData dataWithContentsOfURL:url];
+    if ( urlData )
+    {
+        NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString  *documentsDirectory = [paths objectAtIndex:0];
+        
+        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"tmp.png"];
+        [urlData writeToFile:filePath atomically:YES];
+        
+        _imageIcon.image = [UIImage imageWithData:urlData];
+
+        NSLog(@"download : %@", filePath);
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
