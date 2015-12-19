@@ -16,6 +16,7 @@
 		309F445A1C2507A700CCC615 /* MyWebCaptureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44591C2507A700CCC615 /* MyWebCaptureTests.m */; };
 		309F44651C2507A700CCC615 /* MyWebCaptureUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44641C2507A700CCC615 /* MyWebCaptureUITests.m */; };
 		309F44741C250A3100CCC615 /* action.png in Resources */ = {isa = PBXBuildFile; fileRef = 309F44731C250A3100CCC615 /* action.png */; };
+		30C918AD1C252934005595AD /* AddPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C918AC1C252934005595AD /* AddPageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		309F44641C2507A700CCC615 /* MyWebCaptureUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyWebCaptureUITests.m; sourceTree = "<group>"; };
 		309F44661C2507A700CCC615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		309F44731C250A3100CCC615 /* action.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = action.png; path = image/action.png; sourceTree = "<group>"; };
+		30C918AB1C252934005595AD /* AddPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPageViewController.h; sourceTree = "<group>"; };
+		30C918AC1C252934005595AD /* AddPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPageViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				309F44451C2507A700CCC615 /* ViewController.h */,
 				309F44461C2507A700CCC615 /* ViewController.m */,
 				309F44481C2507A700CCC615 /* Main.storyboard */,
+				30C918AB1C252934005595AD /* AddPageViewController.h */,
+				30C918AC1C252934005595AD /* AddPageViewController.m */,
 				309F444B1C2507A700CCC615 /* Assets.xcassets */,
 				309F444D1C2507A700CCC615 /* LaunchScreen.storyboard */,
 				309F44501C2507A700CCC615 /* Info.plist */,
@@ -285,6 +290,7 @@
 				309F44471C2507A700CCC615 /* ViewController.m in Sources */,
 				309F44441C2507A700CCC615 /* AppDelegate.m in Sources */,
 				309F44411C2507A700CCC615 /* main.m in Sources */,
+				30C918AD1C252934005595AD /* AddPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,6 +516,7 @@
 				309F446B1C2507A700CCC615 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		309F446C1C2507A700CCC615 /* Build configuration list for PBXNativeTarget "MyWebCaptureTests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +525,7 @@
 				309F446E1C2507A700CCC615 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		309F446F1C2507A700CCC615 /* Build configuration list for PBXNativeTarget "MyWebCaptureUITests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +534,7 @@
 				309F44711C2507A700CCC615 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

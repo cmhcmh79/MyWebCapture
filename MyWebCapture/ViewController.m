@@ -39,6 +39,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@"%s > %@", __FUNCTION__, segue.identifier);
     if( [segue.identifier isEqualToString:@"SegueName"]) {
         
         //[segue.destinationViewController doSomthing];
@@ -120,6 +121,42 @@
 }
 - (IBAction)pressedActionButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil /* @"My Alert" */
+                                                                   message:nil /* @"delete ?." */
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *actionAddPage = [UIAlertAction actionWithTitle:@"시작 페이지 추가" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              NSLog(@"AlertAction add page");
+                                                              [self performSegueWithIdentifier:@"AddPage" sender:action];
+                                                          }];
+    
+    UIAlertAction *actionCapture = [UIAlertAction actionWithTitle:@"화면 갭쳐" style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+                                                         NSLog(@"AlertAction capture");
+                                                     }];
+
+    UIAlertAction *actionCaptureFull = [UIAlertAction actionWithTitle:@"웹페이지 전체 갭쳐" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              NSLog(@"AlertAction capture full");
+                                                          }];
+
+    UIAlertAction *actionDownload = [UIAlertAction actionWithTitle:@"이미지 다운로드" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  NSLog(@"AlertAction down image");
+                                                              }];
+
+    
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"취 소" style:UIAlertActionStyleCancel
+                                                     handler:^(UIAlertAction * action) {
+                                                         NSLog(@"AlertAction cancel");
+                                                     }];
+    [alert addAction:actionAddPage];
+    [alert addAction:actionCapture];
+    [alert addAction:actionCaptureFull];
+    [alert addAction:actionDownload];
+    [alert addAction:actionCancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
