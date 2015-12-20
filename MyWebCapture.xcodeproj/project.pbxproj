@@ -19,6 +19,7 @@
 		30C918AD1C252934005595AD /* AddPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C918AC1C252934005595AD /* AddPageViewController.m */; };
 		30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3A1C26A1800042E97E /* RecordSet.m */; };
 		30EB8E3E1C26A1800042E97E /* SQLite3Class.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3C1C26A1800042E97E /* SQLite3Class.m */; };
+		30EB8E401C26A2AE0042E97E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		30EB8E3A1C26A1800042E97E /* RecordSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordSet.m; sourceTree = "<group>"; };
 		30EB8E3B1C26A1800042E97E /* SQLite3Class.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLite3Class.h; sourceTree = "<group>"; };
 		30EB8E3C1C26A1800042E97E /* SQLite3Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLite3Class.m; sourceTree = "<group>"; };
+		30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30EB8E401C26A2AE0042E97E /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +95,7 @@
 		309F44331C2507A700CCC615 = {
 			isa = PBXGroup;
 			children = (
+				30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */,
 				309F443E1C2507A700CCC615 /* MyWebCapture */,
 				309F44581C2507A700CCC615 /* MyWebCaptureTests */,
 				309F44631C2507A700CCC615 /* MyWebCaptureUITests */,
