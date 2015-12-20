@@ -17,6 +17,8 @@
 		309F44651C2507A700CCC615 /* MyWebCaptureUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44641C2507A700CCC615 /* MyWebCaptureUITests.m */; };
 		309F44741C250A3100CCC615 /* action.png in Resources */ = {isa = PBXBuildFile; fileRef = 309F44731C250A3100CCC615 /* action.png */; };
 		30C918AD1C252934005595AD /* AddPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C918AC1C252934005595AD /* AddPageViewController.m */; };
+		30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3A1C26A1800042E97E /* RecordSet.m */; };
+		30EB8E3E1C26A1800042E97E /* SQLite3Class.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3C1C26A1800042E97E /* SQLite3Class.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,10 @@
 		309F44731C250A3100CCC615 /* action.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = action.png; path = image/action.png; sourceTree = "<group>"; };
 		30C918AB1C252934005595AD /* AddPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPageViewController.h; sourceTree = "<group>"; };
 		30C918AC1C252934005595AD /* AddPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPageViewController.m; sourceTree = "<group>"; };
+		30EB8E391C26A1800042E97E /* RecordSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordSet.h; sourceTree = "<group>"; };
+		30EB8E3A1C26A1800042E97E /* RecordSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordSet.m; sourceTree = "<group>"; };
+		30EB8E3B1C26A1800042E97E /* SQLite3Class.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLite3Class.h; sourceTree = "<group>"; };
+		30EB8E3C1C26A1800042E97E /* SQLite3Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLite3Class.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +112,10 @@
 		309F443E1C2507A700CCC615 /* MyWebCapture */ = {
 			isa = PBXGroup;
 			children = (
+				30EB8E391C26A1800042E97E /* RecordSet.h */,
+				30EB8E3A1C26A1800042E97E /* RecordSet.m */,
+				30EB8E3B1C26A1800042E97E /* SQLite3Class.h */,
+				30EB8E3C1C26A1800042E97E /* SQLite3Class.m */,
 				309F44721C250A1F00CCC615 /* image */,
 				309F44421C2507A700CCC615 /* AppDelegate.h */,
 				309F44431C2507A700CCC615 /* AppDelegate.m */,
@@ -289,7 +299,9 @@
 			files = (
 				309F44471C2507A700CCC615 /* ViewController.m in Sources */,
 				309F44441C2507A700CCC615 /* AppDelegate.m in Sources */,
+				30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */,
 				309F44411C2507A700CCC615 /* main.m in Sources */,
+				30EB8E3E1C26A1800042E97E /* SQLite3Class.m in Sources */,
 				30C918AD1C252934005595AD /* AddPageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

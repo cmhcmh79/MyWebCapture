@@ -14,6 +14,7 @@
 
 @property (nonatomic) NSURLSession *session;
 @property (nonatomic) NSURLSessionDownloadTask *downloadTask;
+@property (nonatomic) NSData *urlData;
 
 @end
 
@@ -29,18 +30,19 @@
     
     // 아이콘 파일 다운로드
     NSURL  *url = [NSURL URLWithString:_stringIconURL];
-    NSData *urlData = [NSData dataWithContentsOfURL:url];
-    if ( urlData )
+    _urlData = nil;
+    _urlData = [NSData dataWithContentsOfURL:url];
+    if ( _urlData )
     {
         NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString  *documentsDirectory = [paths objectAtIndex:0];
         
         NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"tmp.png"];
-        [urlData writeToFile:filePath atomically:YES];
+        [_urlData writeToFile:filePath atomically:YES];
         
-        _imageIcon.image = [UIImage imageWithData:urlData];
+        _imageIcon.image = [UIImage imageWithData:_urlData];
 
-        NSLog(@"download : %@", filePath);
+        NSLog(@"download : %@ (%ldbyte)", filePath, _urlData.length);
     }
 
 }
@@ -50,14 +52,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"SavePage"]) {
+        
+    }
 }
-*/
+
 
 @end
