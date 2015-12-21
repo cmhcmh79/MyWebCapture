@@ -73,6 +73,13 @@
         destVeiw.stringIconURL = stringIconURL;
         
         NSLog(@"url:%@ title:%@ icon:%@", destVeiw.stringURL, destVeiw.stringTitle, stringIconURL );
+        
+        
+        destVeiw.complitCallback = ^(){
+            NSLog(@"여기는 즐겨찾기 화면이 닫히면 실행이 됨");
+            NSLog(@"할것이 있으면 하고 아니면 안해도 되고..");
+
+        };
     }
 }
 

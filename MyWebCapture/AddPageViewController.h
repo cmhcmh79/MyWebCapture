@@ -18,4 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *textTitle;
 @property (strong, nonatomic) IBOutlet UIImageView *imageIcon;
 
+// 이제 블럭변수
+@property (nonatomic, strong) void (^complitCallback)();
+
 @end

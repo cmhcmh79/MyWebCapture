@@ -78,8 +78,33 @@
 - (IBAction)clickSave:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"화면 닫길때 코드");
+        
+        /* 여기서 화면이 닫기는게 성공을 하면
+            나를 호출했던 ViewController에게 변경되었다고 알려줘야 할때
+         
+         1. Notification을 이용한다.
+         2. Delegate를 이용한다.
+         3. Block Coding을 이용한 Callbac을 이용한다.
+         
+         1번은 프로젝트가 개판이 될 수 있으니깐 되도록 안쓰는게 좋고
+         2번은 ViewController에 보면 UIWebViewDelegate protocol 로 주석 달린게 Delegate를 사용한건데
+            Delegate를 많이 쓰다보니 실제로 호출하는 곳과 처리하는 곳이 떨어져 소스 해석이 거지 같아지더라구
+         그래서 Xcode에서 블럭코딩을 많이 쓰는 추세더라구..
+         [self dismissViewControllerAnimated:YES completion:^{}]; <-- 이것도 결국 블럭코딩 아마 ios 6.0 이후부터는
+         이걸 사용하라고 많이 권장하는 듯.. 싶다.
+         
+         */
+        
+        
+        if (self.complitCallback) {
+            self.complitCallback();
+        }
+        
     }];
 
+    
+    
+    
 }
 
 
