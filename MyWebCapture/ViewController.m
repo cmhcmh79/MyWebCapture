@@ -22,6 +22,8 @@
 
 @implementation ViewController
 
+#pragma mark - Life Cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -51,7 +53,7 @@
  (소스로 쓰면   [ self presentViewController:viewcontroler animated:YES completion:^{//성공코드}]; )
 
  
- 전페이지로 돌아가려면
+ 전 페이지로 돌아가려면
  1. Modal일 경우 dismissViewControllerAnimated 이거 하면 되고
  2. Navigation Push로 들어오거면 Naviagtion Pop을 하면 되고(요건 스택 개념)
  
@@ -74,6 +76,9 @@
     }
 }
 
+
+#pragma mark - UIWebViewDelegate protocol
+
 /**
  * UIWebViewDelegate protocol
  */
@@ -91,6 +96,8 @@
     NSLog(@"web load finish (loading:%i)< %@ >", webView.loading, webView.request.URL);
     _searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
 }
+
+#pragma mark - UISearchBarDelegate protocol
 
 /**
  * UISearchBarDelegate protocol
@@ -113,6 +120,8 @@
     [_webPage loadRequest:requestObj];
 }
 
+#pragma mark - timer action
+
 /**
  * timer action
  */
@@ -124,6 +133,8 @@
         timerWeb = nil;
     }
 }
+
+#pragma mark - button action
 
 /**
  * button action
