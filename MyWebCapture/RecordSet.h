@@ -9,42 +9,35 @@
 #import <Foundation/Foundation.h>
 
 @interface RecordData : NSObject
-{
-    NSString *mStringValue;
-}
+
+@property (strong, nonatomic, readonly) NSString *stringValue;
+@property (getter=getInt, readonly, nonatomic) int intValue;
+@property (getter=getFloat, readonly, nonatomic) float floatValue;
+@property (getter=isNull, readonly, nonatomic) BOOL null;  // 데이터가 없으면 YES
+
+#pragma mark - life cycle
 /**
  * 초기화, 해제
  */
-- (id)initWithString:(NSString *)value;
+- (instancetype)initWithString:(NSString *)value;
 - (void)dealloc;
-
-/**
- * 레코드 데이터가 비어있으면 YES 리턴
- */
-- (BOOL)isNull;
-
-/**
- * 데이터를 원하는 형태로 변환하여 리턴한다.
- */
-- (NSString *)getString;
-- (int)getInt;
-- (float)getFloat;
 
 @end
 
 @interface RecordSet : NSObject
-{
-    NSMutableArray *mDataSet;   // 이중 배열로 이루어진 데이터 집합
-    NSMutableArray *mFieldName;  // 데이터의 필드(컬럼) 이름
-    int             mRowIndex;  // 데이터를 읽을 row 위치
-}
 
+@property (getter=isEndofRecord, readonly, nonatomic) BOOL endOfRecord;
+@property (getter=getColumnCount, readonly, nonatomic) unsigned long columnCount;
+@property (getter=getRowCount, readonly, nonatomic) unsigned long rowCount;
+
+#pragma mark - life cycle
 /**
  * 초기화, 해제
  */
 - (id)init;
 - (void)dealloc;
 
+#pragma mark - public method
 /**
  * 필드명과 데이터를 입력한다.
  */
@@ -54,11 +47,6 @@
  * 현재 row에서 주어진 컬럼명의 데이터를 반환한다.
  */
 - (RecordData *)getCollectDataAtColumnName:(NSString *)column;
-
-/**
- * 데이터의 끝에 도달하면 TRUE 리턴
- */
-- (BOOL)isEndofRecord;
 
 /**
  * 데이터를 읽을 위치를 다음 row로 이동한다.
@@ -74,12 +62,6 @@
  * 모든 데이터를 최기화 한다.
  */
 - (void)clear;
-
-/**
- * 레코드의 column, row 개수를 확인한다.
- */
-- (unsigned long)getColumnCount;
-- (unsigned long)getRowCount;
 
 /**
  * 컬럼(필드) 이름을 확인한다.

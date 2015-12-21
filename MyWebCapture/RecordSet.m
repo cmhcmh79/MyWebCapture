@@ -9,14 +9,16 @@
 #import "RecordSet.h"
 
 @implementation RecordData
+
+#pragma mark - life cycle
 /**
  * 초기화, 해제
  */
-- (id)initWithString:(NSString *)value
+- (instancetype)initWithString:(NSString *)value
 {
     self = [super init];
     if( self )
-        mStringValue = value;
+        _stringValue = value;
     
     return self;
 }
@@ -24,36 +26,42 @@
 {
 }
 
+#pragma mark - getter
 /**
  * 레코드 데이터가 비어있으면 YES 리턴
  */
 - (BOOL)isNull
 {
-    if(mStringValue == nil || mStringValue.length == 0)
+    if(self.stringValue == nil || self.stringValue.length == 0)
         return YES;
     return NO;
 }
 
-/**
- * 데이터를 원하는 형태로 변환하여 리턴한다.
- */
-- (NSString *)getString
-{
-    return mStringValue;
-}
 - (int)getInt
 {
-    return [mStringValue intValue];
+    return [self.stringValue intValue];
 }
 - (float)getFloat
 {
-    return [mStringValue floatValue];
+    return [self.stringValue floatValue];
 }
+
+#pragma mark
+
+@end
+
+
+@interface RecordSet ()
+
+@property (strong, nonatomic) NSMutableArray<NSMutableArray<NSString *> *> *dataSet;      // 이중 배열로 이루어진 데이터 집합
+@property (strong, nonatomic) NSMutableArray<NSString *> *fieldNames;   // 데이터의 필드(컬럼) 이름
+@property (nonatomic) int rowIndex;     // 데이터를 읽을 row 위치
 
 @end
 
 @implementation RecordSet
 
+#pragma mark - life cycle
 /**
  * 초기화, 해제
  */
@@ -61,9 +69,9 @@
 {
     self = [super init];
     if(self) {
-        mDataSet = [[NSMutableArray alloc] init];
-        mFieldName = [[NSMutableArray alloc] init];
-        mRowIndex = 0;
+        _dataSet = [[NSMutableArray alloc] init];
+        _fieldNames = [[NSMutableArray alloc] init];
+        _rowIndex = 0;
     }
     NSLog(@"%s(%p)", __FUNCTION__, self);
 
@@ -71,9 +79,40 @@
 }
 - (void)dealloc
 {
+    _dataSet = nil;
+    _fieldNames = nil;
+    
     NSLog(@"%s(%p)", __FUNCTION__, self);
 }
 
+
+#pragma mark - getter
+/**
+ * 데이터의 끝에 도달하면 YES 리턴
+ */
+- (BOOL)isEndofRecord
+{
+    if( self.rowIndex >= self.rowCount)
+        return YES;
+    return NO;
+}
+
+/**
+ * 레코드의 column, row 개수를 확인한다.
+ */
+- (unsigned long)getColumnCount
+{
+    return self.fieldNames.count;
+}
+- (unsigned long)getRowCount
+{
+    if(self.dataSet.count == 0)
+        return 0;
+    
+    return [self.dataSet[0] count];
+}
+
+#pragma mark - public method
 /**
  * 필드명과 데이터를 입력한다.
  */
@@ -81,17 +120,17 @@
 {
     NSMutableArray *columnSet;
     
-    if( mFieldName.count <= column) {
+    if( self.fieldNames.count <= column) {
         // 새로운 컬럼(필드) 삽입
-        [mFieldName addObject:name];
+        [self.fieldNames addObject:name];
         columnSet = [[NSMutableArray alloc] init];
-        [mDataSet addObject:columnSet];
+        [self.dataSet addObject:columnSet];
     }
     
     // 데이터 추가
-    columnSet = mDataSet[column];
+    columnSet = self.dataSet[column];
     [columnSet addObject:value];
-    [mDataSet replaceObjectAtIndex:column withObject:columnSet];
+    [self.dataSet replaceObjectAtIndex:column withObject:columnSet];
  }
 
 /**
@@ -104,8 +143,8 @@
     int indexOfColumn = -1;
     
     // 컬럼 이름 찾기
-    for(int i = 0; mFieldName.count; ++i) {
-        if( [mFieldName[i] isEqualToString:column] ) {
+    for(int i = 0; self.fieldNames.count; ++i) {
+        if( [self.fieldNames[i] isEqualToString:column] ) {
             indexOfColumn = i;
             break;
         }
@@ -114,19 +153,9 @@
         return nil;
     
     // record 데이터 생성
-    data = [[RecordData alloc] initWithString:[mDataSet[indexOfColumn] objectAtIndex:mRowIndex]];
+    data = [[RecordData alloc] initWithString:[self.dataSet[indexOfColumn] objectAtIndex:self.rowIndex]];
     
     return data;
-}
-
-/**
- * 데이터의 끝에 도달하면 YES 리턴
- */
-- (BOOL)isEndofRecord
-{
-    if( mRowIndex >= [self getRowCount])
-        return YES;
-    return NO;
 }
 
 /**
@@ -134,7 +163,7 @@
  */
 - (void)next
 {
-    ++mRowIndex;
+    ++self.rowIndex;
 }
 
 /**
@@ -142,7 +171,7 @@
  */
 - (void)reset
 {
-    mRowIndex = 0;
+    self.rowIndex = 0;
 }
 
 /**
@@ -150,28 +179,12 @@
  */
 - (void)clear
 {
-    mRowIndex = 0;
+    self.rowIndex = 0;
+    while(self.fieldNames.count > 0)
+        [self.fieldNames removeObjectAtIndex:0];
     
-    while(mFieldName.count > 0)
-        [mFieldName removeObjectAtIndex:0];
-    
-    while(mDataSet.count > 0)
-        [mDataSet removeObjectAtIndex:0];
-}
-
-/**
- * 레코드의 column, row 개수를 확인한다.
- */
-- (unsigned long)getColumnCount
-{
-    return mFieldName.count;
-}
-- (unsigned long)getRowCount
-{
-    if(mDataSet.count == 0)
-        return 0;
-    
-    return [mDataSet[0] count];
+    while(self.dataSet.count > 0)
+        [self.dataSet removeObjectAtIndex:0];
 }
 
 /**
@@ -179,6 +192,6 @@
  */
 - (NSString *)getColumnNameAtIndex:(int)index
 {
-    return [mFieldName objectAtIndex:index];
+    return [self.fieldNames objectAtIndex:index];
 }
 @end

@@ -13,7 +13,9 @@
 /**
  * SQLite 기본 속성값
  */
-NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreign_keys = ON;";
+static NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreign_keys = ON;";
+
+#pragma mark - class method
 /**
  * SQLite 기본 속성값을 반한한다.
  */
@@ -22,10 +24,11 @@ NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreig
     return StringAttributeDefault;
 }
 
+#pragma mark - life cycle
 /**
  * 파일 이름을 설정하고 초기화 한다. (속성은 기본값으로 설정)
  */
-- (id) initWithFilePath:(NSString *)path
+- (instancetype) initWithFilePath:(NSString *)path
 {
     self = [super init];
     if(self) {
@@ -45,6 +48,7 @@ NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreig
     [self close];
 }
 
+#pragma mark - public method
 /**
  * DB파일을 연결한다. 실패시 throw 발생
  */
@@ -54,13 +58,13 @@ NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreig
     [self close];
     
     // DB 이름 확인
-    if( _stringFilePath.length == 0) {
+    if( self.stringFilePath.length == 0) {
         @throw [NSException exceptionWithName:@"File Path Fail" reason:@"File Path Empty" userInfo:nil];
         return;
     }
     
     // 디비 연결
-    if(sqlite3_open(_stringFilePath.UTF8String, &mDB) != SQLITE_OK )
+    if(sqlite3_open(self.stringFilePath.UTF8String, &mDB) != SQLITE_OK )
     {
         // 연결 실패시 바로 닫음
         [self close];
@@ -70,7 +74,7 @@ NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA foreig
     }
     
     // 속성 설정
-    if( _stringAttribute.length > 0 )
+    if( self.stringAttribute.length > 0 )
         [self executeWithSQL:_stringAttribute];
 }
 
