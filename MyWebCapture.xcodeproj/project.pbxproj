@@ -20,6 +20,9 @@
 		30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3A1C26A1800042E97E /* RecordSet.m */; };
 		30EB8E3E1C26A1800042E97E /* SQLite3Class.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3C1C26A1800042E97E /* SQLite3Class.m */; };
 		30EB8E401C26A2AE0042E97E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */; };
+		9FC8476A1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
+		9FC8476B1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
+		9FC8476C1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +67,7 @@
 		30EB8E3B1C26A1800042E97E /* SQLite3Class.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLite3Class.h; sourceTree = "<group>"; };
 		30EB8E3C1C26A1800042E97E /* SQLite3Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLite3Class.m; sourceTree = "<group>"; };
 		30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		9FC847691C27940600F2AFB9 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +99,7 @@
 		309F44331C2507A700CCC615 = {
 			isa = PBXGroup;
 			children = (
+				9FC847691C27940600F2AFB9 /* .gitignore */,
 				30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */,
 				309F443E1C2507A700CCC615 /* MyWebCapture */,
 				309F44581C2507A700CCC615 /* MyWebCaptureTests */,
@@ -273,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC8476A1C27940600F2AFB9 /* .gitignore in Resources */,
 				309F444F1C2507A700CCC615 /* LaunchScreen.storyboard in Resources */,
 				309F444C1C2507A700CCC615 /* Assets.xcassets in Resources */,
 				309F444A1C2507A700CCC615 /* Main.storyboard in Resources */,
@@ -284,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC8476B1C27940600F2AFB9 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FC8476C1C27940600F2AFB9 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

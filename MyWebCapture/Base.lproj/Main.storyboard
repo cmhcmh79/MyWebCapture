@@ -136,7 +136,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="298" y="323"/>
+            <point key="canvasLocation" x="265" y="323"/>
         </scene>
         <!--Add Page View Controller-->
         <scene sceneID="dkb-r7-nOf">
@@ -163,7 +163,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="취소"/>
                                                 <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="show" id="OcF-ah-IFD"/>
+                                                    <action selector="clickCancel:" destination="8Ht-IF-B1G" eventType="touchUpInside" id="DZC-hR-MCG"/>
                                                 </connections>
                                             </button>
                                         </barButtonItem>
@@ -173,7 +173,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="저장"/>
                                                 <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="SavePage" id="FQB-I8-wPn"/>
+                                                    <action selector="clickSave:" destination="8Ht-IF-B1G" eventType="touchUpInside" id="wJj-jG-6ie"/>
                                                 </connections>
                                             </button>
                                         </barButtonItem>
@@ -225,7 +225,4 @@
             <point key="canvasLocation" x="975" y="323"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="OcF-ah-IFD"/>
-    </inferredMetricsTieBreakers>
 </document>

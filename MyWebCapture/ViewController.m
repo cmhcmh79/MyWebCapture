@@ -32,12 +32,33 @@
     //NSURL *url = [NSURL URLWithString:@"http://m.daum.net"];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [_webPage loadRequest:requestObj];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+/*
+ 아이폰에서 화면 전환 방법 2가지
+ 1. 그냥 화면에서는 Modal하는 방법이 있고
+ 2. Navigation 에서는 Push 하는 방법
+ 
+ 지금 스토리 보드에 보면 AddPage를 Present Modal로 설정이 되 있어서 이건 모달로 뛰운거
+ (소스로 쓰면   [ self presentViewController:viewcontroler animated:YES completion:^{//성공코드}]; )
+
+ 
+ 전페이지로 돌아가려면
+ 1. Modal일 경우 dismissViewControllerAnimated 이거 하면 되고
+ 2. Navigation Push로 들어오거면 Naviagtion Pop을 하면 되고(요건 스택 개념)
+ 
+ 나 이거 이해하는데 1년 걸렸음 ㅋㅋㅋㅋ
+ 
+ */
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

@@ -64,4 +64,24 @@
 }
 
 
+#pragma mark - Button Event
+
+
+- (IBAction)clickCancel:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"화면 닫길때 코드");
+    }];
+    
+}
+
+- (IBAction)clickSave:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"화면 닫길때 코드");
+    }];
+
+}
+
+
+
 @end
