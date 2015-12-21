@@ -14,6 +14,7 @@
     NSTimer *timerWeb;
 }
 
+
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UIWebView *webPage;
 
