@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "AddPageViewController.h"
+#import "DataManager.h"
 
 
 @interface AddPageViewController ()
@@ -76,6 +77,10 @@
 }
 
 - (IBAction)clickSave:(id)sender {
+    DataManager *manager = [DataManager GetSingleInstance];
+    BookmarkData *data = [manager bookmarkAtIndex:0];
+    NSLog(@"title:%@ icon:%@ image-size:%f", data.title, data.iconFileName, data.iconImage.size.height  );
+
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"화면 닫길때 코드");
         

@@ -22,6 +22,8 @@
 
 @interface DataManager : NSObject
 
+@property (getter=getCount, readonly, nonatomic) NSUInteger count;     // 북마크 개수
+
 #pragma mark - class method
 + (DataManager *)GetSingleInstance;
 
@@ -30,5 +32,14 @@
 - (void)dealloc;
 
 #pragma mark - public method
+/**
+ * 새로운 북마크를 마지막에 추가, 실패시 0보다 작은값 리턴
+ */
+- (int)addBookmark:(BookmarkData *)bookmark;
+
+/**
+ * 해당 위치(인덱스)에 있는 북마트 데이터 반환
+ */
+- (BookmarkData *)bookmarkAtIndex:(NSUInteger)index;
 
 @end

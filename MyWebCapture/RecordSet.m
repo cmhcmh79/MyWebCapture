@@ -73,7 +73,7 @@
         _fieldNames = [[NSMutableArray alloc] init];
         _rowIndex = 0;
     }
-    NSLog(@"%s(%p)", __FUNCTION__, self);
+    //NSLog(@"(%p)",self);
 
     return self;
 }
@@ -82,7 +82,7 @@
     _dataSet = nil;
     _fieldNames = nil;
     
-    NSLog(@"%s(%p)", __FUNCTION__, self);
+    //NSLog(@"(%p)", self);
 }
 
 

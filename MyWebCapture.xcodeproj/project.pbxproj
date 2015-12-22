@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3059720E1C28EF5F00CC95FD /* icon-default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3059720D1C28EF5F00CC95FD /* icon-default.png */; };
 		309F44411C2507A700CCC615 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44401C2507A700CCC615 /* main.m */; };
 		309F44441C2507A700CCC615 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44431C2507A700CCC615 /* AppDelegate.m */; };
 		309F44471C2507A700CCC615 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44461C2507A700CCC615 /* ViewController.m */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3059720D1C28EF5F00CC95FD /* icon-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-default.png"; path = "image/icon-default.png"; sourceTree = "<group>"; };
 		309F443C1C2507A700CCC615 /* MyWebCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWebCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309F44401C2507A700CCC615 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		309F44421C2507A700CCC615 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		309F44721C250A1F00CCC615 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				3059720D1C28EF5F00CC95FD /* icon-default.png */,
 				309F44731C250A3100CCC615 /* action.png */,
 			);
 			name = image;
@@ -285,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3059720E1C28EF5F00CC95FD /* icon-default.png in Resources */,
 				9FC8476A1C27940600F2AFB9 /* .gitignore in Resources */,
 				309F444F1C2507A700CCC615 /* LaunchScreen.storyboard in Resources */,
 				309F444C1C2507A700CCC615 /* Assets.xcassets in Resources */,
