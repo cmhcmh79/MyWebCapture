@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3034333B1C2979D30080FA6D /* BookmarkViewController.m */; };
 		3059720E1C28EF5F00CC95FD /* icon-default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3059720D1C28EF5F00CC95FD /* icon-default.png */; };
 		309F44411C2507A700CCC615 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44401C2507A700CCC615 /* main.m */; };
 		309F44441C2507A700CCC615 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44431C2507A700CCC615 /* AppDelegate.m */; };
@@ -45,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3034333A1C2979D30080FA6D /* BookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkViewController.h; sourceTree = "<group>"; };
+		3034333B1C2979D30080FA6D /* BookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkViewController.m; sourceTree = "<group>"; };
 		3059720D1C28EF5F00CC95FD /* icon-default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-default.png"; path = "image/icon-default.png"; sourceTree = "<group>"; };
 		309F443C1C2507A700CCC615 /* MyWebCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWebCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309F44401C2507A700CCC615 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -137,6 +140,8 @@
 				309F44451C2507A700CCC615 /* ViewController.h */,
 				309F44461C2507A700CCC615 /* ViewController.m */,
 				309F44481C2507A700CCC615 /* Main.storyboard */,
+				3034333A1C2979D30080FA6D /* BookmarkViewController.h */,
+				3034333B1C2979D30080FA6D /* BookmarkViewController.m */,
 				30E0EE851C28188B00451512 /* DataManager.h */,
 				30E0EE861C28188B00451512 /* DataManager.m */,
 				30C918AB1C252934005595AD /* AddPageViewController.h */,
@@ -320,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */,
 				309F44471C2507A700CCC615 /* ViewController.m in Sources */,
 				309F44441C2507A700CCC615 /* AppDelegate.m in Sources */,
 				30E0EE871C28188B00451512 /* DataManager.m in Sources */,

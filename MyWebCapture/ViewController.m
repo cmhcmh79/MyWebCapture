@@ -148,6 +148,14 @@
  */
 - (IBAction)pressedHomeButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+        if( self.completionCallback ) {
+            self.completionCallback();
+        }
+        
+    }];
 }
 - (IBAction)pressedBackwardButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);

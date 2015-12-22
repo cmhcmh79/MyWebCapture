@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController
 
+// 종료 콜백 정의
+@property (strong, nonatomic) void (^completionCallback)();
 
 @end
 
