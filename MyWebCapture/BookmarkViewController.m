@@ -64,6 +64,12 @@
     
     // Configure the cell
     
+    UILabel *lblTitle = (UILabel*)[cell.contentView viewWithTag:1];
+    UIImage *imgTTT = (UIImage*)[cell.contentView viewWithTag:2];
+    
+    [lblTitle setText:@"ㅋㅋㅋㅋ"];
+    
+    
     cell.layer.borderColor = [UIColor blackColor].CGColor;
     cell.layer.borderWidth = 1.0f;
     cell.tag = indexPath.row;
