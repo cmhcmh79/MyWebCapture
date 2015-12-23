@@ -99,6 +99,13 @@
         //NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
         
         NSLog(@"cell index %li",indexPath.row);
+        
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        view.backgroundColor = [UIColor redColor];
+        
+        [self.view addSubview:view];
+        
+        
     }
 }
 
