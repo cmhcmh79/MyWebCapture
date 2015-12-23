@@ -12,6 +12,20 @@
 static NSString * const DBFileName = @"Bookmarks";
 
 @implementation BookmarkData
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    BookmarkData *copyedData = [BookmarkData allocWithZone:zone];
+    
+    copyedData.no = self.no;
+    copyedData.url = self.url;
+    copyedData.title = self.title;
+    copyedData.iconFileName = self.iconFileName;
+    copyedData.iconImage = self.iconImage;
+
+    return copyedData;
+}
+
 @end
 
 @interface DataManager ()

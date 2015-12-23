@@ -48,7 +48,7 @@
     NSInteger index = [self.collectionView indexPathForCell:cell].row;
     NSLog("segue cell : %li", index);
     
-    dest.bookmark = [self.dataManager bookmarkAtIndex:index];
+    dest.bookmark = [[self.dataManager bookmarkAtIndex:index] copy];
     dest.bookmarkIndex = index;
 }
 

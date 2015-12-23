@@ -130,7 +130,7 @@
     // 데이터 추가
     columnSet = self.dataSet[column];
     [columnSet addObject:value];
-    [self.dataSet replaceObjectAtIndex:column withObject:columnSet];
+    //[self.dataSet replaceObjectAtIndex:column withObject:columnSet];
  }
 
 /**

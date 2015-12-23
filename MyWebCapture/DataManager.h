@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface BookmarkData : NSObject
+@interface BookmarkData : NSObject <NSCopying>
 
 @property (nonatomic) int no;
 @property (strong, nonatomic) NSString *url;
