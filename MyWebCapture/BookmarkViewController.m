@@ -100,8 +100,13 @@
         
         NSLog(@"cell index %li",indexPath.row);
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
         view.backgroundColor = [UIColor redColor];
+        UIButton *button = [[ UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        button.backgroundColor = [ UIColor yellowColor];
+        [button setTitle:@"copy" forState:UIControlStateNormal];
+        [view addSubview:button];
+        
         
         [self.view addSubview:view];
         
