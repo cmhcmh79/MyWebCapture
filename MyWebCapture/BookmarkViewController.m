@@ -72,6 +72,9 @@
     label.text = bookmark.title;
     imageView.image = bookmark.iconImage;
     
+    UILongPressGestureRecognizer* longClickEvent = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longClickCell:)];
+    [cell addGestureRecognizer:longClickEvent];
+    
     /*
     cell.layer.borderColor = [UIColor blackColor].CGColor;
     cell.layer.borderWidth = 1.0f;
@@ -79,5 +82,25 @@
     
     return cell;
 }
+
+#pragma mark - gesture callback
+
+- (void)longClickCell:(UILongPressGestureRecognizer *)sender
+{
+    NSLog();
+    
+    if (sender.state == UIGestureRecognizerStateBegan){
+        
+        // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
+        //CGPoint currentTouchPosition = [sender locationInView:[sender view]];
+        
+        // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
+        //NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+        
+        NSLog(@"cell index %li",indexPath.row);
+    }
+}
+
 
 @end
