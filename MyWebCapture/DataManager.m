@@ -18,6 +18,12 @@ static NSString * const DBFileName = @"Bookmarks";
 
 @property (strong, nonatomic) NSMutableArray<BookmarkData *> *listBookmark;
 @property (strong, nonatomic) SQLite3Class *database;
+@property (strong, nonatomic, readonly) NSString *documentsDirectory;
+
+/**
+ * 주어진 번호를 이용하여 아이콘 이름을 생성한다.
+ */
+- (NSString *) iconNameWithNumber:(int)no;
 
 /**
  * 북마크 정보를 DB에서 읽어오고 아이콘 이미지도 생성한다.
@@ -58,9 +64,7 @@ static DataManager *MyInstance = nil;
             MyInstance = [[DataManager alloc] init];
             
             // 파일에서 데이터를 읽어온다.
-            NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString  *documentsDirectory = [paths objectAtIndex:0];
-            NSString  *filename = [documentsDirectory stringByAppendingPathComponent:DBFileName];
+            NSString  *filename = [MyInstance.documentsDirectory stringByAppendingPathComponent:DBFileName];
             [MyInstance loadAllFromFile:filename];
         }
     }
@@ -73,6 +77,8 @@ static DataManager *MyInstance = nil;
     self = [super init];
     if( self ) {
         //_listBookmark = [[NSMutableArray alloc] init];
+        NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        _documentsDirectory = [paths objectAtIndex:0];
     }
     return self;
 }
@@ -97,10 +103,34 @@ static DataManager *MyInstance = nil;
     int result = 0;
     
     // DB에 추가
+    if( (result = [self insertData:bookmark]) < 0 )
+        return -1;
+    
+    bookmark.no = result;
     
     // 아이콘 이미지가 있으면 파일로 저장
+    if( bookmark.iconImage ) {
+        NSData *icon = UIImagePNGRepresentation(bookmark.iconImage);
+        if( icon && icon.length ) {
+            // 아이콘 파일을 저장하고 DB에 업데이트
+            bookmark.iconFileName = [self iconNameWithNumber:bookmark.no];
+            NSString *iconPath = [self.documentsDirectory stringByAppendingPathComponent:bookmark.iconFileName];
+            [icon writeToFile:iconPath atomically:YES];
+            
+            if( [self updateData:bookmark] < 0 )
+                return -3;
+        }
+    }
     
-    // 저장한 아이콘 파일 이름을 DB에 적용
+    // 아이콘이 없으면 디폴트 이미지 로딩
+    if( bookmark.iconFileName == nil || bookmark.iconFileName.length == 0 ) {
+        bookmark.iconImage = [UIImage imageNamed:@"icon-default.png"];
+    }
+    
+    // 리스트에 추가
+    [self.listBookmark addObject:bookmark];
+    
+    NSLog(@"[%i] title:%@ url:%@ icon-file:%@", bookmark.no, bookmark.title, bookmark.url, bookmark.iconFileName);
     
     return result;
 }
@@ -113,8 +143,66 @@ static DataManager *MyInstance = nil;
     return [self.listBookmark objectAtIndex:index];
 }
 
+/**
+ * 해당 위치의 북마크 데이터를 변경한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)updateBookmark:(BookmarkData *)bookmark atIndex:(NSInteger)index
+{
+    BOOL isChanged = NO;
+    
+    // 아이콘 이미지 변경확인
+    NSData *iconData = UIImagePNGRepresentation(bookmark.iconImage);
+    NSData *iconBeforeData = UIImagePNGRepresentation(self.listBookmark[index].iconImage);
+    if( ![iconData isEqualToData:iconBeforeData] ) {
+        // 바뀐 아이콘 파일로 저장
+        bookmark.iconFileName = [self iconNameWithNumber:bookmark.no];
+        NSString *iconPath = [self.documentsDirectory stringByAppendingPathComponent:bookmark.iconFileName];
+        [iconData writeToFile:iconPath atomically:YES];
+        
+        isChanged = YES;
+    }
+    
+    // url 비교
+    if( ![bookmark.url isEqualToString:self.listBookmark[index].url] )
+        isChanged = YES;
+    
+    // title 비교
+    if( ![bookmark.title isEqualToString:self.listBookmark[index].title] )
+        isChanged = YES;
+    
+    // DB에 업데이트
+    if( isChanged ) {
+        if( [self updateData:bookmark] < 0 )
+            return -2;
+    
+        [self.listBookmark replaceObjectAtIndex:index withObject:bookmark];
+    }
+
+    return 0;
+}
+
+/**
+ * 해당 위치의 북마크를 삭제한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)deleteBookmarkAtIndex:(NSInteger)index
+{
+    // DB에 삭제
+    
+    // 리스트에서 삭제
+    
+    return 0;
+}
 
 #pragma mark - private method
+
+
+/**
+ * 주어진 번호를 이용하여 아이콘 이름을 생성한다.
+ */
+- (NSString *) iconNameWithNumber:(int)no
+{
+    return [NSString stringWithFormat:@"icon-%i.png", no];
+}
 
 /**
  * 북마크 정보를 DB에서 읽어오고 아이콘 이미지도 생성한다.
@@ -149,14 +237,19 @@ static DataManager *MyInstance = nil;
     
     // DB에서 데이터를 읽어온다
     result = [self readAllData];
+    if( result < 0 )
+        return -3;
     
     // 아이콘 이미지를 읽어온다.
     for( BookmarkData *bookmark in self.listBookmark ) {
         // 파일이 없으면 기본 이미지 로딩
-        if( [fileManager fileExistsAtPath:bookmark.iconFileName] ) {
-            bookmark.iconImage = [UIImage imageWithContentsOfFile:bookmark.iconFileName];
+        NSString *iconPath = [self.documentsDirectory stringByAppendingPathComponent:bookmark.iconFileName];
+        if( [fileManager fileExistsAtPath:iconPath] ) {
+            NSLog(@"icon-file:%@", iconPath);
+            bookmark.iconImage = [UIImage imageWithContentsOfFile:iconPath];
         }
         else {
+            NSLog(@"icon-default:%@", bookmark.iconFileName);
             bookmark.iconImage = [UIImage imageNamed:@"icon-default.png"];
         }
     }
@@ -272,6 +365,24 @@ static DataManager *MyInstance = nil;
 - (int)updateData:(BookmarkData *)data
 {
     int result = 0;
+    
+    @try {
+        [self.database openAndTransaction];
+        
+        [self.database executeWithSQL:
+            [NSString stringWithFormat:@" update BookmarkTable set "
+                                        " url = '%@', title = '%@' , iconfile = '%@', "
+                                        " time = datetime('now', 'localtime') "
+                                        " where no = %i ;",
+                                        data.url, data.title, data.iconFileName, data.no]];
+        
+        [self.database closeBeforCommit];
+    }
+    @catch( NSException *exception) {
+        [self.database closeBeforRollback];
+        NSLog(@"[exception] %@ > %@", exception.name, exception.reason);
+        result = -1;
+    }
     return result;
 }
 

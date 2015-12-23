@@ -35,15 +35,17 @@
     _urlData = [NSData dataWithContentsOfURL:url];
     if ( _urlData )
     {
+        /*
         NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString  *documentsDirectory = [paths objectAtIndex:0];
         
         NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"tmp.png"];
         [_urlData writeToFile:filePath atomically:YES];
+        */
         
         _imageIcon.image = [UIImage imageWithData:_urlData];
 
-        NSLog(@"download : %@ (%ldbyte)", filePath, _urlData.length);
+        //NSLog(@"download : %@ (%ldbyte)", filePath, _urlData.length);
     }
 
 }
@@ -77,10 +79,19 @@
 }
 
 - (IBAction)clickSave:(id)sender {
+    NSLog("save");
     DataManager *manager = [DataManager GetSingleInstance];
-    BookmarkData *data = [manager bookmarkAtIndex:0];
-    NSLog(@"title:%@ icon:%@ image-size:%f", data.title, data.iconFileName, data.iconImage.size.height  );
-
+    BookmarkData *bookmark = [[BookmarkData alloc] init];
+    
+    bookmark.url = self.textURL.text;
+    bookmark.title = self.textTitle.text;
+    bookmark.iconImage = self.imageIcon.image;
+    bookmark.no = 0;
+    
+    if( [manager addBookmark:bookmark ] < 0 )
+        NSLog(@"Add Fail.");
+    //NSAssert(NO, @"save fail");
+    
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"화면 닫길때 코드");
         

@@ -45,8 +45,11 @@
     };
     
     UICollectionViewCell *cell = sender;
-    NSLog("segue cell : %li", cell.tag);
+    NSInteger index = [self.collectionView indexPathForCell:cell].row;
+    NSLog("segue cell : %li", index);
     
+    dest.bookmark = [self.dataManager bookmarkAtIndex:index];
+    dest.bookmarkIndex = index;
 }
 
 
@@ -60,20 +63,20 @@
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
  
     BookmarkData *bookmark = [self.dataManager bookmarkAtIndex:indexPath.row];
-    NSLog(@"collection cell(%li) title:%@", indexPath.row, bookmark.title);
+    //NSLog(@"collection cell(%li) title:%@", indexPath.row, bookmark.title);
     
-    // Configure the cell
+    // Configure the cell    
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
+    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:2];
     
-    UILabel *lblTitle = (UILabel*)[cell.contentView viewWithTag:1];
-    UIImage *imgTTT = (UIImage*)[cell.contentView viewWithTag:2];
+    label.text = bookmark.title;
+    imageView.image = bookmark.iconImage;
     
-    [lblTitle setText:@"ㅋㅋㅋㅋ"];
-    
-    
+    /*
     cell.layer.borderColor = [UIColor blackColor].CGColor;
     cell.layer.borderWidth = 1.0f;
-    cell.tag = indexPath.row;
- 
+     */
+    
     return cell;
 }
 

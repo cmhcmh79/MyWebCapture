@@ -14,6 +14,7 @@
     NSTimer *timerWeb;
 }
 
+@property (nonatomic) BOOL updateBookmark;
 
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UIWebView *webPage;
@@ -29,12 +30,29 @@
     // Do any additional setup after loading the view, typically from a nib.
     NSLog(@"View Controller Load");
     
+    NSURL *url = nil;
+    self.updateBookmark = NO;
+    
+    if( self.bookmark && self.bookmark.no > 0 ) {
+        // 북마크 페이지 표시
+        url = [NSURL URLWithString:self.bookmark.url];
+        self.updateBookmark = YES;
+    }
+    else if( self.stringURL && self.stringURL.length > 0 ) {
+        url = [NSURL URLWithString:self.stringURL];
+    }
+    
+    if( url ) {
+        NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+        [self.webPage loadRequest:requestObj];
+    }
+    /*
     NSURL *url = [NSURL URLWithString:@"http://m.naver.com"];
     //NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     //NSURL *url = [NSURL URLWithString:@"http://m.daum.net"];
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [_webPage loadRequest:requestObj];
-    
+    */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -138,6 +156,21 @@
         NSLog(@"loading finished");
         [timerWeb invalidate];
         timerWeb = nil;
+        
+        // 업데이트는 처음 한번만
+        if( self.updateBookmark ) {
+            // 아이콘 이미지 다운로드
+            NSString *stringIconURL = [self.webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];
+            NSURL  *url = [NSURL URLWithString:stringIconURL];
+            NSData *icon = [NSData dataWithContentsOfURL:url];
+            if ( icon && icon.length ){
+                self.bookmark.iconImage = [UIImage imageWithData:icon];
+                [[DataManager GetSingleInstance] updateBookmark:self.bookmark atIndex:self.bookmarkIndex];
+                NSLog(@"download %libyte", icon.length);
+            }
+        }
+        
+        self.updateBookmark = NO;
     }
 }
 

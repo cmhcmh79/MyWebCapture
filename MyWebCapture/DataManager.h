@@ -38,8 +38,18 @@
 - (int)addBookmark:(BookmarkData *)bookmark;
 
 /**
- * 해당 위치(인덱스)에 있는 북마트 데이터 반환
+ * 해당 위치(인덱스)에 있는 북마크 데이터 반환
  */
 - (BookmarkData *)bookmarkAtIndex:(NSUInteger)index;
+
+/**
+ * 해당 위치의 북마크 데이터를 변경한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)updateBookmark:(BookmarkData *)bookmark atIndex:(NSInteger)index;
+
+/**
+ * 해당 위치의 북마크를 삭제한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)deleteBookmarkAtIndex:(NSInteger)index;
 
 @end
