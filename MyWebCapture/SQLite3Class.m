@@ -68,14 +68,14 @@ static NSString* const StringAttributeDefault = @"PRAGMA encoding = UTF8; PRAGMA
     {
         // 연결 실패시 바로 닫음
         [self close];
-        NSString *stringError = [NSString stringWithFormat:@"%s", sqlite3_errmsg(mDB)];
+        NSString *stringError = [NSString stringWithUTF8String:sqlite3_errmsg(mDB)];
         @throw [NSException exceptionWithName:@"SQLite Open Fail" reason:stringError userInfo:nil];
         return;
     }
     
     // 속성 설정
     if( self.stringAttribute.length > 0 )
-        [self executeWithSQL:_stringAttribute];
+        [self executeWithSQL:self.stringAttribute];
 }
 
 /**
@@ -96,8 +96,8 @@ static int ExecCallback(void *pParam, int nCount, char **values, char **names)
 {
     RecordSet *record = (__bridge RecordSet *)pParam;
     for(int i = 0; i < nCount; ++i) {
-        NSString *value = [NSString stringWithFormat:@"%s", values[i]];
-        NSString *name = [NSString stringWithFormat:@"%s", names[i]];
+        NSString *value = [NSString stringWithUTF8String:values[i]];
+        NSString *name = [NSString stringWithUTF8String:names[i]];
         [record setCollectData:value withName:name atColumn:i];
     }
     
@@ -118,7 +118,7 @@ static int ExecCallback(void *pParam, int nCount, char **values, char **names)
     }
     
     if( sqlite3_exec(mDB, sql.UTF8String, ExecCallback, (__bridge void *)(record), &zErrMsg) != SQLITE_OK ) {
-        NSString *stringError = [NSString stringWithFormat:@"%s", zErrMsg];
+        NSString *stringError = [NSString stringWithUTF8String: zErrMsg];
         sqlite3_free(zErrMsg);
         @throw [NSException exceptionWithName:@"SQL Execute Fail" reason:stringError userInfo:nil];
         return nil;
