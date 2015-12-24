@@ -92,26 +92,49 @@
     if (sender.state == UIGestureRecognizerStateBegan){
         
         // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
-        //CGPoint currentTouchPosition = [sender locationInView:[sender view]];
-        
+        CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
+        NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
         // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
-        NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
-        //NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
-        
+        //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
+        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
         NSLog(@"cell index %li",indexPath.row);
         
+        /*
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
         view.backgroundColor = [UIColor redColor];
         UIButton *button = [[ UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
         button.backgroundColor = [ UIColor yellowColor];
         [button setTitle:@"copy" forState:UIControlStateNormal];
         [view addSubview:button];
-        
-        
         [self.view addSubview:view];
+         */
         
+        [self becomeFirstResponder];
+        UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
+                                                         action:@selector(actionDelete:)];
+        UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
+                                                         action:@selector(actionEdit:)];
+        UIMenuController *menu = [UIMenuController sharedMenuController];
         
+        CGRect cellRect = sender.view.frame;
+        
+        menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
+        [menu setTargetRect:cellRect inView:self.collectionView];
+        [menu setMenuVisible:YES animated:YES];
     }
+}
+
+// becomeFirstResponder에서 호출되어 YES 리턴시 화면에 표시
+-(BOOL)canBecomeFirstResponder{
+    return YES;
+}
+
+- (void)actionDelete:(id)sender {
+    NSLog(@"delete Clicked");
+}
+
+- (void)actionEdit:(id)sender {
+    NSLog(@"edit Clicked");
 }
 
 
