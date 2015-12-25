@@ -18,7 +18,7 @@
 @property (strong, nonatomic) NSString *stringURL;
 
 // 시작 북마트 정보
-@property (strong, nonatomic) BookmarkData *bookmark;
+@property (nonatomic, copy) BookmarkData *bookmark;
 @property (nonatomic) NSInteger bookmarkIndex;
 @end
 

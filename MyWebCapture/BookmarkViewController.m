@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) DataManager *dataManager;
+@property (nonatomic) NSInteger indexOfSeleted;
 
 @end
 
@@ -48,7 +49,7 @@
     NSInteger index = [self.collectionView indexPathForCell:cell].row;
     NSLog("segue cell : %li", index);
     
-    dest.bookmark = [[self.dataManager bookmarkAtIndex:index] copy];
+    dest.bookmark = [self.dataManager bookmarkAtIndex:index];
     dest.bookmarkIndex = index;
 }
 
@@ -98,6 +99,7 @@
         //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
         NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
         NSLog(@"cell index %li",indexPath.row);
+        self.indexOfSeleted = indexPath.row;
         
         /*
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
@@ -131,6 +133,8 @@
 
 - (void)actionDelete:(id)sender {
     NSLog(@"delete Clicked");
+    [self.dataManager deleteBookmarkAtIndex:self.indexOfSeleted];
+    [self.collectionView reloadData];
 }
 
 - (void)actionEdit:(id)sender {

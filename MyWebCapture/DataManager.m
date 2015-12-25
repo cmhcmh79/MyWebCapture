@@ -64,6 +64,11 @@ static NSString * const DBFileName = @"Bookmarks";
  * DB에 데이터 업데이트, 실패시 0보다 작은 값을 리턴한다.
  */
 - (int)updateData:(BookmarkData *)data;
+
+/**
+ * DB에서 데이터를 삭제한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)deleteData:(BookmarkData *)data;
 @end
 
 @implementation DataManager
@@ -200,9 +205,18 @@ static DataManager *MyInstance = nil;
  */
 - (int)deleteBookmarkAtIndex:(NSInteger)index
 {
+    BookmarkData *bookmark = self.listBookmark[index];
     // DB에 삭제
+    if([self deleteData:bookmark] < 0)
+        return -1;
+    
+    // 아이콘 파일 삭제
+    NSString *iconPath = [self.documentsDirectory stringByAppendingPathComponent:bookmark.iconFileName];
+    NSFileManager *fileManager =[NSFileManager defaultManager];
+    [fileManager removeItemAtPath:iconPath error:nil];
     
     // 리스트에서 삭제
+    [self.listBookmark removeObjectAtIndex:index];
     
     return 0;
 }
@@ -398,6 +412,25 @@ static DataManager *MyInstance = nil;
         result = -1;
     }
     return result;
+}
+
+/**
+ * DB에서 데이터를 삭제한다. 실패시 0보다 작은 값 리턴
+ */
+- (int)deleteData:(BookmarkData *)data
+{
+    @try {
+        [self.database openAndTransaction];
+        [self.database executeWithSQL:
+           [NSString stringWithFormat:@"delete from BookmarkTable where no = %i", data.no]];
+        [self.database closeBeforCommit];
+    }
+    @catch(NSException *exception) {
+        [self.database closeBeforRollback];
+        NSLog(@"[exception] %@ > %@", exception.name, exception.reason);
+        return -1;
+    }
+    return 0;
 }
 
 @end
