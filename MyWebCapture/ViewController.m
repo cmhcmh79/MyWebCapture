@@ -43,6 +43,7 @@
     }
     
     if( url ) {
+        self.searchBar.text = url.absoluteString;
         NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
         [self.webPage loadRequest:requestObj];
     }

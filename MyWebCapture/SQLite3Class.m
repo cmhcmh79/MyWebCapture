@@ -120,7 +120,9 @@ static int ExecCallback(void *pParam, int nCount, char **values, char **names)
     if( sqlite3_exec(mDB, sql.UTF8String, ExecCallback, (__bridge void *)(record), &zErrMsg) != SQLITE_OK ) {
         NSString *stringError = [NSString stringWithUTF8String: zErrMsg];
         sqlite3_free(zErrMsg);
-        @throw [NSException exceptionWithName:@"SQL Execute Fail" reason:stringError userInfo:nil];
+        @throw [NSException exceptionWithName:@"SQL Execute Fail"
+                                       reason:[NSString stringWithFormat:@"%@(SQL>%@)", stringError, sql]
+                                     userInfo:nil];
         return nil;
     }
     

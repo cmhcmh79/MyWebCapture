@@ -362,6 +362,9 @@ static DataManager *MyInstance = nil;
 - (int)insertData:(BookmarkData *)data
 {
     int result = 0;
+    
+    // SQLite '문자를 사용하기 위해 '' 로 변경
+    NSString *titleReplaced = [data.title stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     @try {
         [self.database openAndTransaction];
         
@@ -369,7 +372,7 @@ static DataManager *MyInstance = nil;
             [NSString stringWithFormat:@"insert into BookmarkTable (url, title, iconfile, time) "
                 " values('%@', '%@', '%@', datetime('now', 'localtime') ); "
                 " select no from BookmarkTable where no = last_insert_rowid(); ",
-                data.url, data.title, data.iconFileName]  ];
+                data.url, titleReplaced, data.iconFileName]  ];
         if( set && !set.endOfRecord ) {
             RecordData *data = [set getCollectDataAtColumnName:@"no"];
             if( data && !data.null )
@@ -393,6 +396,9 @@ static DataManager *MyInstance = nil;
 - (int)updateData:(BookmarkData *)data
 {
     int result = 0;
+
+    // SQLite '문자를 사용하기 위해 '' 로 변경
+    NSString *titleReplaced = [data.title stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     
     @try {
         [self.database openAndTransaction];
@@ -402,7 +408,7 @@ static DataManager *MyInstance = nil;
                                         " url = '%@', title = '%@' , iconfile = '%@', "
                                         " time = datetime('now', 'localtime') "
                                         " where no = %i ;",
-                                        data.url, data.title, data.iconFileName, data.no]];
+                                        data.url, titleReplaced, data.iconFileName, data.no]];
         
         [self.database closeBeforCommit];
     }
