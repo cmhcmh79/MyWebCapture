@@ -10,9 +10,8 @@
 #import "AddPageViewController.h"
 
 @interface ViewController ()
-{
-    NSTimer *timerWeb;
-}
+
+@property (strong, nonatomic) NSTimer *timerWeb;
 
 @property (nonatomic) BOOL updateBookmark;
 
@@ -86,19 +85,20 @@
     NSLog(@"%s > %@", __FUNCTION__, segue.identifier);
     if( [segue.identifier isEqualToString:@"AddPage"]) {
         AddPageViewController *destVeiw = segue.destinationViewController;
-        destVeiw.stringTitle = [_webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
-        destVeiw.stringURL = _searchBar.text;
-        NSString *stringIconURL = [_webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];
+        destVeiw.stringTitle = [self.webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
+        destVeiw.stringURL = self.searchBar.text;
+        NSString *stringIconURL = [self.webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];
         destVeiw.stringIconURL = stringIconURL;
         
         NSLog(@"url:%@ title:%@ icon:%@", destVeiw.stringURL, destVeiw.stringTitle, stringIconURL );
         
-        
+        /*
         destVeiw.complitCallback = ^(){
             NSLog(@"여기는 즐겨찾기 화면이 닫히면 실행이 됨");
             NSLog(@"할것이 있으면 하고 아니면 안해도 되고..");
 
         };
+        */
     }
 }
 
@@ -112,15 +112,43 @@
 {
     NSLog(@"web load srtart (loading:%i) < %@ >",
           webView.loading, webView.request.URL);
-    _searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
+    //_searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
+    if(webView.request.URL.absoluteString && webView.request.URL.absoluteString.length)
+        self.searchBar.text = webView.request.URL.absoluteString;
     
-    if( timerWeb == nil )
-        timerWeb = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+    /*
+    if( self.timerWeb == nil ) {
+        self.timerWeb = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(timerAction:) userInfo:nil repeats:YES];
+        NSLog("Start timer >>>>");
+    }
+    */
 }
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSLog(@"web load finish (loading:%i)< %@ >", webView.loading, webView.request.URL);
-    _searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
+//    _searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
+    if(webView.request.URL.absoluteString && webView.request.URL.absoluteString.length)
+        self.searchBar.text = webView.request.URL.absoluteString;
+    
+    if( !webView.loading ) {
+        NSLog(@"loading finished");
+        
+        // 업데이트는 처음 한번만
+        if( self.updateBookmark ) {
+            // 아이콘 이미지 다운로드
+            NSString *stringIconURL = [self.webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];
+            NSURL  *url = [NSURL URLWithString:stringIconURL];
+            NSData *icon = [NSData dataWithContentsOfURL:url];
+            if ( icon && icon.length ){
+                self.bookmark.iconImage = [UIImage imageWithData:icon];
+                [[DataManager GetSingleInstance] updateBookmark:self.bookmark atIndex:self.bookmarkIndex];
+                NSLog(@"download %libyte", icon.length);
+            }
+        }
+        
+        self.updateBookmark = NO;
+    }
 }
 
 #pragma mark - UISearchBarDelegate protocol
@@ -130,20 +158,20 @@
  */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"%s %@", __FUNCTION__, _searchBar.text);
+    NSLog(@"%s %@", __FUNCTION__, self.searchBar.text);
     
     // 키보드 숨기기
     [searchBar resignFirstResponder];
     
-    NSURL *url = [NSURL URLWithString:_searchBar.text];
+    NSURL *url = [NSURL URLWithString:self.searchBar.text];
     NSLog(@"scheme>>%@", url.scheme);
     if( url.scheme == nil ) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", _searchBar.text]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.searchBar.text]];
     }
     NSLog(@"URL > %@", url);
     
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    [_webPage loadRequest:requestObj];
+    [self.webPage loadRequest:requestObj];
 }
 
 #pragma mark - timer action
@@ -153,10 +181,11 @@
  */
 - (void)timerAction:(NSTimer *)timer
 {
-    if( _webPage.loading == 0 ) {
+    //NSLog(@"tick");
+    if( !self.webPage.loading ) {
         NSLog(@"loading finished");
-        [timerWeb invalidate];
-        timerWeb = nil;
+        [self.timerWeb invalidate];
+        self.timerWeb = nil;
         
         // 업데이트는 처음 한번만
         if( self.updateBookmark ) {
@@ -193,19 +222,19 @@
 }
 - (IBAction)pressedBackwardButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
-    [_webPage goBack];
+    [self.webPage goBack];
 }
 - (IBAction)pressedForward:(id)sender {
     NSLog(@"%s", __FUNCTION__);
-    [_webPage goForward];
+    [self.webPage goForward];
 }
 - (IBAction)pressedStopButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
-    [_webPage stopLoading];
+    [self.webPage stopLoading];
 }
 - (IBAction)pressedReloadButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
-    [_webPage reload];
+    [self.webPage reload];
 }
 - (IBAction)pressedActionButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
