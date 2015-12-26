@@ -85,6 +85,7 @@
     NSLog(@"%s > %@", __FUNCTION__, segue.identifier);
     if( [segue.identifier isEqualToString:@"AddPage"]) {
         AddPageViewController *destVeiw = segue.destinationViewController;
+        destVeiw.stringViewTitle = @"Add Bookmark";
         destVeiw.stringTitle = [self.webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
         destVeiw.stringURL = self.searchBar.text;
         NSString *stringIconURL = [self.webPage stringByEvaluatingJavaScriptFromString:@"(function() {var links = document.querySelectorAll('link'); for (var i=0; i<links.length; i++) {if (links[i].rel.substr(0, 16) == 'apple-touch-icon') return links[i].href;} return "";})();"];

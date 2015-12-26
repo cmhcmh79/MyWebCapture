@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class BookmarkData;
+
 @interface AddPageViewController : UIViewController
 
 @property (strong, nonatomic) NSString *stringTitle;
@@ -23,5 +25,9 @@
 
 // 화면 타이틀에 표시할 문자열
 @property (nonatomic, strong) NSString *stringViewTitle;
+
+// 편집할 북마크 정보
+@property (nonatomic, copy) BookmarkData *bookmark;
+@property (nonatomic) NSInteger bookmarkIndex;
 
 @end

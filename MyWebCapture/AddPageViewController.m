@@ -15,7 +15,6 @@
 
 @property (nonatomic) NSURLSession *session;
 @property (nonatomic) NSURLSessionDownloadTask *downloadTask;
-@property (nonatomic) NSData *urlData;
 
 @property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (strong, nonatomic) IBOutlet UINavigationItem *navigationItem;
@@ -28,35 +27,45 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"%s", __FUNCTION__);
-    
+
+    // 타이틀 적용
+    self.navigationItem.title = self.stringViewTitle;
+
     // 선택된 북마크 변경
-
-    self.navigationItem.title = @"Save Bookmark";
-    
-    // 새로운 북마크 추가
-    
-    _textTitle.text = _stringTitle;
-    _textURL.text = _stringURL;
-    
-    // 아이콘 파일 다운로드
-    NSURL  *url = [NSURL URLWithString:_stringIconURL];
-    _urlData = nil;
-    _urlData = [NSData dataWithContentsOfURL:url];
-    if ( _urlData )
-    {
-        /*
-        NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString  *documentsDirectory = [paths objectAtIndex:0];
-        
-        NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"tmp.png"];
-        [_urlData writeToFile:filePath atomically:YES];
-        */
-        
-        _imageIcon.image = [UIImage imageWithData:_urlData];
-
-        //NSLog(@"download : %@ (%ldbyte)", filePath, _urlData.length);
+    if( self.bookmark && self.bookmark.no ) {
+        self.textURL.text = self.bookmark.url;
+        self.textTitle.text = self.bookmark.title;
+        self.imageIcon.image = self.bookmark.iconImage;
     }
-
+    else {
+        // 새로운 북마크 추가
+        
+        self.textTitle.text = self.stringTitle;
+        self.textURL.text = self.stringURL;
+        
+        // 아이콘 파일 다운로드
+        NSURL  *url = [NSURL URLWithString:self.stringIconURL];
+        NSData *urlData = nil;
+        urlData = [NSData dataWithContentsOfURL:url];
+        if ( urlData && urlData.length )
+        {
+            /*
+             NSArray   *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+             NSString  *documentsDirectory = [paths objectAtIndex:0];
+             
+             NSString  *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory,@"tmp.png"];
+             [_urlData writeToFile:filePath atomically:YES];
+             */
+            
+            self.imageIcon.image = [UIImage imageWithData:urlData];
+            
+            //NSLog(@"download : %@ (%ldbyte)", filePath, _urlData.length);
+        }
+        else {
+            // 아이콘 파일이 없으면 기본 아이콘 표시
+            self.imageIcon.image = [UIImage imageNamed:@"icon-default.png"];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,16 +99,30 @@
 - (IBAction)clickSave:(id)sender {
     NSLog("save");
     DataManager *manager = [DataManager GetSingleInstance];
-    BookmarkData *bookmark = [[BookmarkData alloc] init];
-    
-    bookmark.url = self.textURL.text;
-    bookmark.title = self.textTitle.text;
-    bookmark.iconImage = self.imageIcon.image;
-    bookmark.no = 0;
-    
-    if( [manager addBookmark:bookmark ] < 0 )
-        NSLog(@"Add Fail.");
-    //NSAssert(NO, @"save fail");
+
+    if( self.bookmark && self.bookmark.no ) {
+        // 선택된 북마크 변경
+        self.bookmark.url = self.textURL.text;
+        self.bookmark.title = self.textTitle.text;
+        self.bookmark.iconImage = self.imageIcon.image;
+        
+        if( [manager updateBookmark:self.bookmark atIndex:self.bookmarkIndex] )
+            NSLog(@"Update Fail.");
+    }
+    else {
+        // 새로운 북마크 추가
+        
+        BookmarkData *bookmark = [[BookmarkData alloc] init];
+        
+        bookmark.url = self.textURL.text;
+        bookmark.title = self.textTitle.text;
+        bookmark.iconImage = self.imageIcon.image;
+        bookmark.no = 0;
+        
+        if( [manager addBookmark:bookmark ] < 0 )
+            NSLog(@"Add Fail.");
+        //NSAssert(NO, @"save fail");
+    }
     
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"화면 닫길때 코드");

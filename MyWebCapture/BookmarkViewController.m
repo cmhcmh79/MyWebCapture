@@ -9,6 +9,8 @@
 #import "BookmarkViewController.h"
 #import "ViewController.h"
 #import "DataManager.h"
+#import "AddPageViewController.h"
+
 @interface BookmarkViewController ()
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -40,6 +42,19 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"EditBookmark"]) {
+        AddPageViewController *dest = segue.destinationViewController;
+        dest.stringViewTitle = @"Edit Bookmark";
+        dest.bookmark = [self.dataManager bookmarkAtIndex:self.indexOfSeleted];
+        dest.bookmarkIndex = self.indexOfSeleted;
+        
+        dest.complitCallback = ^() {
+            [self.collectionView reloadData];
+        };
+        
+        return;
+    }
+    
     ViewController *dest = [segue destinationViewController];
     dest.completionCallback = ^() {
         [self.collectionView reloadData];
@@ -139,6 +154,7 @@
 
 - (void)actionEdit:(id)sender {
     NSLog(@"edit Clicked");
+    [self performSegueWithIdentifier:@"EditBookmark" sender:nil];
 }
 
 

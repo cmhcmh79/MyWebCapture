@@ -167,6 +167,7 @@ static DataManager *MyInstance = nil;
  */
 - (int)updateBookmark:(BookmarkData *)bookmark atIndex:(NSInteger)index
 {
+    NSLog();
     BOOL isChanged = NO;
     
     // 아이콘 이미지 변경확인
