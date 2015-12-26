@@ -17,6 +17,9 @@
 @property (nonatomic) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic) NSData *urlData;
 
+@property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (strong, nonatomic) IBOutlet UINavigationItem *navigationItem;
+
 @end
 
 @implementation AddPageViewController
@@ -25,6 +28,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"%s", __FUNCTION__);
+    
+    // 선택된 북마크 변경
+
+    self.navigationItem.title = @"Save Bookmark";
+    
+    // 새로운 북마크 추가
     
     _textTitle.text = _stringTitle;
     _textURL.text = _stringURL;

@@ -213,29 +213,29 @@
                                                                    message:nil /* @"delete ?." */
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction *actionAddPage = [UIAlertAction actionWithTitle:@"시작 페이지 추가" style:UIAlertActionStyleDefault
+    UIAlertAction *actionAddPage = [UIAlertAction actionWithTitle:@"Add Bookmark" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               NSLog(@"AlertAction add page");
                                                               [self performSegueWithIdentifier:@"AddPage" sender:action];
                                                           }];
     
-    UIAlertAction *actionCapture = [UIAlertAction actionWithTitle:@"화면 갭쳐" style:UIAlertActionStyleDefault
+    UIAlertAction *actionCapture = [UIAlertAction actionWithTitle:@"Capture View Size" style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * action) {
-                                                         NSLog(@"AlertAction capture");
+                                                         NSLog(@"Capture View Size");
                                                      }];
 
-    UIAlertAction *actionCaptureFull = [UIAlertAction actionWithTitle:@"웹페이지 전체 갭쳐" style:UIAlertActionStyleDefault
+    UIAlertAction *actionCaptureFull = [UIAlertAction actionWithTitle:@"Capture Full Size" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
-                                                              NSLog(@"AlertAction capture full");
+                                                              NSLog(@"Capture Full Size");
                                                           }];
 
-    UIAlertAction *actionDownload = [UIAlertAction actionWithTitle:@"이미지 다운로드" style:UIAlertActionStyleDefault
+    UIAlertAction *actionDownload = [UIAlertAction actionWithTitle:@"Download Image" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
                                                                   NSLog(@"AlertAction down image");
                                                               }];
 
     
-    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"취 소" style:UIAlertActionStyleCancel
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
                                                      handler:^(UIAlertAction * action) {
                                                          NSLog(@"AlertAction cancel");
                                                      }];

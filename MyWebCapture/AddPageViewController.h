@@ -21,4 +21,7 @@
 // 이제 블럭변수
 @property (nonatomic, strong) void (^complitCallback)();
 
+// 화면 타이틀에 표시할 문자열
+@property (nonatomic, strong) NSString *stringViewTitle;
+
 @end

@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Bookmark View Controller-->
@@ -28,7 +29,7 @@
                                 </connections>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0XO-6P-qYD">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="20" y="84" width="560" height="516"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mnC-zq-2bA">
                                     <size key="itemSize" width="70" height="100"/>
@@ -66,17 +67,36 @@
                                     <outlet property="delegate" destination="7fF-uG-VKT" id="8BT-Wd-1pH"/>
                                 </connections>
                             </collectionView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W9X-aA-KQz">
+                                <rect key="frame" x="562" y="570" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="8Ht-IF-B1G" kind="presentation" identifier="EditBookmark" id="MGJ-E7-VyY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="trailing" secondItem="SjB-LX-zFC" secondAttribute="trailingMargin" id="1b6-Hg-8Sc"/>
                             <constraint firstItem="0XO-6P-qYD" firstAttribute="top" secondItem="3yE-t3-K6X" secondAttribute="bottom" id="2sv-U4-exR"/>
                             <constraint firstAttribute="trailing" secondItem="0XO-6P-qYD" secondAttribute="trailing" id="4Wo-zh-81F"/>
                             <constraint firstItem="3yE-t3-K6X" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leading" id="BIi-0b-qRa"/>
                             <constraint firstAttribute="trailing" secondItem="3yE-t3-K6X" secondAttribute="trailing" id="D8V-mD-UOg"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leadingMargin" id="Daq-Vo-pST"/>
                             <constraint firstItem="xYl-DL-gpw" firstAttribute="top" secondItem="0XO-6P-qYD" secondAttribute="bottom" id="LIR-6m-bOs"/>
                             <constraint firstItem="0XO-6P-qYD" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leading" id="Nps-YR-b1K"/>
+                            <constraint firstItem="xYl-DL-gpw" firstAttribute="top" secondItem="0XO-6P-qYD" secondAttribute="bottom" id="PcW-AJ-uXV"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="top" secondItem="3yE-t3-K6X" secondAttribute="bottom" constant="20" id="WqQ-ww-zbi"/>
                             <constraint firstItem="3yE-t3-K6X" firstAttribute="top" secondItem="7gA-cE-alT" secondAttribute="bottom" id="n5q-kF-WaP"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2sv-U4-exR"/>
+                                <exclude reference="4Wo-zh-81F"/>
+                                <exclude reference="Nps-YR-b1K"/>
+                                <exclude reference="LIR-6m-bOs"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="0XO-6P-qYD" id="cAS-Z2-fsg"/>
@@ -115,10 +135,10 @@
                                 </constraints>
                                 <items>
                                     <barButtonItem style="plain" id="VzF-FR-V9n">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zSx-yt-2AD">
-                                            <rect key="frame" x="20" y="7" width="39" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zSx-yt-2AD">
+                                            <rect key="frame" x="20" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="home"/>
+                                            <state key="normal" title="home" image="literature.png"/>
                                             <connections>
                                                 <action selector="pressedHomeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="saD-fP-AfG"/>
                                             </connections>
@@ -126,10 +146,10 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="woe-Fa-1TO"/>
                                     <barButtonItem style="plain" id="y6H-OQ-dmb">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fcC-KZ-Ysa">
-                                            <rect key="frame" x="116" y="7" width="67" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fcC-KZ-Ysa">
+                                            <rect key="frame" x="126" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="backward"/>
+                                            <state key="normal" title="backward" image="back.png"/>
                                             <connections>
                                                 <action selector="pressedBackwardButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vSU-PE-mm0"/>
                                             </connections>
@@ -137,10 +157,10 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="A9O-5m-0Xy"/>
                                     <barButtonItem style="plain" id="8h3-eP-Wjp">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ea5-y2-W2b">
-                                            <rect key="frame" x="240" y="7" width="53" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ea5-y2-W2b">
+                                            <rect key="frame" x="232" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="forward"/>
+                                            <state key="normal" title="forword" image="forward.png"/>
                                             <connections>
                                                 <action selector="pressedForward:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7dK-ou-JdX"/>
                                             </connections>
@@ -148,10 +168,10 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="PYS-oR-Mxy"/>
                                     <barButtonItem style="plain" id="aLt-xB-nfd">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="wMK-c0-Ky7">
-                                            <rect key="frame" x="349" y="7" width="31" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wMK-c0-Ky7">
+                                            <rect key="frame" x="338" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="stop"/>
+                                            <state key="normal" title="stop" image="delete_sign.png"/>
                                             <connections>
                                                 <action selector="pressedStopButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jhh-rL-fXv"/>
                                             </connections>
@@ -159,10 +179,10 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Xjd-3i-aqG"/>
                                     <barButtonItem style="plain" id="Jty-BE-fjC">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lY9-6T-QUg">
-                                            <rect key="frame" x="437" y="7" width="43" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lY9-6T-QUg">
+                                            <rect key="frame" x="444" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="reload"/>
+                                            <state key="normal" title="reload" image="refresh.png"/>
                                             <connections>
                                                 <action selector="pressedReloadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lqh-za-Mtb"/>
                                             </connections>
@@ -170,10 +190,10 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ES4-04-bq9"/>
                                     <barButtonItem style="plain" id="0D8-Pl-CZH">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qji-js-tcx">
-                                            <rect key="frame" x="537" y="7" width="43" height="30"/>
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qji-js-tcx">
+                                            <rect key="frame" x="550" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="action"/>
+                                            <state key="normal" title="action" image="download.png"/>
                                             <connections>
                                                 <action selector="pressedActionButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="huX-o8-Luu"/>
                                             </connections>
@@ -252,7 +272,7 @@
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yyZ-hu-9Ug">
                                                 <rect key="frame" x="20" y="7" width="70" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="취소"/>
+                                                <state key="normal" title="Cancel"/>
                                                 <connections>
                                                     <action selector="clickCancel:" destination="8Ht-IF-B1G" eventType="touchUpInside" id="DZC-hR-MCG"/>
                                                 </connections>
@@ -262,7 +282,7 @@
                                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iWy-2m-GuG">
                                                 <rect key="frame" x="510" y="7" width="70" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="저장"/>
+                                                <state key="normal" title="Save"/>
                                                 <connections>
                                                     <action selector="clickSave:" destination="8Ht-IF-B1G" eventType="touchUpInside" id="wJj-jG-6ie"/>
                                                 </connections>
@@ -307,13 +327,26 @@
                     </view>
                     <connections>
                         <outlet property="imageIcon" destination="tIv-21-xyD" id="cbM-nI-Otq"/>
+                        <outlet property="navigationBar" destination="l5x-TG-yrz" id="Czd-I0-48e"/>
+                        <outlet property="navigationItem" destination="Sdb-ur-XrE" id="lZf-tr-jOS"/>
                         <outlet property="textTitle" destination="PiN-e7-q7Y" id="LWU-Ii-Ag8"/>
                         <outlet property="textURL" destination="XnC-bd-57H" id="l8D-VY-khs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iCl-JP-cvi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="975" y="323"/>
+            <point key="canvasLocation" x="265" y="1021"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="back.png" width="25" height="25"/>
+        <image name="delete_sign.png" width="25" height="25"/>
+        <image name="download.png" width="25" height="25"/>
+        <image name="forward.png" width="25" height="25"/>
+        <image name="literature.png" width="25" height="25"/>
+        <image name="refresh.png" width="25" height="25"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="QbY-oI-eBo"/>
+    </inferredMetricsTieBreakers>
 </document>
