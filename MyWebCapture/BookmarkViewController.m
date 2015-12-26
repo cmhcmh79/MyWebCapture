@@ -42,6 +42,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    NSLog(@"segue");
+    /*
     if([segue.identifier isEqualToString:@"EditBookmark"]) {
         AddPageViewController *dest = segue.destinationViewController;
         dest.stringViewTitle = @"Edit Bookmark";
@@ -54,6 +57,8 @@
         
         return;
     }
+    */
+    
     
     ViewController *dest = [segue destinationViewController];
     dest.completionCallback = ^() {
@@ -166,10 +171,15 @@
         [self.collectionView reloadData];
     };
     
+    
+    //[self.navigationController pushViewController:dest animated:YES];
+    //[self showViewController:dest sender:self];
+    
     [self presentViewController:dest animated:YES completion:^ {
         NSLog("present completion");
     }];
+    
+    
 }
-
 
 @end

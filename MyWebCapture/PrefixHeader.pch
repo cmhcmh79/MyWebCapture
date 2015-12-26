@@ -14,7 +14,7 @@
 
 #ifdef DEBUG
 
-#define NSLog(__FORMAT__, ...) NSLog((@"[%@:%d] %s " __FORMAT__), \
+#define NSLog(__FORMAT__, ...) NSLog((@"%@:%d %s " __FORMAT__), \
             [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __LINE__, \
             __PRETTY_FUNCTION__, ##__VA_ARGS__ )
 
