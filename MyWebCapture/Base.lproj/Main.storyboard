@@ -252,7 +252,7 @@
         <!--Add Page View Controller-->
         <scene sceneID="dkb-r7-nOf">
             <objects>
-                <viewController id="8Ht-IF-B1G" customClass="AddPageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPageView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8Ht-IF-B1G" customClass="AddPageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1kf-fm-Zrq"/>
                         <viewControllerLayoutGuide type="bottom" id="8TD-28-TDL"/>

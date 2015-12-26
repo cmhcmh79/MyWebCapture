@@ -154,7 +154,21 @@
 
 - (void)actionEdit:(id)sender {
     NSLog(@"edit Clicked");
-    [self performSegueWithIdentifier:@"EditBookmark" sender:nil];
+    //[self performSegueWithIdentifier:@"EditBookmark" sender:nil];
+    //return;
+    AddPageViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"AddPageView"];
+    dest.stringViewTitle = @"Edit Bookmark";
+    dest.bookmark = [self.dataManager bookmarkAtIndex:self.indexOfSeleted];
+    dest.bookmarkIndex = self.indexOfSeleted;
+    
+    dest.complitCallback = ^() {
+        NSLog("dismiss completion");
+        [self.collectionView reloadData];
+    };
+    
+    [self presentViewController:dest animated:YES completion:^ {
+        NSLog("present completion");
+    }];
 }
 
 
