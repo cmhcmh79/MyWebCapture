@@ -180,11 +180,8 @@
 - (void)clear
 {
     self.rowIndex = 0;
-    while(self.fieldNames.count > 0)
-        [self.fieldNames removeObjectAtIndex:0];
-    
-    while(self.dataSet.count > 0)
-        [self.dataSet removeObjectAtIndex:0];
+    [self.fieldNames removeAllObjects];
+    [self.dataSet removeAllObjects];
 }
 
 /**
