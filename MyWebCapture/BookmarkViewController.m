@@ -24,6 +24,13 @@
 @property (strong, nonatomic) UISearchController *searchController;
 @property (strong, nonatomic) IBOutlet UIView *viewTop;
 
+// 검색 결과 리스트
+@property (strong, nonatomic) NSArray<NSString *> *titleOfSection;
+@property (strong, nonatomic) NSArray<NSMutableArray *> *listOfSection;
+@property (strong, nonatomic) NSMutableArray<BookmarkData *> *bookmarkSearch;
+@property (strong, nonatomic) NSMutableArray<NSString *> *googleSearch;
+@property (strong, nonatomic) NSMutableArray<NSString *> *websiteeSearch;
+
 @end
 
 @implementation BookmarkViewController
@@ -52,6 +59,13 @@
     [self.viewTop addSubview:self.searchController.searchBar];
 
     //self.definesPresentationContext = YES;
+    
+    // 검색 결과 리스트 초기화
+    self.titleOfSection = [[NSArray alloc] initWithObjects:@"Website", @"Google Search", @"Bookmarks", nil];
+    self.bookmarkSearch = [[NSMutableArray alloc] init];
+    self.googleSearch = [[NSMutableArray alloc] init];
+    self.websiteeSearch = [[NSMutableArray alloc] init];
+    self.listOfSection = [[NSArray alloc] initWithObjects: self.websiteeSearch, self.googleSearch, self.bookmarkSearch, nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -208,9 +222,77 @@
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     NSLog(@"search string:%@", searchController.searchBar.text);
+    NSString *searhString = searchController.searchBar.text;
+    
+    // website
+    [self searchWebsite:searhString];
+    
+    // goole search
+    [self searchGoogle:searhString];
+    
+    // bookmarks
+    [self searchBookmark:searhString];
+    
     [self.searchResult.tableView reloadData];
 }
 
+/**
+ * 유효한 웹사이트 주소를 매핑
+ */
+- (void)searchWebsite:(NSString *)searchString;
+{
+    [self.websiteeSearch removeAllObjects];
+    
+    // 모두 소문자로 변경
+    NSString *url = [searchString lowercaseString];
+    
+    // http:// or https:// 로 시작하지 않는 경우 http:// 붙임
+    if( ![url hasPrefix:@"http://"] && ![url hasPrefix:@"https://"] ) {
+        url = [NSString stringWithFormat:@"http://%@", url];
+    }
+    
+    // 유효한 형식의 url 확인
+    if( [self validateUrl:url] )
+        [self.websiteeSearch addObject:url];
+}
+
+/**
+ * 유효한 url 형식인지 확인
+ */
+- (BOOL)validateUrl:(NSString *)candidate {
+    NSString *urlRegEx = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
+    return [urlTest evaluateWithObject:candidate];
+}
+
+/**
+ * 구글 검색어 제안
+ */
+- (void)searchGoogle:(NSString *)searchString
+{
+    [self.googleSearch removeAllObjects];
+}
+
+/**
+ * 저장된 북마크 리스트에서 검색
+ */
+- (void)searchBookmark:(NSString *)searchString
+{
+    [self.bookmarkSearch removeAllObjects];
+    for(int i = 0; i < self.dataManager.count; ++i) {
+        BookmarkData *bookmark = [self.dataManager bookmarkAtIndex:i];
+        if( [bookmark.title rangeOfString:searchString options:NSCaseInsensitiveSearch].length > 0 ) {
+            // 제목에서 문자열을 찾은 경우
+            [self.bookmarkSearch addObject:bookmark];
+            continue;
+        }
+
+        if( [bookmark.url rangeOfString:searchString options:NSCaseInsensitiveSearch].length > 0 ) {
+            // URL에서 문자열을 찾은 경우
+            [self.bookmarkSearch addObject:bookmark];
+        }
+    }
+}
 /*
 // Workaround for bug: -updateSearchResultsForSearchController: is not called when scope buttons change
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
@@ -226,22 +308,27 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //NSLog();
     
-    return 2;
+    return self.listOfSection.count;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     //NSLog();
-    return [NSString stringWithFormat:@"section-%li", section];
+    //return [NSString stringWithFormat:@"section-%li", section];
+    // 검색결과기 있는 경우만 해더 표시
+    if( self.listOfSection[section].count )
+        return self.titleOfSection[section];
+    else
+        return nil;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //NSLog(@"section:%li", section);
-    return 2;
+    return self.listOfSection[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"index-row:%li section:%li", indexPath.row, indexPath.section);
+    //NSLog(@"index-row:%li section:%li", indexPath.row, indexPath.section);
     UITableViewCell *cell;
     if( self.searchResult.tableView == tableView ) {
         //NSLog(@"search result table view");
@@ -251,10 +338,19 @@
         if( cell == nil ) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         }
+        
+        // 북마크 표시
+        if( self.listOfSection[indexPath.section] == self.bookmarkSearch ) {
+            BookmarkData *bookmark = self.bookmarkSearch[indexPath.row];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", bookmark.title, bookmark.url];
+        }
+        else if( self.listOfSection[indexPath.section] == self.websiteeSearch ) {
+            // 웹사이트 제안
+            cell.textLabel.text = self.websiteeSearch[indexPath.row];
+        }
     }
-    
+
     // Configure the cell...
-    cell.textLabel.text = @"TEST : text...1";
     return cell;
 }
 
