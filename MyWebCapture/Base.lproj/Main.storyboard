@@ -57,7 +57,7 @@
                                             <constraint firstItem="Rgs-Le-maj" firstAttribute="top" secondItem="sKf-ix-lZW" secondAttribute="top" id="yv3-Om-Hor"/>
                                         </constraints>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="egC-Bq-1e4"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" identifier="ViewWeb" id="egC-Bq-1e4"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -111,7 +111,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>

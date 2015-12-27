@@ -58,7 +58,7 @@
     
     [self.viewTop addSubview:self.searchController.searchBar];
 
-    //self.definesPresentationContext = YES;
+    self.definesPresentationContext = YES;
     
     // 검색 결과 리스트 초기화
     self.titleOfSection = [[NSArray alloc] initWithObjects:@"Website", @"Google Search", @"Bookmarks", nil];
@@ -103,12 +103,28 @@
         [self.collectionView reloadData];
     };
     
-    UICollectionViewCell *cell = sender;
-    NSInteger index = [self.collectionView indexPathForCell:cell].row;
-    NSLog("segue cell : %li", index);
     
-    dest.bookmark = [self.dataManager bookmarkAtIndex:index];
-    dest.bookmarkIndex = index;
+    if( [sender isKindOfClass:[NSString class]] ) {
+        // 검색결과 웹사이트(url string)로 이동
+        dest.stringURL = sender;
+        NSLog(@"URL >%@", dest.stringURL);
+    }
+    else if( [sender isKindOfClass:[BookmarkData class]] ) {
+        // 검색결과 북마크
+        dest.bookmark = sender;
+        dest.bookmarkIndex = [self.dataManager indexOfBookmark:sender];
+        dest.stringURL = dest.bookmark.url;
+    }
+    else {
+        // 콜렉션 뷰에서 이동
+        UICollectionViewCell *cell = sender;
+        NSInteger index = [self.collectionView indexPathForCell:cell].row;
+        NSLog("segue cell : %li", index);
+
+        dest.bookmark = [self.dataManager bookmarkAtIndex:index];
+        dest.bookmarkIndex = index;
+        dest.stringURL = dest.bookmark.url;
+    }
 }
 
 
@@ -354,9 +370,20 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableVIew didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     NSLog(@"select section:%li row:%li", indexPath.section, indexPath.row);
+    if( self.searchResult.tableView == tableView ) {
+        
+        if( self.listOfSection[indexPath.section] == self.bookmarkSearch ) {
+            // 북마크 검색 결과
+            [self performSegueWithIdentifier:@"ViewWeb" sender:self.bookmarkSearch[indexPath.row]];
+        }
+        else if( self.listOfSection[indexPath.section] == self.websiteeSearch ) {
+            // 웹사이트 제안
+            [self performSegueWithIdentifier:@"ViewWeb" sender:self.websiteeSearch[indexPath.row]];
+        }
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(nonnull NSIndexPath *)indexPath

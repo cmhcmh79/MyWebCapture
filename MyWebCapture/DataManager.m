@@ -163,6 +163,14 @@ static DataManager *MyInstance = nil;
 }
 
 /**
+ * 해당 북마트 데이터가 있는 인덱스 값을 반환
+ */
+- (NSInteger)indexOfBookmark:(BookmarkData *)bookmark
+{
+    return [self.listBookmark indexOfObject:bookmark];
+}
+
+/**
  * 해당 위치의 북마크 데이터를 변경한다. 실패시 0보다 작은 값 리턴
  */
 - (int)updateBookmark:(BookmarkData *)bookmark atIndex:(NSInteger)index
