@@ -11,11 +11,18 @@
 #import "DataManager.h"
 #import "AddPageViewController.h"
 
-@interface BookmarkViewController ()
+
+@interface BookmarkViewController ()  <UISearchResultsUpdating, UISearchBarDelegate,
+                                       UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) DataManager *dataManager;
 @property (nonatomic) NSInteger indexOfSeleted;
+
+// search controller
+@property (strong, nonatomic) UITableViewController *searchResult;
+@property (strong, nonatomic) UISearchController *searchController;
+@property (strong, nonatomic) IBOutlet UIView *viewTop;
 
 @end
 
@@ -26,8 +33,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog();
     
     self.dataManager = [DataManager GetSingleInstance];
+    
+    self.searchResult = [[UITableViewController alloc] init];
+    self.searchResult.tableView.delegate = self;
+    self.searchResult.tableView.dataSource = self;
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResult];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchBar.delegate = self;
+
+    [self.viewTop addSubview:self.searchController.searchBar];
+    self.definesPresentationContext = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -178,8 +197,70 @@
     [self presentViewController:dest animated:YES completion:^ {
         NSLog("present completion");
     }];
+}
+
+#pragma mark - SearchResultsUpdating
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSLog(@"search string:%@", searchController.searchBar.text);
+    [self.searchResult.tableView reloadData];
+}
+
+/*
+// Workaround for bug: -updateSearchResultsForSearchController: is not called when scope buttons change
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    NSLog();
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+*/
+
+#pragma mark - SearchBar Delegate
+
+#pragma mark - table view
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    //NSLog();
     
+    return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    //NSLog();
+    return [NSString stringWithFormat:@"section-%li", section];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    //NSLog(@"section:%li", section);
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"index-row:%li section:%li", indexPath.row, indexPath.section);
+    UITableViewCell *cell;
+    if( self.searchResult.tableView == tableView ) {
+        //NSLog(@"search result table view");
+        static NSString *cellID = @"SearchCell";
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if( cell == nil ) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+    }
     
+    // Configure the cell...
+    cell.textLabel.text = @"TEST : text...1";
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableVIew didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    NSLog(@"select section:%li row:%li", indexPath.section, indexPath.row);
+}
+
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
+{
+    return 2;
 }
 
 @end

@@ -99,7 +99,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="0XO-6P-qYD" id="cAS-Z2-fsg"/>
-                        <outlet property="viewTop" destination="h1Y-yu-8tv" id="6hb-VO-wRG"/>
+                        <outlet property="viewTop" destination="h1Y-yu-8tv" id="1qB-hD-acm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tq2-5g-PBl" userLabel="First Responder" sceneMemberID="firstResponder"/>
