@@ -100,6 +100,8 @@
     
     ViewController *dest = [segue destinationViewController];
     dest.completionCallback = ^() {
+        self.searchController.searchBar.text = @"";
+        [self.searchController dismissViewControllerAnimated:NO completion:nil];
         [self.collectionView reloadData];
     };
     
@@ -374,6 +376,7 @@
 {
     NSLog(@"select section:%li row:%li", indexPath.section, indexPath.row);
     if( self.searchResult.tableView == tableView ) {
+        [self.searchController.searchBar resignFirstResponder];
         
         if( self.listOfSection[indexPath.section] == self.bookmarkSearch ) {
             // 북마크 검색 결과
