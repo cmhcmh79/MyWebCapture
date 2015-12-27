@@ -44,9 +44,14 @@
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchResult];
     self.searchController.searchResultsUpdater = self;
     self.searchController.searchBar.delegate = self;
-
+    
+    // autoresizing
+    self.searchController.searchBar.frame = self.viewTop.bounds;
+    self.searchController.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    
     [self.viewTop addSubview:self.searchController.searchBar];
-    self.definesPresentationContext = YES;
+
+    //self.definesPresentationContext = YES;
 }
 
 - (void)didReceiveMemoryWarning {
