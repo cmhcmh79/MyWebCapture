@@ -19,6 +19,8 @@
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UIWebView *webPage;
 
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
 @end
 
 @implementation ViewController
@@ -55,7 +57,11 @@
     [_webPage loadRequest:requestObj];
     */
     
-    
+    // 진행표시 생성
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 32, 32)];
+    [self.activityIndicator setCenter:self.view.center];
+    [self.activityIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
+    [self.view addSubview : self.activityIndicator];
 }
 
 
@@ -136,9 +142,16 @@
 {
     NSLog(@"web load srtart (loading:%i) < %@ >",
           webView.loading, webView.request.URL);
+
+    [self.activityIndicator startAnimating];
+
+    if( [webView.request.URL.absoluteString hasPrefix:@"file:///"] )
+        return;
     //_searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
-    if(webView.request.URL.absoluteString && webView.request.URL.absoluteString.length)
+    
+    if(webView.request.URL.absoluteString && webView.request.URL.absoluteString.length) {
         self.searchBar.text = webView.request.URL.absoluteString;
+    }
     
     /*
     if( self.timerWeb == nil ) {
@@ -152,7 +165,9 @@
 {
     NSLog(@"web load finish (loading:%i)< %@ >", webView.loading, webView.request.URL);
 //    _searchBar.text = [NSString stringWithFormat:@"%@", webView.request.URL];
-    if(webView.request.URL.absoluteString && webView.request.URL.absoluteString.length)
+    
+    if(![webView.request.URL.absoluteString hasPrefix:@"file:///"] &&
+       webView.request.URL.absoluteString && webView.request.URL.absoluteString.length)
         self.searchBar.text = webView.request.URL.absoluteString;
     
     if( !webView.loading ) {
@@ -173,6 +188,19 @@
         
         self.updateBookmark = NO;
     }
+    
+    [self.activityIndicator stopAnimating];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    NSLog(@"webView didFailLoadWithError");
+    [self.activityIndicator stopAnimating];
+    if (error.code == -999) {
+        return;
+    }
+    [self.webPage loadHTMLString:[NSString stringWithFormat:@"<html><head><meta id=\"viewport\" name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0;\"/></head><body style=\"padding-top:50px;font-size:20px;text-align:center;\">%@</body></html>", [error localizedDescription]]
+                         baseURL:[[webView request] URL]];
 }
 
 #pragma mark - UISearchBarDelegate protocol
@@ -282,17 +310,20 @@
     UIAlertAction *actionCapture = [UIAlertAction actionWithTitle:@"Capture View Size" style:UIAlertActionStyleDefault
                                                      handler:^(UIAlertAction * action) {
                                                          NSLog(@"Capture View Size");
+                                                         [self captureViewSize];
                                                      }];
 
     UIAlertAction *actionCaptureFull = [UIAlertAction actionWithTitle:@"Capture Full Size" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               NSLog(@"Capture Full Size");
+                                                              [self captureFullSize];
                                                           }];
-
+    /*
     UIAlertAction *actionDownload = [UIAlertAction actionWithTitle:@"Download Image" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
                                                                   NSLog(@"AlertAction down image");
                                                               }];
+     */
 
     
     UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
@@ -302,9 +333,61 @@
     [alert addAction:actionAddPage];
     [alert addAction:actionCapture];
     [alert addAction:actionCaptureFull];
-    [alert addAction:actionDownload];
+    //[alert addAction:actionDownload];
     [alert addAction:actionCancel];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+// 보이는 화면 갭쳐
+- (void)captureViewSize
+{
+    NSLog();
+    [self.activityIndicator startAnimating];
+
+    CGRect webFrame = self.webPage.frame;
+    
+    UIGraphicsBeginImageContext(self.webPage.frame.size);
+    [self.webPage.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
+    
+    [self.webPage setFrame:webFrame];
+
+    [self.activityIndicator stopAnimating];
+    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Photos Album" onViewController:self ];
+}
+
+// 웹페이지 모두 갭쳐
+- (void)captureFullSize
+{
+    NSLog();
+    [self.activityIndicator startAnimating];
+    
+    UIScrollView *scrollView;
+    for(UIView *subView in self.webPage.subviews) {
+        if([subView isKindOfClass:[UIScrollView class]]) {
+            scrollView = (UIScrollView *)subView;
+            //[scrollView setDelegate:self];
+        }
+    }
+    
+    CGRect webFrame = self.webPage.frame;
+    
+    [self.webPage sizeToFit];
+    
+    UIGraphicsBeginImageContext(scrollView.contentSize);
+    [self.webPage.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
+    
+    [self.webPage setFrame:webFrame];
+    
+    [self.activityIndicator stopAnimating];
+    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Photos Album" onViewController:self ];
 }
 
 @end
