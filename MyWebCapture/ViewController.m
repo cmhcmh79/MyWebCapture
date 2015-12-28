@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "AddPageViewController.h"
+#import "IOSUtils.h"
 
 @interface ViewController ()
 
@@ -186,14 +187,18 @@
     // 키보드 숨기기
     [searchBar resignFirstResponder];
     
-    NSURL *url = [NSURL URLWithString:self.searchBar.text];
-    NSLog(@"scheme>>%@", url.scheme);
-    if( url.scheme == nil ) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", self.searchBar.text]];
+    NSString *url = [self.searchBar.text lowercaseString];
+    if( ![url hasPrefix:@"http://"] && ![url hasPrefix:@"https://"] ) {
+        url = [NSString stringWithFormat:@"http://%@", url];
+    }
+    
+    // 유효한 형식의 url 확인
+    if( ![IOSUtils isValidateURL:url] ) {
+        url = [NSString stringWithFormat:@"https://www.google.com/search?q=%@", self.searchBar.text];
     }
     NSLog(@"URL > %@", url);
     
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webPage loadRequest:requestObj];
 }
 

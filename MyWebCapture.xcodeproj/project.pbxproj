@@ -25,6 +25,7 @@
 		309F445A1C2507A700CCC615 /* MyWebCaptureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44591C2507A700CCC615 /* MyWebCaptureTests.m */; };
 		309F44651C2507A700CCC615 /* MyWebCaptureUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44641C2507A700CCC615 /* MyWebCaptureUITests.m */; };
 		309F44741C250A3100CCC615 /* action.png in Resources */ = {isa = PBXBuildFile; fileRef = 309F44731C250A3100CCC615 /* action.png */; };
+		30BC2CBF1C314EC000FB267C /* IOSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 30BC2CBE1C314EC000FB267C /* IOSUtils.m */; };
 		30C918AD1C252934005595AD /* AddPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C918AC1C252934005595AD /* AddPageViewController.m */; };
 		30E0EE871C28188B00451512 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30E0EE861C28188B00451512 /* DataManager.m */; };
 		30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EB8E3A1C26A1800042E97E /* RecordSet.m */; };
@@ -80,6 +81,8 @@
 		309F44641C2507A700CCC615 /* MyWebCaptureUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyWebCaptureUITests.m; sourceTree = "<group>"; };
 		309F44661C2507A700CCC615 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		309F44731C250A3100CCC615 /* action.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = action.png; path = image/action.png; sourceTree = "<group>"; };
+		30BC2CBD1C314EC000FB267C /* IOSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSUtils.h; sourceTree = "<group>"; };
+		30BC2CBE1C314EC000FB267C /* IOSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSUtils.m; sourceTree = "<group>"; };
 		30C918AB1C252934005595AD /* AddPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddPageViewController.h; sourceTree = "<group>"; };
 		30C918AC1C252934005595AD /* AddPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddPageViewController.m; sourceTree = "<group>"; };
 		30E0EE851C28188B00451512 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 		309F443E1C2507A700CCC615 /* MyWebCapture */ = {
 			isa = PBXGroup;
 			children = (
+				30BC2CBD1C314EC000FB267C /* IOSUtils.h */,
+				30BC2CBE1C314EC000FB267C /* IOSUtils.m */,
 				30EB8E391C26A1800042E97E /* RecordSet.h */,
 				30EB8E3A1C26A1800042E97E /* RecordSet.m */,
 				30EB8E3B1C26A1800042E97E /* SQLite3Class.h */,
@@ -353,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30BC2CBF1C314EC000FB267C /* IOSUtils.m in Sources */,
 				3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */,
 				309F44471C2507A700CCC615 /* ViewController.m in Sources */,
 				309F44441C2507A700CCC615 /* AppDelegate.m in Sources */,

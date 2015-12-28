@@ -10,7 +10,7 @@
 #import "ViewController.h"
 #import "DataManager.h"
 #import "AddPageViewController.h"
-
+#import "IOSUtils.h"
 
 @interface BookmarkViewController ()  <UISearchResultsUpdating, UISearchBarDelegate,
                                        UITableViewDelegate, UITableViewDataSource>
@@ -276,17 +276,8 @@
     }
     
     // 유효한 형식의 url 확인
-    if( [self validateUrl:url] )
+    if( [IOSUtils isValidateURL:url] )
         [self.websiteeSearch addObject:url];
-}
-
-/**
- * 유효한 url 형식인지 확인
- */
-- (BOOL)validateUrl:(NSString *)candidate {
-    NSString *urlRegEx = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
-    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
-    return [urlTest evaluateWithObject:candidate];
 }
 
 /**
@@ -326,6 +317,28 @@
 */
 
 #pragma mark - SearchBar Delegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar;
+{
+    NSLog(@"string:%@", self.searchController.searchBar.text);
+    
+    NSString *url = [self.searchController.searchBar.text lowercaseString];
+    if( ![url hasPrefix:@"http://"] && ![url hasPrefix:@"https://"] ) {
+        url = [NSString stringWithFormat:@"http://%@", url];
+    }
+    
+    // 유효한 형식의 url 확인
+    if( [IOSUtils isValidateURL:url] ) {
+        [self performSegueWithIdentifier:@"ViewWeb" sender:url];;
+    }
+    else {
+        // 구글 검색 https://www.google.com/search?q=%@
+        [self performSegueWithIdentifier:@"ViewWeb"
+                                  sender:[NSString stringWithFormat:@"https://www.google.com/search?q=%@",
+                                          self.searchController.searchBar.text]];;
+    }
+}
+
 
 #pragma mark - table view
 
