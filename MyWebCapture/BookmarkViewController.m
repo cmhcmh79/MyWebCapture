@@ -215,8 +215,12 @@
 
 - (void)actionDelete:(id)sender {
     NSLog(@"delete Clicked");
-    [self.dataManager deleteBookmarkAtIndex:self.indexOfSeleted];
-    [self.collectionView reloadData];
+    [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
+           withOkButtonAction:^(UIAlertAction *action) {
+               [self.dataManager deleteBookmarkAtIndex:self.indexOfSeleted];
+               [self.collectionView reloadData];
+           }
+       withCancelButtonAction:nil];
 }
 
 - (void)actionEdit:(id)sender {
