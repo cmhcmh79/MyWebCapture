@@ -53,6 +53,8 @@
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [_webPage loadRequest:requestObj];
     */
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -212,6 +214,13 @@
  */
 - (IBAction)pressedHomeButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
+    
+    
+    if (self.preCompletionCallback) {
+        NSLog(@"====");
+        self.preCompletionCallback();
+    }
+
     
     [self dismissViewControllerAnimated:YES completion:^{
         

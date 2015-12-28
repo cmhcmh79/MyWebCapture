@@ -12,6 +12,8 @@
 @interface ViewController : UIViewController
 
 // 종료 콜백 정의
+// 종료 콜백 정의
+@property (strong, nonatomic) void (^preCompletionCallback)();
 @property (strong, nonatomic) void (^completionCallback)();
 
 // 시작 URL string

@@ -105,6 +105,11 @@
         [self.collectionView reloadData];
     };
     
+    dest.preCompletionCallback = ^(){
+        NSLog(@"====");
+        self.searchController.searchBar.text = @"";
+    };
+    
     
     if( [sender isKindOfClass:[NSString class]] ) {
         // 검색결과 웹사이트(url string)로 이동
@@ -127,6 +132,7 @@
         dest.bookmarkIndex = index;
         dest.stringURL = dest.bookmark.url;
     }
+    
 }
 
 
