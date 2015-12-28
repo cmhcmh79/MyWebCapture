@@ -57,6 +57,26 @@
     
 }
 
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+
+
+}
+
+
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+
+    if (self.preCompletionCallback) {
+        NSLog(@"====");
+        self.preCompletionCallback();
+    }
+
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -216,10 +236,6 @@
     NSLog(@"%s", __FUNCTION__);
     
     
-    if (self.preCompletionCallback) {
-        NSLog(@"====");
-        self.preCompletionCallback();
-    }
 
     
     [self dismissViewControllerAnimated:YES completion:^{
