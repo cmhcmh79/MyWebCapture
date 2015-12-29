@@ -31,9 +31,21 @@
 @property (strong, nonatomic) NSMutableArray<NSString *> *googleSearch;
 @property (strong, nonatomic) NSMutableArray<NSString *> *websiteeSearch;
 
+// 플리킹을 준비
+@property (strong, nonatomic) UIView *currentView;
+@property (nonatomic) CGPoint pointPrev;
+@property (nonatomic) BOOL isMoved;
+@property (strong, nonatomic) NSIndexPath *selectedIndex;
+
 @end
 
 @implementation BookmarkViewController
+
+/**
+ * 콜렉션 셀의 테그 번호
+ */
+static const int TAG_CELL_LABEL = 1;
+static const int TAG_CELL_IMAGE = 2;
 
 #pragma mark - life cycle
 
@@ -149,39 +161,59 @@
     //NSLog(@"collection cell(%li) title:%@", indexPath.row, bookmark.title);
     
     // Configure the cell    
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:1];
-    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:2];
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:TAG_CELL_LABEL];
+    UIImageView *imageView = (UIImageView *)[cell.contentView viewWithTag:TAG_CELL_IMAGE];
     
     label.text = bookmark.title;
     imageView.image = bookmark.iconImage;
     
     UILongPressGestureRecognizer* longClickEvent = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longClickCell:)];
-    [cell addGestureRecognizer:longClickEvent];
     
-    /*
-    cell.layer.borderColor = [UIColor blackColor].CGColor;
-    cell.layer.borderWidth = 1.0f;
-     */
+    // 제스터가 없는 경우 추가
+    BOOL isFind = NO;
+    for(UIGestureRecognizer *gesture in cell.gestureRecognizers) {
+        if( [gesture isKindOfClass:[UILongPressGestureRecognizer class]] )
+             isFind = YES;
+    }
+    if( !isFind ) {
+        [cell addGestureRecognizer:longClickEvent];
+        NSLog(@"add long press gesture cel:%li", indexPath.row);
+    }
+    
+    cell.layer.borderColor = [UIColor redColor].CGColor;
+    cell.layer.borderWidth = 0.0f;
     
     return cell;
 }
 
 #pragma mark - gesture callback
 
+- (UIImageView *)snapshotImageView:(UIView *)view {
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0f);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return [[UIImageView alloc] initWithImage:image];
+}
+
 - (void)longClickCell:(UILongPressGestureRecognizer *)sender
 {
     NSLog();
-    
+     
     if (sender.state == UIGestureRecognizerStateBegan){
+        // 플리킹 시작
+        self.pointPrev = [sender locationInView:self.view];
+        self.isMoved = NO;
         
         // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
         CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
-        NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
+        //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
         // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
         //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
         NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
-        NSLog(@"cell index %li",indexPath.row);
+        NSLog(@"cell index %li  (%f,%f)",indexPath.row, self.pointPrev.x, self.pointPrev.y);
         self.indexOfSeleted = indexPath.row;
+        self.selectedIndex = indexPath;
         
         /*
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
@@ -192,19 +224,86 @@
         [view addSubview:button];
         [self.view addSubview:view];
          */
+        // 선택된 셀과 같은 뷰 생성
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         
-        [self becomeFirstResponder];
-        UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
-                                                         action:@selector(actionDelete:)];
-        UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
-                                                         action:@selector(actionEdit:)];
-        UIMenuController *menu = [UIMenuController sharedMenuController];
+        //NSLog("%f, %f", point.x, point.y);
+        CGRect viewRect = cell.frame;
+        viewRect.origin.x += self.collectionView.frame.origin.x;
+        viewRect.origin.y += self.collectionView.frame.origin.y;
+        self.currentView = [[UIView alloc] initWithFrame:viewRect];
+        UIImageView *imageView = [self snapshotImageView:cell];
+        [self.currentView addSubview:imageView];
+        [self.view addSubview:self.currentView];
         
-        CGRect cellRect = sender.view.frame;
-        
-        menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
-        [menu setTargetRect:cellRect inView:self.collectionView];
-        [menu setMenuVisible:YES animated:YES];
+        // 셀 확대 애니메시션
+        cell.alpha = 0.0f;
+
+        [UIView
+         animateWithDuration:0.3
+         delay:0.0
+         options:UIViewAnimationOptionBeginFromCurrentState
+         animations:^{
+             self.currentView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
+             self.currentView.alpha = 0.7f;
+         }
+         completion:nil];
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded){
+        CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
+        //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
+        // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
+        //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
+        //NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+        NSIndexPath *indexPath = self.selectedIndex;
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+        NSLog(@"cell index %li", indexPath.row);
+        // 셀 복귀 애니메이션
+        [UIView
+         animateWithDuration:0.3
+         delay:0.0
+         options:UIViewAnimationOptionBeginFromCurrentState
+         animations:^{
+             self.currentView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+             CGRect frame = cell.frame;
+             frame.origin.x += self.collectionView.frame.origin.x;
+             frame.origin.y += self.collectionView.frame.origin.y;
+             self.currentView.frame = frame;
+             self.currentView.alpha = 1.0f;
+             
+         }
+         completion:^(BOOL finished){
+             NSLog(@"long press finish");
+             cell.alpha = 1.0f;
+             [self.currentView removeFromSuperview];
+             self.currentView = nil;
+             
+             // 움직이지 않은 경우만 메뉴 표시
+             if( !self.isMoved ) {
+                 [self becomeFirstResponder];
+                 UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
+                                                                  action:@selector(actionDelete:)];
+                 UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
+                                                                  action:@selector(actionEdit:)];
+                 UIMenuController *menu = [UIMenuController sharedMenuController];
+                 
+                 CGRect cellRect = sender.view.frame;
+                 
+                 menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
+                 [menu setTargetRect:cellRect inView:self.collectionView];
+                 [menu setMenuVisible:YES animated:YES];
+             }
+         }];
+    }
+    else if( sender.state == UIGestureRecognizerStateChanged ) {
+        self.isMoved = YES;
+        CGPoint pointNow = [sender locationInView:self.view];
+        CGRect frame = self.currentView.frame;
+        frame.origin.x += pointNow.x - self.pointPrev.x;
+        frame.origin.y += pointNow.y - self.pointPrev.y;
+        self.currentView.frame = frame;
+        self.pointPrev = pointNow;
+        NSLog(@"changed... (%f,%f)", pointNow.x, pointNow.y);
     }
 }
 
