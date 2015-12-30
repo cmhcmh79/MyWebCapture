@@ -35,7 +35,9 @@
 @property (strong, nonatomic) UIView *currentView;
 @property (nonatomic) CGPoint pointPrev;
 @property (nonatomic) BOOL isMoved;
+@property (nonatomic) BOOL isRelocationed;
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
+@property (strong, nonatomic) NSMutableArray<BookmarkData *> *listOfBookmark;
 
 @end
 
@@ -78,6 +80,12 @@ static const int TAG_CELL_IMAGE = 2;
     self.googleSearch = [[NSMutableArray alloc] init];
     self.websiteeSearch = [[NSMutableArray alloc] init];
     self.listOfSection = [[NSArray alloc] initWithObjects: self.websiteeSearch, self.googleSearch, self.bookmarkSearch, nil];
+    
+    // 북마크 아이콘 위치 정보 설정
+    self.listOfBookmark = [[NSMutableArray alloc] init];
+    for(int i = 0; i < self.dataManager.count; ++i) {
+        [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,6 +122,13 @@ static const int TAG_CELL_IMAGE = 2;
     dest.completionCallback = ^() {
         self.searchController.searchBar.text = @"";
         [self.searchController dismissViewControllerAnimated:NO completion:nil];
+        
+        // 북마크 아이콘 위치 정보 설정
+        self.listOfBookmark = [[NSMutableArray alloc] init];
+        for(int i = 0; i < self.dataManager.count; ++i) {
+            [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
+        }
+
         [self.collectionView reloadData];
     };
     
@@ -151,14 +166,15 @@ static const int TAG_CELL_IMAGE = 2;
 #pragma mark - collection view delegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.dataManager.count;
+    return self.listOfBookmark.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionCell" forIndexPath:indexPath];
  
-    BookmarkData *bookmark = [self.dataManager bookmarkAtIndex:indexPath.row];
+    //BookmarkData *bookmark = [self.dataManager bookmarkAtIndex:indexPath.row];
     //NSLog(@"collection cell(%li) title:%@", indexPath.row, bookmark.title);
+    BookmarkData *bookmark = self.listOfBookmark[indexPath.row];
     
     // Configure the cell    
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:TAG_CELL_LABEL];
@@ -196,108 +212,145 @@ static const int TAG_CELL_IMAGE = 2;
     return [[UIImageView alloc] initWithImage:image];
 }
 
+- (void)longClickGestureBegin:(UILongPressGestureRecognizer *)sender
+{
+    // 플리킹 시작
+    self.pointPrev = [sender locationInView:self.view];
+    self.isMoved = NO;
+    self.isRelocationed = NO;
+    
+    // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
+    CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
+    //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
+    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
+    NSLog(@"cell index %li  (%f,%f)",indexPath.row, self.pointPrev.x, self.pointPrev.y);
+    self.selectedIndex = indexPath;
+    
+    /*
+     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
+     view.backgroundColor = [UIColor redColor];
+     UIButton *button = [[ UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+     button.backgroundColor = [ UIColor yellowColor];
+     [button setTitle:@"copy" forState:UIControlStateNormal];
+     [view addSubview:button];
+     [self.view addSubview:view];
+     */
+    // 선택된 셀과 같은 뷰 생성
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    
+    //NSLog("%f, %f", point.x, point.y);
+    CGRect viewRect = [self.view convertRect:cell.frame fromView:self.collectionView];
+    self.currentView = [[UIView alloc] initWithFrame:viewRect];
+    UIImageView *imageView = [self snapshotImageView:cell];
+    [self.currentView addSubview:imageView];
+    [self.view addSubview:self.currentView];
+    
+    // 셀 확대 애니메시션
+    cell.hidden = YES;
+    
+    [UIView
+     animateWithDuration:0.3
+     delay:0.0
+     options:UIViewAnimationOptionBeginFromCurrentState
+     animations:^{
+         self.currentView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
+         self.currentView.alpha = 0.7f;
+     }
+     completion:nil];
+
+}
+- (void)longClickGestureEnd:(UILongPressGestureRecognizer *)sender
+{
+    NSIndexPath *indexPath = self.selectedIndex;
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+    NSLog(@"cell index %li", indexPath.row);
+    // 셀 복귀 애니메이션
+    [UIView
+     animateWithDuration:0.3
+     delay:0.0
+     options:UIViewAnimationOptionBeginFromCurrentState
+     animations:^{
+         self.currentView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+         self.currentView.frame = [self.view convertRect:cell.frame fromView:self.collectionView];
+         self.currentView.alpha = 1.0f;
+     }
+     completion:^(BOOL finished){
+         NSLog(@"long press finish");
+         cell.hidden= NO;
+         [self.currentView removeFromSuperview];
+         self.currentView = nil;
+         
+         // 아이콘에 재배치된 경우 데이터 저장
+         if( self.isRelocationed ) {
+             // 위치정보 업데이트
+             int position = 1;
+             for(BookmarkData *data in self.listOfBookmark)
+                 data.position = position++;
+             [self.dataManager updateBookmarkPositions:self.listOfBookmark];
+         }
+         // 움직이지 않은 경우만 메뉴 표시
+         else if( !self.isMoved ) {
+             [self becomeFirstResponder];
+             UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
+                                                              action:@selector(actionDelete:)];
+             UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
+                                                              action:@selector(actionEdit:)];
+             UIMenuController *menu = [UIMenuController sharedMenuController];
+             
+             CGRect cellRect = sender.view.frame;
+             
+             menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
+             [menu setTargetRect:cellRect inView:self.collectionView];
+             [menu setMenuVisible:YES animated:YES];
+         }
+     }];
+}
+
+- (void)longClickGestureMove:(UILongPressGestureRecognizer *)sender
+{
+    // 선택한 아이이콘 이미지뷰 이동
+    self.isMoved = YES;
+    CGPoint pointNow = [sender locationInView:self.view];
+    CGRect frame = self.currentView.frame;
+    frame.origin.x += pointNow.x - self.pointPrev.x;
+    frame.origin.y += pointNow.y - self.pointPrev.y;
+    self.currentView.frame = frame;
+    self.pointPrev = pointNow;
+    NSLog(@"changed... (%f,%f)", pointNow.x, pointNow.y);
+
+    // 선택한 아이콘의 중심좌표가 다른 셀 영역에 있는지 확인
+    CGPoint center = [self.collectionView convertPoint:self.currentView.center fromView:self.view];
+    NSIndexPath *destIndexPath = [self.collectionView indexPathForItemAtPoint:center];
+    
+    if( destIndexPath && self.selectedIndex.row != destIndexPath.row ) {
+        // 다른 셀 영역이면 그 영역에 자신의 아이콘을 이동
+        NSLog(@"change index %li -> %li", self.selectedIndex.row, destIndexPath.row);
+        
+        // 북마크 데이터 이동
+        BookmarkData *data = self.listOfBookmark[self.selectedIndex.row];
+        [self.listOfBookmark removeObjectAtIndex:self.selectedIndex.row];
+        [self.listOfBookmark insertObject:data atIndex:destIndexPath.row];
+        
+        // 셀 이동
+        [self.collectionView moveItemAtIndexPath:self.selectedIndex toIndexPath:destIndexPath];
+        self.selectedIndex = destIndexPath;
+        
+        self.isRelocationed = YES;
+    }
+}
+
 - (void)longClickCell:(UILongPressGestureRecognizer *)sender
 {
-    NSLog();
-     
+    //NSLog();
+    
     if (sender.state == UIGestureRecognizerStateBegan){
-        // 플리킹 시작
-        self.pointPrev = [sender locationInView:self.view];
-        self.isMoved = NO;
-        
-        // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
-        CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
-        //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
-        // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
-        //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
-        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
-        NSLog(@"cell index %li  (%f,%f)",indexPath.row, self.pointPrev.x, self.pointPrev.y);
-        self.selectedIndex = indexPath;
-        
-        /*
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
-        view.backgroundColor = [UIColor redColor];
-        UIButton *button = [[ UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-        button.backgroundColor = [ UIColor yellowColor];
-        [button setTitle:@"copy" forState:UIControlStateNormal];
-        [view addSubview:button];
-        [self.view addSubview:view];
-         */
-        // 선택된 셀과 같은 뷰 생성
-        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-        
-        //NSLog("%f, %f", point.x, point.y);
-        CGRect viewRect = cell.frame;
-        viewRect.origin.x += self.collectionView.frame.origin.x;
-        viewRect.origin.y += self.collectionView.frame.origin.y;
-        self.currentView = [[UIView alloc] initWithFrame:viewRect];
-        UIImageView *imageView = [self snapshotImageView:cell];
-        [self.currentView addSubview:imageView];
-        [self.view addSubview:self.currentView];
-        
-        // 셀 확대 애니메시션
-        cell.alpha = 0.0f;
-
-        [UIView
-         animateWithDuration:0.3
-         delay:0.0
-         options:UIViewAnimationOptionBeginFromCurrentState
-         animations:^{
-             self.currentView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
-             self.currentView.alpha = 0.7f;
-         }
-         completion:nil];
+        [self longClickGestureBegin:sender];
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-        NSIndexPath *indexPath = self.selectedIndex;
-        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-        NSLog(@"cell index %li", indexPath.row);
-        // 셀 복귀 애니메이션
-        [UIView
-         animateWithDuration:0.3
-         delay:0.0
-         options:UIViewAnimationOptionBeginFromCurrentState
-         animations:^{
-             self.currentView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-             CGRect frame = cell.frame;
-             frame.origin.x += self.collectionView.frame.origin.x;
-             frame.origin.y += self.collectionView.frame.origin.y;
-             self.currentView.frame = frame;
-             self.currentView.alpha = 1.0f;
-             
-         }
-         completion:^(BOOL finished){
-             NSLog(@"long press finish");
-             cell.alpha = 1.0f;
-             [self.currentView removeFromSuperview];
-             self.currentView = nil;
-             
-             // 움직이지 않은 경우만 메뉴 표시
-             if( !self.isMoved ) {
-                 [self becomeFirstResponder];
-                 UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
-                                                                  action:@selector(actionDelete:)];
-                 UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
-                                                                  action:@selector(actionEdit:)];
-                 UIMenuController *menu = [UIMenuController sharedMenuController];
-                 
-                 CGRect cellRect = sender.view.frame;
-                 
-                 menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
-                 [menu setTargetRect:cellRect inView:self.collectionView];
-                 [menu setMenuVisible:YES animated:YES];
-             }
-         }];
+        [self longClickGestureEnd:sender];
     }
     else if( sender.state == UIGestureRecognizerStateChanged ) {
-        self.isMoved = YES;
-        CGPoint pointNow = [sender locationInView:self.view];
-        CGRect frame = self.currentView.frame;
-        frame.origin.x += pointNow.x - self.pointPrev.x;
-        frame.origin.y += pointNow.y - self.pointPrev.y;
-        self.currentView.frame = frame;
-        self.pointPrev = pointNow;
-        NSLog(@"changed... (%f,%f)", pointNow.x, pointNow.y);
+        [self longClickGestureMove:sender];
     }
 }
 
@@ -311,6 +364,13 @@ static const int TAG_CELL_IMAGE = 2;
     [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
            withOkButtonAction:^(UIAlertAction *action) {
                [self.dataManager deleteBookmarkAtIndex:self.selectedIndex.row];
+               
+               // 북마크 아이콘 위치 정보 설정
+               self.listOfBookmark = [[NSMutableArray alloc] init];
+               for(int i = 0; i < self.dataManager.count; ++i) {
+                   [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
+               }
+
                [self.collectionView reloadData];
            }
        withCancelButtonAction:nil];
@@ -327,6 +387,12 @@ static const int TAG_CELL_IMAGE = 2;
     
     dest.complitCallback = ^() {
         NSLog("dismiss completion");
+        // 북마크 아이콘 위치 정보 설정
+        self.listOfBookmark = [[NSMutableArray alloc] init];
+        for(int i = 0; i < self.dataManager.count; ++i) {
+            [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
+        }
+ 
         [self.collectionView reloadData];
     };
     
