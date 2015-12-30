@@ -22,6 +22,7 @@
 
 /**
  * alert controller 를 사용하여 메시지 박스를 출력한다. (OK 버튼만 있음)
+ * iOS 8 부터 지원
  */
 + (UIAlertController *)messageBoxTitle:(NSString *)title
                            withMessage:(NSString *)message
@@ -29,11 +30,22 @@
 
 /**
  * alert controller 를 사용하여 메시지 박스를 출력한다. (OK,Cancel 버튼 있음)
+ * iOS 8 부터 지원
  */
 + (UIAlertController *)messageBoxTitle:(NSString *)title
                            withMessage:(NSString *)message
                       onViewController:(UIViewController *)view
                     withOkButtonAction:(void (^)(UIAlertAction *action))okAction
                 withCancelButtonAction:(void (^)(UIAlertAction *action))cancelAction ;
+
+/**
+ * 앱에서 접근하는 다큐멘트 디렉토리를 확인한다.
+ */
++ (NSString *)pathDocuments;
+
+/**
+ * 앱에서 접근하는 다큐멘트 디렉토리의 파일 이름의 패스를 리턴한다.
+ */
++ (NSString *)pathDocumentsWithFilename:(NSString *)filename;
 
 @end

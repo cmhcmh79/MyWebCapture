@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *iconFileName;
 @property (strong, nonatomic) UIImage  *iconImage;
-
+@property (nonatomic) int position;
 @end
 
 
@@ -57,4 +57,9 @@
  */
 - (int)deleteBookmarkAtIndex:(NSInteger)index;
 
+/**
+ * 북마크 위지청보를 수정한다.
+ * 위치정보 기준으로 정렬된 리스트를 입력받아 저장하고 배열을 재정리 한다.
+ */
+- (int)updateBookmarkPositions:(NSArray<BookmarkData *> *)positions;
 @end

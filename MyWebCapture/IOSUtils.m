@@ -74,4 +74,22 @@
     return alert;
 }
 
+/**
+ * 앱에서 접근하는 다큐멘트 디렉토리를 확인한다.
+ */
++ (NSString *)pathDocuments
+{
+    NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
+}
+
+/**
+ * 앱에서 접근하는 다큐멘트 디렉토리의 파일 이름의 패스를 리턴한다.
+ */
++ (NSString *)pathDocumentsWithFilename:(NSString *)filename
+{
+    NSString *path = [IOSUtils pathDocuments];
+    return [path stringByAppendingPathComponent:filename];
+}
+
 @end

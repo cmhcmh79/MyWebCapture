@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) DataManager *dataManager;
-@property (nonatomic) NSInteger indexOfSeleted;
+//@property (nonatomic) NSInteger indexOfSeleted;
 
 // search controller
 @property (strong, nonatomic) UITableViewController *searchResult;
@@ -212,7 +212,6 @@ static const int TAG_CELL_IMAGE = 2;
         //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
         NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
         NSLog(@"cell index %li  (%f,%f)",indexPath.row, self.pointPrev.x, self.pointPrev.y);
-        self.indexOfSeleted = indexPath.row;
         self.selectedIndex = indexPath;
         
         /*
@@ -250,11 +249,6 @@ static const int TAG_CELL_IMAGE = 2;
          completion:nil];
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-        CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
-        //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
-        // 테이블 뷰의 위치의 Cell의 indexPath를 가져온다
-        //NSIndexPath *indexPath = [self.collectionView indexPathForCell:sender.view];
-        //NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
         NSIndexPath *indexPath = self.selectedIndex;
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         NSLog(@"cell index %li", indexPath.row);
@@ -316,7 +310,7 @@ static const int TAG_CELL_IMAGE = 2;
     NSLog(@"delete Clicked");
     [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
            withOkButtonAction:^(UIAlertAction *action) {
-               [self.dataManager deleteBookmarkAtIndex:self.indexOfSeleted];
+               [self.dataManager deleteBookmarkAtIndex:self.selectedIndex.row];
                [self.collectionView reloadData];
            }
        withCancelButtonAction:nil];
@@ -328,8 +322,8 @@ static const int TAG_CELL_IMAGE = 2;
     //return;
     AddPageViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"AddPageView"];
     dest.stringViewTitle = @"Edit Bookmark";
-    dest.bookmark = [self.dataManager bookmarkAtIndex:self.indexOfSeleted];
-    dest.bookmarkIndex = self.indexOfSeleted;
+    dest.bookmark = [self.dataManager bookmarkAtIndex:self.selectedIndex.row];
+    dest.bookmarkIndex = self.selectedIndex.row;
     
     dest.complitCallback = ^() {
         NSLog("dismiss completion");

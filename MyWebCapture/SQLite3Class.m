@@ -96,8 +96,8 @@ static int ExecCallback(void *pParam, int nCount, char **values, char **names)
 {
     RecordSet *record = (__bridge RecordSet *)pParam;
     for(int i = 0; i < nCount; ++i) {
-        NSString *value = [NSString stringWithUTF8String:values[i]];
-        NSString *name = [NSString stringWithUTF8String:names[i]];
+        NSString *value = [NSString stringWithUTF8String:(values[i]) ? values[i]: ""];
+        NSString *name = [NSString stringWithUTF8String:(names[i]) ? names[i]: ""];
         [record setCollectData:value withName:name atColumn:i];
     }
     
@@ -134,6 +134,10 @@ static int ExecCallback(void *pParam, int nCount, char **values, char **names)
  */
 - (void)openAndTransaction
 {
+    // 이미 DB연결된 것은 아무 동작 없음
+    if(mDB)
+        return ;
+    
     [self open];
     [self executeWithSQL:@"BEGIN TRANSACTION;"];
 }
