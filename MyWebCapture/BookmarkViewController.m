@@ -38,6 +38,8 @@
 @property (nonatomic) BOOL isRelocationed;
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) NSMutableArray<BookmarkData *> *listOfBookmark;
+@property (strong, nonatomic) NSTimer *timerShakeIcons;
+
 
 @end
 
@@ -202,6 +204,41 @@ static const int TAG_CELL_IMAGE = 2;
     return cell;
 }
 
+#pragma mark - timer action
+// 모든 셀을 흔든다.
+- (void)actionShakeIcons:(NSTimer *)timer
+{
+    static int step = 0;
+    static CGFloat angle[2] = {3.0f / 180 * M_PI , -3.0f / 180 * M_PI };
+    step = (step + 1) & 0x01;
+    
+    for(int i = 0; i < self.listOfBookmark.count; ++i) {
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        [UIView
+         animateWithDuration:0.1
+         delay:0.0
+         options:UIViewAnimationOptionBeginFromCurrentState
+         animations:^(){
+             cell.transform = CGAffineTransformMakeRotation(angle[step]);
+         }
+         completion:nil];
+    }
+}
+
+// 타이머를 정지하고 아이콘 위치를 정위치로 한다.
+- (void)stopShakeIcons
+{
+    [self.timerShakeIcons invalidate];
+    self.timerShakeIcons = nil;
+
+    // 모든 아이콘 정위치
+    for(int i = 0; i < self.listOfBookmark.count; ++i) {
+        UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        cell.transform = CGAffineTransformMakeRotation(0);
+    }
+    
+}
+
 #pragma mark - gesture callback
 
 - (UIImageView *)snapshotImageView:(UIView *)view {
@@ -257,6 +294,13 @@ static const int TAG_CELL_IMAGE = 2;
          self.currentView.alpha = 0.7f;
      }
      completion:nil];
+    
+    // 아이콘 흔들기 시작
+    self.timerShakeIcons = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                            target:self
+                                                          selector:@selector(actionShakeIcons:)
+                                                          userInfo:nil
+                                                           repeats:YES];
 
 }
 - (void)longClickGestureEnd:(UILongPressGestureRecognizer *)sender
@@ -280,6 +324,7 @@ static const int TAG_CELL_IMAGE = 2;
          [self.currentView removeFromSuperview];
          self.currentView = nil;
          
+         [self stopShakeIcons];
          // 아이콘에 재배치된 경우 데이터 저장
          if( self.isRelocationed ) {
              // 위치정보 업데이트
