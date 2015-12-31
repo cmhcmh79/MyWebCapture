@@ -315,16 +315,19 @@ static const int TAG_CELL_IMAGE = 2;
      options:UIViewAnimationOptionBeginFromCurrentState
      animations:^{
          self.currentView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-         self.currentView.frame = [self.view convertRect:cell.frame fromView:self.collectionView];
+         //self.currentView.frame = [self.view convertRect:cell.frame fromView:self.collectionView];
+         self.currentView.center = [self.view convertPoint:cell.center fromView:self.collectionView];
          self.currentView.alpha = 1.0f;
      }
      completion:^(BOOL finished){
          NSLog(@"long press finish");
+         // 아이콘 흔들기 정지
+         [self stopShakeIcons];
+
          cell.hidden= NO;
          [self.currentView removeFromSuperview];
          self.currentView = nil;
          
-         [self stopShakeIcons];
          // 아이콘에 재배치된 경우 데이터 저장
          if( self.isRelocationed ) {
              // 위치정보 업데이트
