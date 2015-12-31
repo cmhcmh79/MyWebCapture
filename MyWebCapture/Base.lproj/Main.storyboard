@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0XO-6P-qYD">
-                                <rect key="frame" x="20" y="84" width="560" height="516"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mnC-zq-2bA">
                                     <size key="itemSize" width="70" height="100"/>
@@ -91,14 +91,26 @@
                             <constraint firstItem="xYl-DL-gpw" firstAttribute="top" secondItem="0XO-6P-qYD" secondAttribute="bottom" id="PcW-AJ-uXV"/>
                             <constraint firstItem="h1Y-yu-8tv" firstAttribute="top" secondItem="SjB-LX-zFC" secondAttribute="top" id="UgG-Oo-8TM"/>
                             <constraint firstAttribute="trailing" secondItem="h1Y-yu-8tv" secondAttribute="trailing" id="fCy-sf-g3N"/>
-                            <constraint firstItem="0XO-6P-qYD" firstAttribute="top" secondItem="h1Y-yu-8tv" secondAttribute="bottom" constant="20" id="z4k-xh-Tph"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leadingMargin" id="jpa-tE-zR9"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="centerX" secondItem="h1Y-yu-8tv" secondAttribute="centerX" id="jtS-FU-h2o"/>
+                            <constraint firstAttribute="trailing" secondItem="0XO-6P-qYD" secondAttribute="trailing" id="l1I-aH-M6U"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leading" id="thW-hm-nep"/>
+                            <constraint firstAttribute="trailing" secondItem="0XO-6P-qYD" secondAttribute="trailing" id="wty-dD-dIW"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="leading" secondItem="SjB-LX-zFC" secondAttribute="leading" id="yRe-Oy-M1N"/>
+                            <constraint firstItem="0XO-6P-qYD" firstAttribute="top" secondItem="h1Y-yu-8tv" secondAttribute="bottom" id="z4k-xh-Tph"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Gw9-fa-ZRy"/>
                                 <exclude reference="UgG-Oo-8TM"/>
+                                <exclude reference="1b6-Hg-8Sc"/>
                                 <exclude reference="4Wo-zh-81F"/>
+                                <exclude reference="Daq-Vo-pST"/>
                                 <exclude reference="Nps-YR-b1K"/>
+                                <exclude reference="jpa-tE-zR9"/>
+                                <exclude reference="jtS-FU-h2o"/>
+                                <exclude reference="thW-hm-nep"/>
+                                <exclude reference="wty-dD-dIW"/>
                                 <exclude reference="LIR-6m-bOs"/>
                             </mask>
                         </variation>

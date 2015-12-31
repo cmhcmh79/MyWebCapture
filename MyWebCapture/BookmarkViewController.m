@@ -204,6 +204,14 @@ static const int TAG_CELL_IMAGE = 2;
     return cell;
 }
 
+// 인셋 여백 설정
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    UIEdgeInsets inset = { 20, 20, 0 , 20};
+    return inset;
+}
+
+
 #pragma mark - timer action
 // 모든 셀을 흔든다.
 - (void)actionShakeIcons:(NSTimer *)timer
