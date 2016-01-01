@@ -184,6 +184,8 @@ static const int TAG_CELL_IMAGE = 2;
     
     label.text = bookmark.title;
     imageView.image = bookmark.iconImage;
+    imageView.layer.cornerRadius = 13.0;
+    imageView.layer.masksToBounds = YES;
     
     UILongPressGestureRecognizer* longClickEvent = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longClickCell:)];
     
@@ -197,14 +199,16 @@ static const int TAG_CELL_IMAGE = 2;
         [cell addGestureRecognizer:longClickEvent];
         NSLog(@"add long press gesture cel:%li", indexPath.row);
     }
-    
+
+    /*
     cell.layer.borderColor = [UIColor redColor].CGColor;
     cell.layer.borderWidth = 0.0f;
+    */
     
     return cell;
 }
 
-// 인셋 여백 설정
+// 섹션 여백 설정
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     UIEdgeInsets inset = { 20, 20, 0 , 20};
