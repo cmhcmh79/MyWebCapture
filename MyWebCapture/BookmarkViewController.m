@@ -109,7 +109,7 @@ static const int TAG_CELL_IMAGE = 2;
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
-    return NO;
+    return !self.isShakeIcons;
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -424,27 +424,27 @@ static const int TAG_CELL_IMAGE = 2;
 
 - (void)actionDelete:(id)sender {
     NSLog(@"delete Clicked");
-    return;
     [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
            withOkButtonAction:^(UIAlertAction *action) {
-               [self.dataManager deleteBookmarkAtIndex:self.selectedIndex.row];
+               // DB에서 삭제
+               NSInteger indexOfData = [self.dataManager indexOfBookmark:self.listOfBookmark[self.selectedIndex.row]];
+               [self.dataManager deleteBookmarkAtIndex:indexOfData];
                
-               // 북마크 아이콘 위치 정보 설정
-               self.listOfBookmark = [[NSMutableArray alloc] init];
-               for(int i = 0; i < self.dataManager.count; ++i) {
-                   [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
-               }
+               // 리스트에서 삭제
+               [self.listOfBookmark removeObjectAtIndex:self.selectedIndex.row];
                
-               [self.collectionView reloadData];
+               // 콜렉션 뷰 셀 삭제
+               [self.collectionView deleteItemsAtIndexPaths:@[self.selectedIndex]];
            }
        withCancelButtonAction:nil];
 }
 
 - (void)actionEdit:(id)sender {
     NSLog(@"edit Clicked");
-    return;
-    //[self performSegueWithIdentifier:@"EditBookmark" sender:nil];
-    //return;
+    
+    // 아이콘 움직임 정지
+    [self stopMovingIcon];
+    
     AddPageViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"AddPageView"];
     dest.stringViewTitle = @"Edit Bookmark";
     dest.bookmark = [self.dataManager bookmarkAtIndex:self.selectedIndex.row];
@@ -474,7 +474,7 @@ static const int TAG_CELL_IMAGE = 2;
 #pragma mark - gesture callback
 - (void)longClickCell:(UILongPressGestureRecognizer *)sender
 {
-    NSLog();
+    //NSLog();
     if (sender.state == UIGestureRecognizerStateBegan){
         NSLog(@"long press began");
         // 셀을 선택하였는지 확인

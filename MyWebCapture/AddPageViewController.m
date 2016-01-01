@@ -66,6 +66,10 @@
             self.imageIcon.image = [UIImage imageNamed:@"icon-default.png"];
         }
     }
+    
+    // 이미지에 코너에 라운드 적용
+    self.imageIcon.layer.cornerRadius = 13.0;
+    self.imageIcon.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -153,6 +157,14 @@
     
     
     
+}
+
+- (IBAction)touchDown:(id)sender {
+    [self.textTitle resignFirstResponder];
+}
+
+- (IBAction)inputDone:(id)sender {
+    [sender resignFirstResponder];
 }
 
 

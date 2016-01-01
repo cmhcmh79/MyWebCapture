@@ -265,7 +265,7 @@
                         <viewControllerLayoutGuide type="top" id="1kf-fm-Zrq"/>
                         <viewControllerLayoutGuide type="bottom" id="8TD-28-TDL"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ldb-Jl-AxY">
+                    <view key="view" contentMode="scaleToFill" id="ldb-Jl-AxY" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -316,6 +316,9 @@
                                 <rect key="frame" x="100" y="132" width="480" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="inputDone:" destination="8Ht-IF-B1G" eventType="editingDidEndOnExit" id="7Nh-wu-prt"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -332,6 +335,9 @@
                             <constraint firstItem="XnC-bd-57H" firstAttribute="top" secondItem="l5x-TG-yrz" secondAttribute="bottom" constant="20" id="rxo-X2-ewL"/>
                             <constraint firstItem="tIv-21-xyD" firstAttribute="leading" secondItem="ldb-Jl-AxY" secondAttribute="leading" constant="20" id="xNF-B8-cHd"/>
                         </constraints>
+                        <connections>
+                            <action selector="touchDown:" destination="8Ht-IF-B1G" eventType="touchDown" id="10b-R2-7it"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="imageIcon" destination="tIv-21-xyD" id="cbM-nI-Otq"/>
