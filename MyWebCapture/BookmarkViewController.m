@@ -246,7 +246,7 @@ static const int TAG_CELL_IMAGE = 2;
         [UIView
          animateWithDuration:0.1
          delay:0.0
-         options:UIViewAnimationOptionBeginFromCurrentState
+         options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction
          animations:^(){
              cell.transform = CGAffineTransformMakeRotation(angle[step]);
          }
