@@ -384,6 +384,12 @@
     
     UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
     
+    // 이미지를 파일로 저장
+    NSString *pathImage = [IOSUtils pathDocumentsWithFilename:@"capture.png"];
+    NSData *dataImage = UIImagePNGRepresentation(viewImage);
+    BOOL isSaved = [dataImage writeToFile:pathImage atomically:YES];
+    NSLog(@"saved(%i) %@", isSaved, pathImage);
+    
     [self.webPage setFrame:webFrame];
     
     [self.activityIndicator stopAnimating];
