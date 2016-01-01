@@ -32,15 +32,18 @@
 @property (strong, nonatomic) NSMutableArray<NSString *> *websiteeSearch;
 
 // 플리킹을 준비
-@property (strong, nonatomic) UIView *currentView;
+@property (strong, nonatomic) UIView *iconView;
 @property (nonatomic) CGPoint pointPrev;
 @property (nonatomic) BOOL isMoved;
 @property (nonatomic) BOOL isRelocationed;
 @property (strong, nonatomic) NSIndexPath *selectedIndex;
 @property (strong, nonatomic) NSMutableArray<BookmarkData *> *listOfBookmark;
 @property (strong, nonatomic) NSTimer *timerShakeIcons;
+@property (nonatomic) BOOL isShakeIcons;
 
-
+// 제스처
+@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGesture;
+@property (nonatomic) CFTimeInterval defaultLongPressDuration;
 @end
 
 @implementation BookmarkViewController
@@ -88,6 +91,12 @@ static const int TAG_CELL_IMAGE = 2;
     for(int i = 0; i < self.dataManager.count; ++i) {
         [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
     }
+    
+    // 제스처 초기화
+    self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longClickCell:)];
+    [self.view addGestureRecognizer:self.longPressGesture];
+    self.defaultLongPressDuration = self.longPressGesture.minimumPressDuration;
+    self.isShakeIcons = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -97,6 +106,11 @@ static const int TAG_CELL_IMAGE = 2;
 
 
 #pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    return NO;
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -187,8 +201,7 @@ static const int TAG_CELL_IMAGE = 2;
     imageView.layer.cornerRadius = 13.0;
     imageView.layer.masksToBounds = YES;
     
-    UILongPressGestureRecognizer* longClickEvent = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longClickCell:)];
-    
+    /*
     // 제스터가 없는 경우 추가
     BOOL isFind = NO;
     for(UIGestureRecognizer *gesture in cell.gestureRecognizers) {
@@ -196,9 +209,13 @@ static const int TAG_CELL_IMAGE = 2;
              isFind = YES;
     }
     if( !isFind ) {
-        [cell addGestureRecognizer:longClickEvent];
+        UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]
+                                                          initWithTarget:self
+                                                          action:@selector(longClickCell:)];
+        [cell addGestureRecognizer:longPressGesture];
         NSLog(@"add long press gesture cel:%li", indexPath.row);
     }
+     */
 
     /*
     cell.layer.borderColor = [UIColor redColor].CGColor;
@@ -251,8 +268,32 @@ static const int TAG_CELL_IMAGE = 2;
     
 }
 
-#pragma mark - gesture callback
+#pragma mark - icon moving
 
+// 아이콘 움직을 정지한다.
+- (void)stopMovingIcon
+{
+    // 아이콘 움직임 상태가 아니면 아무런 동작 없음
+    if( !self.isShakeIcons )
+        return;
+    
+    // 아이콘에 재배치된 경우 데이터 저장
+    if( self.isRelocationed ) {
+        // 위치정보 업데이트
+        int position = 1;
+        for(BookmarkData *data in self.listOfBookmark)
+            data.position = position++;
+        [self.dataManager updateBookmarkPositions:self.listOfBookmark];
+    }
+    
+    [self stopShakeIcons];
+    self.isShakeIcons = NO;
+    
+    // 롱 키 제스쳐 시간 복귀
+    self.longPressGesture.minimumPressDuration = self.defaultLongPressDuration;
+}
+
+// 해당 뷰를 갭쳐하여 이미지 뷰로 리턴
 - (UIImageView *)snapshotImageView:(UIView *)view {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0f);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -261,40 +302,23 @@ static const int TAG_CELL_IMAGE = 2;
     return [[UIImageView alloc] initWithImage:image];
 }
 
-- (void)longClickGestureBegin:(UILongPressGestureRecognizer *)sender
+// 주어진 인덱스의 아이콘을 선택한다.
+- (void)selectIcon:(NSIndexPath *)indexPath
 {
-    // 플리킹 시작
-    self.pointPrev = [sender locationInView:self.view];
+    // 선택한 아이콘의 움직임 초기화
     self.isMoved = NO;
-    self.isRelocationed = NO;
     
-    // 해당 뷰의 선택된 영역의 CGPoint를 가져온다.
-    CGPoint currentTouchPosition = [sender locationInView:self.collectionView];
-    //NSLog(@"position %f,%f", currentTouchPosition.x, currentTouchPosition.y);
-    NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:currentTouchPosition];
-    NSLog(@"cell index %li  (%f,%f)",indexPath.row, self.pointPrev.x, self.pointPrev.y);
+    // 선택된 셀을 갭쳐하여 아이콘 뷰 생성
     self.selectedIndex = indexPath;
-    
-    /*
-     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 150, 150)];
-     view.backgroundColor = [UIColor redColor];
-     UIButton *button = [[ UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-     button.backgroundColor = [ UIColor yellowColor];
-     [button setTitle:@"copy" forState:UIControlStateNormal];
-     [view addSubview:button];
-     [self.view addSubview:view];
-     */
-    // 선택된 셀과 같은 뷰 생성
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    
-    //NSLog("%f, %f", point.x, point.y);
-    CGRect viewRect = [self.view convertRect:cell.frame fromView:self.collectionView];
-    self.currentView = [[UIView alloc] initWithFrame:viewRect];
     UIImageView *imageView = [self snapshotImageView:cell];
-    [self.currentView addSubview:imageView];
-    [self.view addSubview:self.currentView];
-    
-    // 셀 확대 애니메시션
+
+    CGRect viewRect = [self.view convertRect:cell.frame fromView:self.collectionView];
+    self.iconView = [[UIView alloc] initWithFrame:viewRect];
+    [self.iconView addSubview:imageView];
+    [self.view addSubview:self.iconView];
+
+    // 확대 애니메이션 시작
     cell.hidden = YES;
     
     [UIView
@@ -302,118 +326,97 @@ static const int TAG_CELL_IMAGE = 2;
      delay:0.0
      options:UIViewAnimationOptionBeginFromCurrentState
      animations:^{
-         self.currentView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
-         self.currentView.alpha = 0.7f;
+         self.iconView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
+         self.iconView.alpha = 0.7f;
      }
      completion:nil];
     
     // 아이콘 흔들기 시작
-    self.timerShakeIcons = [NSTimer scheduledTimerWithTimeInterval:0.1
-                                                            target:self
-                                                          selector:@selector(actionShakeIcons:)
-                                                          userInfo:nil
-                                                           repeats:YES];
-
+    if( !self.isShakeIcons ) {
+        self.isShakeIcons = YES;
+        self.timerShakeIcons = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                                target:self
+                                                              selector:@selector(actionShakeIcons:)
+                                                              userInfo:nil
+                                                               repeats:YES];
+    }
 }
-- (void)longClickGestureEnd:(UILongPressGestureRecognizer *)sender
+
+// 현재의 아이콘을 주어진 위치로 이동한다.
+- (void)movingIcon:(CGPoint) nowPoint
 {
-    NSIndexPath *indexPath = self.selectedIndex;
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    NSLog(@"cell index %li", indexPath.row);
+    // 움직임 설정
+    self.isMoved = YES;
+    
+    // 아이콘 뷰 이동
+    CGPoint iconCenter = self.iconView.center;
+    iconCenter.x += nowPoint.x - self.pointPrev.x;
+    iconCenter.y += nowPoint.y - self.pointPrev.y;
+    self.iconView.center = iconCenter;
+    self.pointPrev = nowPoint;
+    
+    // 움직인 아이콘의 중심 좌표가 새로운 셀의 위치인가 확인
+    CGPoint center = [self.collectionView convertPoint:iconCenter fromView:self.view];
+    NSIndexPath *destIndex = [self.collectionView indexPathForItemAtPoint:center];
+    
+    if( destIndex && self.selectedIndex.row != destIndex.row ) {
+        // 다른 셀 영역이면 그 영역에 자신의 아이콘을 이동
+        NSLog(@"change index %li -> %li", self.selectedIndex.row, destIndex.row);
+        
+        // 북마크 데이터 이동
+        BookmarkData *data = self.listOfBookmark[self.selectedIndex.row];
+        [self.listOfBookmark removeObjectAtIndex:self.selectedIndex.row];
+        [self.listOfBookmark insertObject:data atIndex:destIndex.row];
+        
+        // 셀 이동
+        [self.collectionView moveItemAtIndexPath:self.selectedIndex toIndexPath:destIndex];
+        self.selectedIndex = destIndex;
+        
+        self.isRelocationed = YES;
+    }
+}
+
+// 선택한 아이콘의 움직을 마무리 한다.
+- (void)finishedMovingIcon
+{
+    // 아이콘을 셀 위치로 이동
+    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:self.selectedIndex];
+    
     // 셀 복귀 애니메이션
     [UIView
      animateWithDuration:0.3
      delay:0.0
      options:UIViewAnimationOptionBeginFromCurrentState
      animations:^{
-         self.currentView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-         //self.currentView.frame = [self.view convertRect:cell.frame fromView:self.collectionView];
-         self.currentView.center = [self.view convertPoint:cell.center fromView:self.collectionView];
-         self.currentView.alpha = 1.0f;
+         self.iconView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+         self.iconView.center = [self.view convertPoint:cell.center fromView:self.collectionView];
+         self.iconView.alpha = 1.0f;
      }
      completion:^(BOOL finished){
-         NSLog(@"long press finish");
-         // 아이콘 흔들기 정지
-         [self stopShakeIcons];
-
+         // 아이콘 뷰 해제
          cell.hidden= NO;
-         [self.currentView removeFromSuperview];
-         self.currentView = nil;
-         
-         // 아이콘에 재배치된 경우 데이터 저장
-         if( self.isRelocationed ) {
-             // 위치정보 업데이트
-             int position = 1;
-             for(BookmarkData *data in self.listOfBookmark)
-                 data.position = position++;
-             [self.dataManager updateBookmarkPositions:self.listOfBookmark];
-         }
-         // 움직이지 않은 경우만 메뉴 표시
-         else if( !self.isMoved ) {
+         [self.iconView removeFromSuperview];
+         self.iconView = nil;
+
+         // 아이콘이 움직이지 않은 경우만 메뉴 팝업
+         if( !self.isMoved ) {
+             NSLog(@"popup menu (index:%li)", self.selectedIndex.row);
              [self becomeFirstResponder];
+             
              UIMenuItem *button1 = [[UIMenuItem alloc] initWithTitle:@"delete"
                                                               action:@selector(actionDelete:)];
              UIMenuItem *button2 = [[UIMenuItem alloc] initWithTitle:@"edit"
                                                               action:@selector(actionEdit:)];
+             
              UIMenuController *menu = [UIMenuController sharedMenuController];
-             
-             CGRect cellRect = sender.view.frame;
-             
              menu.menuItems = [NSArray arrayWithObjects:button1, button2, nil];
-             [menu setTargetRect:cellRect inView:self.collectionView];
+             [menu setTargetRect:cell.frame inView:self.collectionView];
              [menu setMenuVisible:YES animated:YES];
          }
-     }];
+     } ];
 }
 
-- (void)longClickGestureMove:(UILongPressGestureRecognizer *)sender
-{
-    // 선택한 아이이콘 이미지뷰 이동
-    self.isMoved = YES;
-    CGPoint pointNow = [sender locationInView:self.view];
-    CGRect frame = self.currentView.frame;
-    frame.origin.x += pointNow.x - self.pointPrev.x;
-    frame.origin.y += pointNow.y - self.pointPrev.y;
-    self.currentView.frame = frame;
-    self.pointPrev = pointNow;
-    NSLog(@"changed... (%f,%f)", pointNow.x, pointNow.y);
-
-    // 선택한 아이콘의 중심좌표가 다른 셀 영역에 있는지 확인
-    CGPoint center = [self.collectionView convertPoint:self.currentView.center fromView:self.view];
-    NSIndexPath *destIndexPath = [self.collectionView indexPathForItemAtPoint:center];
-    
-    if( destIndexPath && self.selectedIndex.row != destIndexPath.row ) {
-        // 다른 셀 영역이면 그 영역에 자신의 아이콘을 이동
-        NSLog(@"change index %li -> %li", self.selectedIndex.row, destIndexPath.row);
-        
-        // 북마크 데이터 이동
-        BookmarkData *data = self.listOfBookmark[self.selectedIndex.row];
-        [self.listOfBookmark removeObjectAtIndex:self.selectedIndex.row];
-        [self.listOfBookmark insertObject:data atIndex:destIndexPath.row];
-        
-        // 셀 이동
-        [self.collectionView moveItemAtIndexPath:self.selectedIndex toIndexPath:destIndexPath];
-        self.selectedIndex = destIndexPath;
-        
-        self.isRelocationed = YES;
-    }
-}
-
-- (void)longClickCell:(UILongPressGestureRecognizer *)sender
-{
-    //NSLog();
-    
-    if (sender.state == UIGestureRecognizerStateBegan){
-        [self longClickGestureBegin:sender];
-    }
-    else if (sender.state == UIGestureRecognizerStateEnded){
-        [self longClickGestureEnd:sender];
-    }
-    else if( sender.state == UIGestureRecognizerStateChanged ) {
-        [self longClickGestureMove:sender];
-    }
-}
-
+#pragma mark - UIMenuController handler
 // becomeFirstResponder에서 호출되어 YES 리턴시 화면에 표시
 -(BOOL)canBecomeFirstResponder{
     return YES;
@@ -421,6 +424,7 @@ static const int TAG_CELL_IMAGE = 2;
 
 - (void)actionDelete:(id)sender {
     NSLog(@"delete Clicked");
+    return;
     [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
            withOkButtonAction:^(UIAlertAction *action) {
                [self.dataManager deleteBookmarkAtIndex:self.selectedIndex.row];
@@ -430,7 +434,7 @@ static const int TAG_CELL_IMAGE = 2;
                for(int i = 0; i < self.dataManager.count; ++i) {
                    [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
                }
-
+               
                [self.collectionView reloadData];
            }
        withCancelButtonAction:nil];
@@ -438,6 +442,7 @@ static const int TAG_CELL_IMAGE = 2;
 
 - (void)actionEdit:(id)sender {
     NSLog(@"edit Clicked");
+    return;
     //[self performSegueWithIdentifier:@"EditBookmark" sender:nil];
     //return;
     AddPageViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"AddPageView"];
@@ -452,7 +457,7 @@ static const int TAG_CELL_IMAGE = 2;
         for(int i = 0; i < self.dataManager.count; ++i) {
             [self.listOfBookmark addObject:[self.dataManager bookmarkAtIndex:i]];
         }
- 
+        
         [self.collectionView reloadData];
     };
     
@@ -464,6 +469,49 @@ static const int TAG_CELL_IMAGE = 2;
         NSLog("present completion");
     }];
 }
+
+
+#pragma mark - gesture callback
+- (void)longClickCell:(UILongPressGestureRecognizer *)sender
+{
+    NSLog();
+    if (sender.state == UIGestureRecognizerStateBegan){
+        NSLog(@"long press began");
+        // 셀을 선택하였는지 확인
+        NSIndexPath *index = [self.collectionView indexPathForItemAtPoint:[sender locationInView:self.collectionView]];
+        if( index == nil ) {
+            // 셀 이외의 영역을 선택한 경우
+            [self stopMovingIcon];
+            return;
+        }
+        
+        // 셀을 클랙한 경우
+        
+        // 처음으로 아이콘 이동모드로 진입한 경우
+        if( !self.isShakeIcons ) {
+            // 아이콘 위치 이동 상태 초기화
+            self.isRelocationed = NO;
+            
+            // 다음 클릭은 바로 이벤트 발생
+            self.longPressGesture.minimumPressDuration = 0.0;
+        }
+        
+        // 아이콘 선택 작업
+        [self selectIcon:index];
+        
+        // 아이콘 이동 추적을 위한 좌표 저장
+        self.pointPrev = [sender locationInView:self.view];
+    }
+    else if( self.isShakeIcons && sender.state == UIGestureRecognizerStateChanged ) {
+        //NSLog(@"long press changed");
+        [self movingIcon:[sender locationInView:self.view]];
+    }
+    else if (self.isShakeIcons && sender.state == UIGestureRecognizerStateEnded){
+        NSLog(@"long press ended");
+        [self finishedMovingIcon];
+    }
+}
+
 
 #pragma mark - SearchResultsUpdating
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
