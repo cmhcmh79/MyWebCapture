@@ -16,6 +16,7 @@
 		306629671C2E7A070050405A /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 306629601C2E7A070050405A /* home.png */; };
 		306629681C2E7A070050405A /* literature.png in Resources */ = {isa = PBXBuildFile; fileRef = 306629611C2E7A070050405A /* literature.png */; };
 		306629691C2E7A070050405A /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 306629621C2E7A070050405A /* refresh.png */; };
+		3088A94B1C37A31B00700CA8 /* CapturedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088A94A1C37A31B00700CA8 /* CapturedData.m */; };
 		309F44411C2507A700CCC615 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44401C2507A700CCC615 /* main.m */; };
 		309F44441C2507A700CCC615 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44431C2507A700CCC615 /* AppDelegate.m */; };
 		309F44471C2507A700CCC615 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F44461C2507A700CCC615 /* ViewController.m */; };
@@ -64,6 +65,8 @@
 		306629601C2E7A070050405A /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = image/home.png; sourceTree = "<group>"; };
 		306629611C2E7A070050405A /* literature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = literature.png; path = image/literature.png; sourceTree = "<group>"; };
 		306629621C2E7A070050405A /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh.png; path = image/refresh.png; sourceTree = "<group>"; };
+		3088A9491C37A31B00700CA8 /* CapturedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapturedData.h; sourceTree = "<group>"; };
+		3088A94A1C37A31B00700CA8 /* CapturedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapturedData.m; sourceTree = "<group>"; };
 		309F443C1C2507A700CCC615 /* MyWebCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWebCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		309F44401C2507A700CCC615 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		309F44421C2507A700CCC615 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -162,6 +165,8 @@
 				3034333A1C2979D30080FA6D /* BookmarkViewController.h */,
 				3034333B1C2979D30080FA6D /* BookmarkViewController.m */,
 				30E0EE851C28188B00451512 /* DataManager.h */,
+				3088A9491C37A31B00700CA8 /* CapturedData.h */,
+				3088A94A1C37A31B00700CA8 /* CapturedData.m */,
 				30E0EE861C28188B00451512 /* DataManager.m */,
 				30C918AB1C252934005595AD /* AddPageViewController.h */,
 				30C918AC1C252934005595AD /* AddPageViewController.m */,
@@ -368,6 +373,7 @@
 				309F44411C2507A700CCC615 /* main.m in Sources */,
 				30EB8E3E1C26A1800042E97E /* SQLite3Class.m in Sources */,
 				30C918AD1C252934005595AD /* AddPageViewController.m in Sources */,
+				3088A94B1C37A31B00700CA8 /* CapturedData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

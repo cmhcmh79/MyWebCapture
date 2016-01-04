@@ -19,7 +19,6 @@
 @property (nonatomic) int position;
 @end
 
-
 @interface DataManager : NSObject
 
 @property (getter=getCount, readonly, nonatomic) NSUInteger count;     // 북마크 개수
@@ -31,7 +30,7 @@
 - (instancetype)init;
 - (void)dealloc;
 
-#pragma mark - public method
+#pragma mark - public method (bookmark)
 /**
  * 새로운 북마크를 마지막에 추가, 실패시 0보다 작은값 리턴
  */
