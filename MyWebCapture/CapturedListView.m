@@ -8,6 +8,14 @@
 
 #import "CapturedListView.h"
 
+/**
+ *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
+ */
+static const int TAG_CELL_IMAGE = 101;
+static const int TAG_CELL_TITLE = 102;
+static const int TAG_CELL_URL   = 103;
+static const int TAG_CELL_DATE  = 104;
+
 @interface CapturedListView ()
 
 @end
@@ -38,7 +46,12 @@
 
 #pragma mark - table view
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 4;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -51,11 +64,17 @@
     if( cell == nil ) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
+
+    UIImageView *imageView = [cell viewWithTag:TAG_CELL_IMAGE];
+    UILabel *labelTitle = [cell viewWithTag:TAG_CELL_TITLE];
+    UILabel *labelURL = [cell viewWithTag:TAG_CELL_URL];
+    UILabel *labelDate = [cell viewWithTag:TAG_CELL_DATE];
     
-    cell.textLabel.text = @"capture ....";
-    cell.imageView.layer.backgroundColor = [UIColor blackColor].CGColor;
-    
-    // Configure the cell...
+    imageView.image = [UIImage imageNamed:@"picture.png"];
+    labelTitle.text = @"Title...";
+    labelURL.text = @"http://.....";
+    labelDate.text = @"2016/1/1...";
+
     return cell;
 }
 

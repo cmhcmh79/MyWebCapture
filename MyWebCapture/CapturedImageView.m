@@ -38,6 +38,7 @@
 #pragma mark - button event
 
 - (IBAction)pressedBackButton:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)pressedDeleteButton:(id)sender {
 }
