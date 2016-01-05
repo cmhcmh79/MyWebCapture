@@ -300,6 +300,11 @@ static DataManager *MyInstance = nil;
         
         // 기본 설정값 추가
         
+        // DB 버전 입력
+        if([self insertSettingNames:@[DBSettingNameSchema]
+                         withValues:@[[NSString stringWithFormat:@"%i", DB_SCHEMA_VERION]] ] < 0 )
+            return -3;
+        
         // 기본 북마크 정보 추가
         NSArray *defaultTitle = [NSArray arrayWithObjects:@"Google", @"NAVER", @"Daum", nil];
         NSArray *defaultURL = [NSArray arrayWithObjects:@"http://www.google.co.kr",
