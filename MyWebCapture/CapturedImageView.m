@@ -7,8 +7,12 @@
 //
 
 #import "CapturedImageView.h"
+#import "IOSUtils.h"
 
 @interface CapturedImageView ()
+
+@property (strong, nonatomic) UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
@@ -18,6 +22,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // 이미지 뷰 생성
+    UIImage *image = [UIImage imageWithContentsOfFile:[IOSUtils pathDocumentsWithFilename:self.capturedData.filename]];
+    self.imageView = [[UIImageView alloc] initWithImage:image];
+    [self.scrollView addSubview:self.imageView];
+    self.scrollView.contentSize = image.size;
+
+    NSLog(@"file:%@ size:%f.1,%f.1", self.capturedData.filename, image.size.width, image.size.height);
 }
 
 - (void)didReceiveMemoryWarning {

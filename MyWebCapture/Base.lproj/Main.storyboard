@@ -245,6 +245,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Captured" image="instagram.png" id="JUX-mi-pIu"/>
+                    <connections>
+                        <outlet property="tableView" destination="LGS-eP-aee" id="z7Z-3x-IlA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="umg-3e-2J8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -319,6 +322,9 @@
                             <constraint firstItem="eE2-qd-GcL" firstAttribute="leading" secondItem="N1U-lY-kRz" secondAttribute="leading" id="nfp-aU-nPg"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="wlq-yZ-epw" id="CVm-X0-WcF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3R0-s6-jqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,6 +9,7 @@
 #import "CapturedListView.h"
 #import "DataManager.h"
 #import "IOSUtils.h"
+#import "CapturedImageView.h"
 
 /**
  *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
@@ -21,6 +22,7 @@ static const int TAG_CELL_DATE  = 104;
 @interface CapturedListView ()
 
 @property (strong, nonatomic) DataManager *dataManager;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 @end
 
 @implementation CapturedListView
@@ -38,8 +40,14 @@ static const int TAG_CELL_DATE  = 104;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog();
+    [self.dataManager readCapturedData];
+}
 
 #pragma mark - Navigation
 
@@ -47,6 +55,10 @@ static const int TAG_CELL_DATE  = 104;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    CapturedImageView *dest = [segue destinationViewController];
+    UITableViewCell *cell = sender;
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    dest.capturedData = self.dataManager.capturedDatas[indexPath.row];
 }
 
 
@@ -70,11 +82,14 @@ static const int TAG_CELL_DATE  = 104;
     if( cell == nil ) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-
+    
     UIImageView *imageView = [cell viewWithTag:TAG_CELL_IMAGE];
     UILabel *labelTitle = [cell viewWithTag:TAG_CELL_TITLE];
     UILabel *labelURL = [cell viewWithTag:TAG_CELL_URL];
     UILabel *labelDate = [cell viewWithTag:TAG_CELL_DATE];
+    
+    imageView.layer.borderColor = [UIColor blueColor].CGColor;
+    imageView.layer.borderWidth = 1.0;
 
     /*
     imageView.image = [UIImage imageNamed:@"picture.png"];

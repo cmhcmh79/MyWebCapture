@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataManager.h"
 
 @interface CapturedImageView : UIViewController
+
+@property (strong, nonatomic) CapturedData *capturedData;
 
 @end
