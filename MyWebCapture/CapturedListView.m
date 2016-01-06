@@ -7,6 +7,7 @@
 //
 
 #import "CapturedListView.h"
+#import "DataManager.h"
 
 /**
  *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
@@ -18,6 +19,7 @@ static const int TAG_CELL_DATE  = 104;
 
 @interface CapturedListView ()
 
+@property (strong, nonatomic) DataManager *dataManager;
 @end
 
 @implementation CapturedListView
@@ -27,6 +29,9 @@ static const int TAG_CELL_DATE  = 104;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.dataManager = [DataManager GetSingleInstance];
+    [self.dataManager readCapturedData];
+    NSLog("captured count:%li", self.dataManager.capturedDatas.count);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +51,7 @@ static const int TAG_CELL_DATE  = 104;
 
 #pragma mark - table view
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.dataManager.capturedDatas.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,11 +74,16 @@ static const int TAG_CELL_DATE  = 104;
     UILabel *labelTitle = [cell viewWithTag:TAG_CELL_TITLE];
     UILabel *labelURL = [cell viewWithTag:TAG_CELL_URL];
     UILabel *labelDate = [cell viewWithTag:TAG_CELL_DATE];
-    
+
+    /*
     imageView.image = [UIImage imageNamed:@"picture.png"];
     labelTitle.text = @"Title...";
     labelURL.text = @"http://.....";
     labelDate.text = @"2016/1/1...";
+     */
+    labelTitle.text = self.dataManager.capturedDatas[indexPath.row].title;
+    labelURL.text = self.dataManager.capturedDatas[indexPath.row].url;
+    labelDate.text = self.dataManager.capturedDatas[indexPath.row].datetime;
 
     return cell;
 }

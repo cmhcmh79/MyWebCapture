@@ -8,13 +8,14 @@
 
 #import "DataManager.h"
 #import "SQLite3Class.h"
+#import "IOSUtils.h"
 
 static NSString * const DBFileName = @"Bookmarks";
 
 /**
  * 현재 DB 스키마 버전
  */
-static const int DB_SCHEMA_VERION = 1;
+static const int DB_SCHEMA_VERION = 2;
 
 /**
  * 설정 내용 저장 이름
@@ -45,43 +46,8 @@ static NSString * const DBSettingNameSchema = @"schema_version";
 @property (strong, nonatomic) SQLite3Class *database;
 @property (strong, nonatomic, readonly) NSString *documentsDirectory;
 
-#if 0
-/**
- * 주어진 번호를 이용하여 아이콘 이름을 생성한다.
- */
-- (NSString *) iconNameWithNumber:(int)no;
-
-/**
- * 북마크 정보를 DB에서 읽어오고 아이콘 이미지도 생성한다.
- */
-- (int)loadAllFromFile:(NSString *)filepath;
-
-/**
- * 데이터를 저장할 DB 테이블을 생성한다.
- */
-- (int)createDBTable;
-
-/**
- * DB에서 모든 북마크정보를 읽어온다.
- * 읽은 데이터의 개수를 반환한다. 실패시 0보다 작은 값을 리턴
- */
-- (int)readAllData;
-
-/**
- * DB에 새로운 데이터를 추가한다. 추가된 데이터의 no 값을 리턴한다.
- */
-- (int)insertData:(BookmarkData *)data;
-
-/**
- * DB에 데이터 업데이트, 실패시 0보다 작은 값을 리턴한다.
- */
-- (int)updateData:(BookmarkData *)data;
-
-/**
- * DB에서 데이터를 삭제한다. 실패시 0보다 작은 값 리턴
- */
-- (int)deleteData:(BookmarkData *)data;
-#endif
+// 갭쳐 데이터
+@property (strong, nonatomic) NSMutableArray<CapturedData *> *listCapturedDatas;
 
 @end
 
@@ -124,10 +90,125 @@ static DataManager *MyInstance = nil;
 #pragma mark - getter
 - (NSUInteger)getCount
 {
-    return self.listBookmark.count;
+    return _listBookmark.count;
 }
 
-#pragma mark - pubic method
+- (id)getCapturedDatas{
+    return _listCapturedDatas;
+}
+
+#pragma mark - public method (captured data)
+
+/**
+ * 갭쳐 데이터를 주어진 항목을 기준으로 정렬하여 읽어온다.
+ */
+- (int)readCapturedData
+{
+    return [self readCapturedDataOrderby:nil withAscending:YES];
+}
+- (int)readCapturedDataOrderby:(NSString *)order withAscending :(BOOL)isAscending
+{
+    int result = 0;
+    self.listCapturedDatas = [[NSMutableArray alloc] init];
+    
+    @try {
+        [self.database openAndTransaction];
+        NSString *dir = (isAscending) ? @"ASC" : @"DESC";
+        NSString *column;
+        if( [order isEqualToString:@"time"] ) {
+            // 날짜 기준으로 정렬
+            column = @"time";
+        }
+        else {
+            // 그밖의 경우 제목 기준으로 정렬
+            column = @"title, url";
+        }
+        
+        RecordSet *set = [self.database
+                          executeWithSQL:[NSString
+                                          stringWithFormat:@"select no, title, url, filename, isfull, time "
+                                          " from CapturedDataTable order by %@ %@ ", column, dir]];
+        while( set && !set.endOfRecord ) {
+            CapturedData *captured = [[CapturedData alloc] init];
+            RecordData *data = [set getCollectDataAtColumnName:@"no"];
+            if( data && !data.null )
+                captured.no = data.intValue;
+
+            data = [set getCollectDataAtColumnName:@"title"];
+            if( data && !data.null )
+                captured.title = data.stringValue;
+
+            data = [set getCollectDataAtColumnName:@"url"];
+            if( data && !data.null )
+                captured.url = data.stringValue;
+            
+            data = [set getCollectDataAtColumnName:@"filename"];
+            if( data && !data.null )
+                captured.filename = data.stringValue;
+            
+            data = [set getCollectDataAtColumnName:@"isfull"];
+            if( data && !data.null )
+                captured.fullScreen = data.intValue;
+            
+            data = [set getCollectDataAtColumnName:@"time"];
+            if( data && !data.null )
+                captured.datetime = data.stringValue;
+            
+            [self.listCapturedDatas addObject:captured];
+            
+            [set next];
+            ++result;
+        }
+        
+        [self.database closeBeforCommit];
+    }
+    @catch (NSException *exception) {
+        [self.database closeBeforRollback];
+        NSLog(@"[exception] %@ > %@", exception.name, exception.reason);
+        result = -1;
+    }
+    
+    return result;
+}
+
+/**
+ * 새로운 갭처 데이터를 추가한다.
+ */
+- (int)addCapturedData:(CapturedData *)data withImage:(UIImage *)image
+{
+    // DB에 추가
+    if( [self insertCapturedData:data] < 0 )
+        return -1;
+    
+    // 갭쳐 이미지 파일 저장
+    NSString *pathImage = [IOSUtils pathDocumentsWithFilename:data.filename];
+    NSData *dataImage = UIImagePNGRepresentation(image);
+    BOOL isSaved = [dataImage writeToFile:pathImage atomically:YES];
+    NSLog(@"%@ saved(%i)", data.filename, isSaved);
+    if( !isSaved )
+        return -2;
+    
+    // 리스트에 추가
+    [self.listCapturedDatas addObject:data];
+
+    return 0;
+}
+
+/**
+ * 주어진 갭처 데이터를 삭제한다.
+ */
+- (int)deleteCapturedData:(CapturedData *)data
+{
+    // DB에서 삭제
+    
+    // 이미지 파일 삭제
+    
+    // 리스트에서 삭제
+    
+    return 0;
+}
+
+#pragma mark - pubic method (bookmark)
 /**
  * 새로운 북마크를 마지막에 추가
  */
@@ -332,6 +413,8 @@ static DataManager *MyInstance = nil;
                 return -12;
         }
         
+        // DB 버전 2는 갭체 테이블 생성(다른 동작 없음)
+        
         // DB 버번 정보를 업데이트 한다.
         if([self updateSettingValues:@[[NSString stringWithFormat:@"%i", DB_SCHEMA_VERION]]
                              atNames:@[DBSettingNameSchema]]  < 0)
@@ -380,6 +463,12 @@ static DataManager *MyInstance = nil;
                                        " BookmarkTable ( no INTEGER PRIMARY KEY, "
                                        " url TEXT, title TEXT, iconfile TEXT, position INTEGER,time TEXT );" ];
         
+        // 갭쳐 데이터 테이블
+        [self.database executeWithSQL:@" create table if not exists "
+                                       " CapturedDataTable ( no INTEGER PRIMARY KEY, "
+                                        " title TEXT, url TEXT, filename TEXT, isfull BOOL, time TEXT );" ];
+        
+        
         [self.database closeBeforCommit];
     }
     @catch (NSException *exception) {
@@ -403,6 +492,7 @@ static DataManager *MyInstance = nil;
     @try {
         [self.database openAndTransaction];
         
+        // 북마크 리스트 읽기
         RecordSet *set = [self.database executeWithSQL:@"select no, url, title, iconfile, position "
                                                         " from BookmarkTable order by position; " ];
         while( set && !set.endOfRecord ) {
@@ -615,6 +705,48 @@ static DataManager *MyInstance = nil;
     return value;
 }
 
+#pragma mark - private method (captured data)
+- (NSString *)capturedImageNameWithNumber:(int)no
+{
+    return [NSString stringWithFormat:@"captured-%i.png", no];
+}
+
+- (int)insertCapturedData:(CapturedData *)captured
+{
+    @try {
+        [self.database openAndTransaction];
+        
+        // 갭쳐 데이터 삽입
+        RecordSet *set =
+        [self.database executeWithSQL:[NSString stringWithFormat:
+                                       @" insert into CapturedDataTable (title, url, isfull, time) "
+                                       " values('%@', '%@', %i, datetime('now', 'localtime') ); "
+                                       " select no from CapturedDataTable where no = last_insert_rowid(); ",
+                                       captured.title, captured.url, captured.fullScreen ] ];
+        // 파일 이름 업데이트
+        if( set && !set.endOfRecord ) {
+            RecordData *data = [set getCollectDataAtColumnName:@"no"];
+            if( data && !data.null ) {
+                captured.no = data.intValue;
+                captured.filename = [self capturedImageNameWithNumber:captured.no];
+                [self.database executeWithSQL:[NSString stringWithFormat:
+                                               @" update CapturedDataTable set "
+                                               " filename = '%@' where no = %i ;" , captured.filename, captured.no]];
+            }
+        }
+        
+        [self.database closeBeforCommit];
+    }
+    @catch(NSException *exception) {
+        [self.database closeBeforRollback];
+        NSLog(@"[exception] %@ > %@", exception.name, exception.reason);
+        return -1;
+    }
+    
+    return 0;
+}
+
+#pragma mark - DB schema update
 /**
  * DB 스키마를 0->1로 업데이트한다.
  */

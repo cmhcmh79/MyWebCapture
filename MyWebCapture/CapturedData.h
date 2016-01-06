@@ -18,8 +18,10 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *url;
 @property (strong, nonatomic) NSString *datetime;
-@property (nonatomic) BOOL fullScreen;      /// 풀스크린을 갭쳐한 경우 YES 입력
-@property (strong, nonatomic) NSString *filename;   // 갭쳐한 이미지를 저장한 파일 이름
+/// 풀스크린을 갭쳐한 경우 YES 입력
+@property (nonatomic) BOOL fullScreen;
+/// 갭쳐한 이미지를 저장한 파일 이름
+@property (strong, nonatomic) NSString *filename;
 
 
 @end

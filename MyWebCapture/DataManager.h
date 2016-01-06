@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "CapturedData.h"
 
 @interface BookmarkData : NSObject <NSCopying>
 
@@ -23,12 +24,33 @@
 
 @property (getter=getCount, readonly, nonatomic) NSUInteger count;     // 북마크 개수
 
+// 갭쳐 데이터 읽기
+@property (strong, nonatomic, readonly, getter=getCapturedDatas) NSArray<CapturedData *> *capturedDatas;
+
 #pragma mark - class method
 + (DataManager *)GetSingleInstance;
 
 #pragma mark - life cycle
 - (instancetype)init;
 - (void)dealloc;
+
+#pragma mark - public method (captured data)
+/**
+ * 갭쳐 데이터를 주어진 항목을 기준으로 정렬하여 읽어온다.
+ */
+- (int)readCapturedData;
+- (int)readCapturedDataOrderby:(NSString *)order withAscending :(BOOL)isAscending ;
+
+/**
+ * 새로운 갭처 데이터를 추가한다.
+ */
+- (int)addCapturedData:(CapturedData *)data withImage:(UIImage *)image;
+
+/**
+ * 주어진 갭처 데이터를 삭제한다.
+ */
+- (int)deleteCapturedData:(CapturedData *)data;
+
 
 #pragma mark - public method (bookmark)
 /**

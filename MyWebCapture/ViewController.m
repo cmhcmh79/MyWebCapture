@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
+@property (strong, nonatomic) DataManager *dataManager;
+
 @end
 
 @implementation ViewController
@@ -31,6 +33,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     NSLog(@"View Controller Load");
+    self.dataManager = [DataManager GetSingleInstance];
+    
     
     NSURL *url = nil;
     self.updateBookmark = NO;
@@ -351,12 +355,19 @@
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
+    //UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
     
     [self.webPage setFrame:webFrame];
-
+    
+    // 캡쳐 데이터 저장
+    CapturedData *captured = [[CapturedData alloc] init];
+    captured.title = [self.webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
+    captured.url = self.searchBar.text;
+    captured.fullScreen = NO;
+    [self.dataManager addCapturedData:captured withImage:viewImage];
+    
     [self.activityIndicator stopAnimating];
-    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Photos Album" onViewController:self ];
+    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Captured Imaage" onViewController:self ];
 }
 
 // 웹페이지 모두 갭쳐
@@ -382,18 +393,19 @@
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
-    
-    // 이미지를 파일로 저장
-    NSString *pathImage = [IOSUtils pathDocumentsWithFilename:@"capture.png"];
-    NSData *dataImage = UIImagePNGRepresentation(viewImage);
-    BOOL isSaved = [dataImage writeToFile:pathImage atomically:YES];
-    NSLog(@"saved(%i) %@", isSaved, pathImage);
-    
     [self.webPage setFrame:webFrame];
     
+    //UIImageWriteToSavedPhotosAlbum(viewImage, nil, nil, nil);
+    
+    // 캡쳐 데이터 저장
+    CapturedData *captured = [[CapturedData alloc] init];
+    captured.title = [self.webPage stringByEvaluatingJavaScriptFromString:@"document.title"];
+    captured.url = self.searchBar.text;
+    captured.fullScreen = YES;
+    [self.dataManager addCapturedData:captured withImage:viewImage];
+    
     [self.activityIndicator stopAnimating];
-    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Photos Album" onViewController:self ];
+    [IOSUtils messageBoxTitle:nil withMessage:@"Saved Captured Imaage" onViewController:self ];
 }
 
 @end
