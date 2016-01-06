@@ -8,6 +8,7 @@
 
 #import "CapturedListView.h"
 #import "DataManager.h"
+#import "IOSUtils.h"
 
 /**
  *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
@@ -81,9 +82,12 @@ static const int TAG_CELL_DATE  = 104;
     labelURL.text = @"http://.....";
     labelDate.text = @"2016/1/1...";
      */
-    labelTitle.text = self.dataManager.capturedDatas[indexPath.row].title;
-    labelURL.text = self.dataManager.capturedDatas[indexPath.row].url;
-    labelDate.text = self.dataManager.capturedDatas[indexPath.row].datetime;
+    CapturedData *captured = self.dataManager.capturedDatas[indexPath.row];
+    labelTitle.text = captured.title;
+    labelURL.text = captured.url;
+    labelDate.text = captured.datetime;
+    UIImage *image = [UIImage imageWithContentsOfFile:[IOSUtils pathDocumentsWithFilename:captured.filename]];
+    imageView.image = image;
 
     return cell;
 }
