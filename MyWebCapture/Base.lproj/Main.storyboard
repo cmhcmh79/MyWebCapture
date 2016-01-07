@@ -145,7 +145,25 @@
                                     <constraint firstAttribute="height" constant="44" id="i4T-La-Jn6"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Order by Title" id="w0m-tn-Ulw"/>
+                                    <barButtonItem title="Order by Title" id="w0m-tn-Ulw">
+                                        <connections>
+                                            <action selector="pressedOrderButton:" destination="gvQ-6l-Paj" id="fTx-nV-vpX"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="saV-rY-B3C"/>
+                                    <barButtonItem title="Item" style="plain" id="Rgm-KL-ygu">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zf3-i3-Zdy">
+                                            <rect key="frame" x="550" y="10" width="30" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                            <state key="normal" title="Delete" image="trash.png">
+                                                <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="pressedDeleteButton:" destination="gvQ-6l-Paj" eventType="touchUpInside" id="3bd-w0-vTY"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LGS-eP-aee">
@@ -246,6 +264,7 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Captured" image="instagram.png" id="JUX-mi-pIu"/>
                     <connections>
+                        <outlet property="buttonOrder" destination="w0m-tn-Ulw" id="YXk-Fh-Yut"/>
                         <outlet property="tableView" destination="LGS-eP-aee" id="z7Z-3x-IlA"/>
                     </connections>
                 </viewController>
