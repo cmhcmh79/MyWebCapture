@@ -52,9 +52,10 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     self.selectedDir = 1;
     
     self.dataManager = [DataManager GetSingleInstance];
+    /*
     [self.dataManager readCapturedDataOrderby:[stringOrder[0][self.selectedOrder] lowercaseString]
                                 withAscending:[stringOrder[1][self.selectedDir] isEqualToString:stringOrder[1][0]]];
-    
+    */
     self.buttonOrder.title = [NSString stringWithFormat:@"Order by %@ %@",
                               stringOrder[0][self.selectedOrder],
                               stringOrder[1][self.selectedDir] ];
@@ -77,8 +78,16 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     
     [self.dataManager readCapturedDataOrderby:[stringOrder[0][self.selectedOrder] lowercaseString]
                                 withAscending:[stringOrder[1][self.selectedDir] isEqualToString:stringOrder[1][0]]];
-    
+    [self.tableView reloadData];
     NSLog("captured count:%li", self.dataManager.capturedDatas.count);
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // 삭제모드 정지
+    [self.tableView setEditing:NO animated:YES];
 }
 
 #pragma mark - Navigation
@@ -151,9 +160,19 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog();
+    
+    [self.dataManager deleteCapturedData:self.dataManager.capturedDatas[indexPath.row]];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+}
+
 #pragma mark - button action
 - (IBAction)pressedOrderButton:(id)sender {
     NSLog();
+    // 삭제 모드 해제
+    [self.tableView setEditing:NO animated:YES];
     
     // 모든 뷰 상태 disable 만들기
     for(UIView *subView in self.view.subviews) {
@@ -230,6 +249,7 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
 
 - (IBAction)pressedDeleteButton:(id)sender {
     NSLog();
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 
 #pragma mark - PickerView datasource , delegate

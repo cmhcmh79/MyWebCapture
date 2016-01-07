@@ -188,8 +188,8 @@ static DataManager *MyInstance = nil;
     if( !isSaved )
         return -2;
     
-    // 리스트에 추가
-    [self.listCapturedDatas addObject:data];
+    // 리스트에 추가 안함 -> read를 사용하여 정렬하여 다시 읽어야 함
+    //[self.listCapturedDatas addObject:data];
 
     return 0;
 }
@@ -200,10 +200,16 @@ static DataManager *MyInstance = nil;
 - (int)deleteCapturedData:(CapturedData *)data
 {
     // DB에서 삭제
+    if( [self deleteCapturedDataFromDB:data.no] < 0 )
+        return -1;
     
     // 이미지 파일 삭제
+    NSString *filepath = [IOSUtils pathDocumentsWithFilename:data.filename];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:filepath error:nil];
     
     // 리스트에서 삭제
+    [self.listCapturedDatas removeObject:data];
     
     return 0;
 }
@@ -743,6 +749,24 @@ static DataManager *MyInstance = nil;
         return -1;
     }
     
+    return 0;
+}
+
+- (int)deleteCapturedDataFromDB:(int)no
+{
+    @try {
+        [self.database openAndTransaction];
+        
+        [self.database executeWithSQL:[NSString stringWithFormat:
+                                       @" delete from CapturedDataTable where no = %i ", no ] ];
+        
+        [self.database closeBeforCommit];
+    }
+    @catch(NSException *exception) {
+        [self.database closeBeforRollback];
+        NSLog(@"[exception] %@ > %@", exception.name, exception.reason);
+        return -1;
+    }
     return 0;
 }
 
