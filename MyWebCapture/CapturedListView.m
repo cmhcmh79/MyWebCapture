@@ -89,7 +89,7 @@ static const int TAG_CELL_DATE  = 104;
     UILabel *labelDate = [cell viewWithTag:TAG_CELL_DATE];
     
     imageView.layer.borderColor = [UIColor blueColor].CGColor;
-    imageView.layer.borderWidth = 1.0;
+    imageView.layer.borderWidth = 0.5;
 
     /*
     imageView.image = [UIImage imageNamed:@"picture.png"];
@@ -101,8 +101,20 @@ static const int TAG_CELL_DATE  = 104;
     labelTitle.text = captured.title;
     labelURL.text = captured.url;
     labelDate.text = captured.datetime;
+    
+    // 이미지 로딩
     UIImage *image = [UIImage imageWithContentsOfFile:[IOSUtils pathDocumentsWithFilename:captured.filename]];
-    imageView.image = image;
+    
+    // 가로 스케일 기준으로 세로 길이 계산
+    CGFloat scale = imageView.frame.size.width / image.size.width;
+    CGFloat heigth = imageView.frame.size.height / scale;
+    
+    // 세로 길이로 잘라 표시
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage],
+                                                       CGRectMake(0, 0,
+                                                                  image.size.width,
+                                                                  (heigth < image.size.height) ? heigth: image.size.height));
+    imageView.image = [UIImage imageWithCGImage:imageRef];
 
     return cell;
 }
