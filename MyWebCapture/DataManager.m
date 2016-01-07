@@ -104,7 +104,7 @@ static DataManager *MyInstance = nil;
  */
 - (int)readCapturedData
 {
-    return [self readCapturedDataOrderby:nil withAscending:YES];
+    return [self readCapturedDataOrderby:@"time" withAscending:NO];
 }
 - (int)readCapturedDataOrderby:(NSString *)order withAscending :(BOOL)isAscending
 {
