@@ -10,6 +10,7 @@
 #import "DataManager.h"
 #import "IOSUtils.h"
 #import "CapturedImageView.h"
+#import "ViewController.h"
 
 /**
  *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
@@ -160,6 +161,12 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
                                                        CGRectMake(0, 0, image.size.width, MIN(heigth, image.size.height)));
     imageView.image = [UIImage imageWithCGImage:imageRef];
 
+    // 악세사리뷰에 버튼 추가
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    [button setImage:[UIImage imageNamed:@"domain.png"] forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, labelURL.frame.size.height, labelURL.frame.size.height);
+    [button addTarget:self action:@selector(pressedWebsiteButton:) forControlEvents:UIControlEventTouchUpInside];
+    cell.accessoryView = button;
     return cell;
 }
 
@@ -172,6 +179,18 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
 }
 
 #pragma mark - button action
+
+// 웹사이트 연결 버튼
+- (void)pressedWebsiteButton:(UIButton *)sender
+{
+    UITableViewCell *cell = (UITableViewCell *)[sender superview];
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    NSLog("web[%li]-%@", index.row, self.dataManager.capturedDatas[index.row].url);
+    ViewController *view = [self.storyboard instantiateViewControllerWithIdentifier:@"WebView"];
+    view.stringURL = self.dataManager.capturedDatas[index.row].url;
+    [self presentViewController:view animated:YES completion:nil];
+}
+
 - (IBAction)pressedOrderButton:(id)sender {
     NSLog();
     // 삭제 모드 해제
@@ -202,7 +221,7 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     [self.pickerView selectRow:self.selectedDir inComponent:1 animated:NO];
     
     // 버튼 생성
-    self.pickerButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.pickerButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.pickerButton.frame = CGRectMake(self.pickerView.frame.origin.x,
                               self.pickerView.frame.origin.y + self.pickerView.frame.size.height + 10,
                               self.pickerView.frame.size.width,
