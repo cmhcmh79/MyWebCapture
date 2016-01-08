@@ -173,9 +173,14 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog();
-    
-    [self.dataManager deleteCapturedData:self.dataManager.capturedDatas[indexPath.row]];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [IOSUtils messageBoxTitle:@"Really Delete?"
+                  withMessage:nil
+             onViewController:self
+       withCancelButtonAction:nil
+           withOkButtonAction:^(UIAlertAction *action) {
+               [self.dataManager deleteCapturedData:self.dataManager.capturedDatas[indexPath.row]];
+               [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+           } ];
 }
 
 #pragma mark - button action

@@ -50,8 +50,8 @@
 + (UIAlertController *)messageBoxTitle:(NSString *)title
                            withMessage:(NSString *)message
                       onViewController:(UIViewController *)view
-                    withOkButtonAction:(void (^)(UIAlertAction *action))okAction
                 withCancelButtonAction:(void (^)(UIAlertAction *action))cancelAction
+                    withOkButtonAction:(void (^)(UIAlertAction *action))okAction
 {
     UIAlertController *alert =
     [UIAlertController alertControllerWithTitle:title
@@ -66,8 +66,8 @@
                                                  style:UIAlertActionStyleDefault
                                                handler:cancelAction ];
     
-    [alert addAction:ok];
     [alert addAction:cancel];
+    [alert addAction:ok];
     
     [view presentViewController:alert animated:YES completion:nil];
     

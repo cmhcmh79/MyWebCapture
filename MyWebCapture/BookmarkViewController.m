@@ -424,7 +424,10 @@ static const int TAG_CELL_IMAGE = 2;
 
 - (void)actionDelete:(id)sender {
     NSLog(@"delete Clicked");
-    [IOSUtils messageBoxTitle:@"Delete bookmark?" withMessage:nil onViewController:self
+    [IOSUtils messageBoxTitle:@"Delete bookmark?"
+                  withMessage:nil
+             onViewController:self
+       withCancelButtonAction:nil
            withOkButtonAction:^(UIAlertAction *action) {
                // DB에서 삭제
                NSInteger indexOfData = [self.dataManager indexOfBookmark:self.listOfBookmark[self.selectedIndex.row]];
@@ -435,8 +438,7 @@ static const int TAG_CELL_IMAGE = 2;
                
                // 콜렉션 뷰 셀 삭제
                [self.collectionView deleteItemsAtIndexPaths:@[self.selectedIndex]];
-           }
-       withCancelButtonAction:nil];
+           } ];
 }
 
 - (void)actionEdit:(id)sender {

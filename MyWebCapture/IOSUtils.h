@@ -35,8 +35,9 @@
 + (UIAlertController *)messageBoxTitle:(NSString *)title
                            withMessage:(NSString *)message
                       onViewController:(UIViewController *)view
-                    withOkButtonAction:(void (^)(UIAlertAction *action))okAction
-                withCancelButtonAction:(void (^)(UIAlertAction *action))cancelAction ;
+                withCancelButtonAction:(void (^)(UIAlertAction *action))cancelAction
+                    withOkButtonAction:(void (^)(UIAlertAction *action))okAction ;
+
 
 /**
  * 앱에서 접근하는 다큐멘트 디렉토리를 확인한다.
