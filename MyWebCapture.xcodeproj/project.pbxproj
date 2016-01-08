@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3034333B1C2979D30080FA6D /* BookmarkViewController.m */; };
+		306B9CE81C3F67B20037CBA2 /* CZPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 306B9CE71C3F67B20037CBA2 /* CZPickerView.m */; };
 		3088A94B1C37A31B00700CA8 /* CapturedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088A94A1C37A31B00700CA8 /* CapturedData.m */; };
 		308CDAC51C3B7BAE0037AE56 /* action.png in Resources */ = {isa = PBXBuildFile; fileRef = 308CDAB91C3B7BAE0037AE56 /* action.png */; };
 		308CDAC61C3B7BAE0037AE56 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 308CDABA1C3B7BAE0037AE56 /* back.png */; };
@@ -63,6 +64,8 @@
 /* Begin PBXFileReference section */
 		3034333A1C2979D30080FA6D /* BookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookmarkViewController.h; sourceTree = "<group>"; };
 		3034333B1C2979D30080FA6D /* BookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkViewController.m; sourceTree = "<group>"; };
+		306B9CE61C3F67340037CBA2 /* CZPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CZPickerView.h; sourceTree = "<group>"; };
+		306B9CE71C3F67B20037CBA2 /* CZPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZPickerView.m; sourceTree = "<group>"; };
 		3088A9491C37A31B00700CA8 /* CapturedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapturedData.h; sourceTree = "<group>"; };
 		3088A94A1C37A31B00700CA8 /* CapturedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapturedData.m; sourceTree = "<group>"; };
 		308CDAB91C3B7BAE0037AE56 /* action.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = action.png; path = image/action.png; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 				309F44481C2507A700CCC615 /* Main.storyboard */,
 				308CDAD11C3B7ED20037AE56 /* CapturedListView.h */,
 				308CDAD21C3B7ED20037AE56 /* CapturedListView.m */,
+				306B9CE61C3F67340037CBA2 /* CZPickerView.h */,
+				306B9CE71C3F67B20037CBA2 /* CZPickerView.m */,
 				308CDAD41C3B7EE70037AE56 /* CapturedImageView.h */,
 				308CDAD51C3B7EE70037AE56 /* CapturedImageView.m */,
 				3034333A1C2979D30080FA6D /* BookmarkViewController.h */,
@@ -394,6 +399,7 @@
 				30BC2CBF1C314EC000FB267C /* IOSUtils.m in Sources */,
 				3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */,
 				309F44471C2507A700CCC615 /* ViewController.m in Sources */,
+				306B9CE81C3F67B20037CBA2 /* CZPickerView.m in Sources */,
 				309F44441C2507A700CCC615 /* AppDelegate.m in Sources */,
 				30E0EE871C28188B00451512 /* DataManager.m in Sources */,
 				30EB8E3D1C26A1800042E97E /* RecordSet.m in Sources */,
