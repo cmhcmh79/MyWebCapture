@@ -116,7 +116,7 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
 */
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"index-row:%li section:%li", indexPath.row, indexPath.section);
+    //NSLog(@"index-row:%li section:%li", indexPath.row, indexPath.section);
     UITableViewCell *cell;
     
     static NSString *cellID = @"CapturedCell";
@@ -144,6 +144,9 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     labelTitle.text = captured.title;
     labelURL.text = captured.url;
     labelDate.text = captured.datetime;
+    
+    NSLog(@"row[%li] label:%f-%f  cell:%f",
+          indexPath.row, labelURL.frame.origin.x, labelURL.frame.size.width, cell.frame.size.width);
     
     // 이미지 로딩
     UIImage *image = [UIImage imageWithContentsOfFile:[IOSUtils pathDocumentsWithFilename:captured.filename]];

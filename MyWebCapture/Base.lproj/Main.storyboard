@@ -151,14 +151,12 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="saV-rY-B3C"/>
-                                    <barButtonItem title="Item" style="plain" id="Rgm-KL-ygu">
+                                    <barButtonItem style="plain" id="Rgm-KL-ygu">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zf3-i3-Zdy">
                                             <rect key="frame" x="550" y="10" width="30" height="25"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                            <state key="normal" title="Delete" image="trash.png">
-                                                <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            </state>
+                                            <state key="normal" title="Delete" image="trash.png"/>
                                             <connections>
                                                 <action selector="pressedDeleteButton:" destination="gvQ-6l-Paj" eventType="touchUpInside" id="3bd-w0-vTY"/>
                                             </connections>
@@ -185,7 +183,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zgM-jx-kls">
-                                                    <rect key="frame" x="109" y="8" width="29" height="21"/>
+                                                    <rect key="frame" x="109" y="8" width="483" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="8yL-Fc-wI7"/>
                                                     </constraints>
@@ -194,7 +192,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="103" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="url" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyM-3X-Mqu">
-                                                    <rect key="frame" x="109" y="39" width="20" height="21"/>
+                                                    <rect key="frame" x="109" y="39" width="483" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="JyM-3X-Mqu" secondAttribute="height" multiplier="2:1" id="QVk-9P-vbq"/>
                                                         <constraint firstAttribute="height" constant="21" id="i1x-0N-YHf"/>
@@ -209,7 +207,7 @@
                                                     </variation>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="104" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIM-oZ-SfD">
-                                                    <rect key="frame" x="109" y="70" width="35" height="21"/>
+                                                    <rect key="frame" x="109" y="70" width="483" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="ouu-f0-S2u"/>
                                                     </constraints>
@@ -219,6 +217,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="JyM-3X-Mqu" secondAttribute="trailing" id="37D-rg-Pb6"/>
                                                 <constraint firstItem="BmG-xC-Fhy" firstAttribute="leading" secondItem="iro-ua-gzv" secondAttribute="leading" constant="1" id="3HT-vA-ASU"/>
                                                 <constraint firstItem="BmG-xC-Fhy" firstAttribute="top" secondItem="iro-ua-gzv" secondAttribute="top" constant="1" id="Bea-Gh-RU4"/>
                                                 <constraint firstItem="zgM-jx-kls" firstAttribute="top" secondItem="iro-ua-gzv" secondAttribute="topMargin" id="KLg-0r-VVR"/>
@@ -228,7 +227,9 @@
                                                 <constraint firstItem="zgM-jx-kls" firstAttribute="leading" secondItem="BmG-xC-Fhy" secondAttribute="trailing" constant="8" id="Z1D-xE-DWe"/>
                                                 <constraint firstItem="wIM-oZ-SfD" firstAttribute="bottom" secondItem="iro-ua-gzv" secondAttribute="bottomMargin" id="bs5-Jj-iIm"/>
                                                 <constraint firstItem="BmG-xC-Fhy" firstAttribute="top" secondItem="iro-ua-gzv" secondAttribute="topMargin" id="fVg-RN-gBW"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wIM-oZ-SfD" secondAttribute="trailing" id="fz2-ZI-xBz"/>
                                                 <constraint firstItem="BmG-xC-Fhy" firstAttribute="leading" secondItem="iro-ua-gzv" secondAttribute="leadingMargin" id="oR8-FC-csZ"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="zgM-jx-kls" secondAttribute="trailing" id="thc-cS-EGf"/>
                                                 <constraint firstItem="wIM-oZ-SfD" firstAttribute="leading" secondItem="BmG-xC-Fhy" secondAttribute="trailing" constant="8" id="uOG-9E-7TQ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="BmG-xC-Fhy" secondAttribute="bottom" id="xpH-vo-zhY"/>
                                             </constraints>
