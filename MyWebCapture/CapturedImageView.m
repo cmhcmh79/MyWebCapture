@@ -8,6 +8,7 @@
 
 #import "CapturedImageView.h"
 #import "IOSUtils.h"
+#import "ViewController.h"
 
 // 2메가픽셀
 static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
@@ -98,8 +99,25 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)pressedDeleteButton:(id)sender {
+    [IOSUtils messageBoxTitle:@"Really Deelte?"
+                  withMessage:nil
+             onViewController:self
+       withCancelButtonAction:nil
+           withOkButtonAction:^(UIAlertAction *action) {
+               [[DataManager GetSingleInstance] deleteCapturedData:self.capturedData];
+               [self dismissViewControllerAnimated:YES completion:nil];               
+           }];
 }
 - (IBAction)pressedWebsiteButton:(id)sender {
+    NSLog("web %@", self.capturedData.url);
+    ViewController *view = [self.storyboard instantiateViewControllerWithIdentifier:@"WebView"];
+    view.stringURL = self.capturedData.url;
+    /*
+    view.completionCallback = ^() {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    };
+     */
+    [self presentViewController:view animated:YES completion:nil];
 }
 
 #pragma mark - UIScrollViewDelegate
