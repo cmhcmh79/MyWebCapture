@@ -139,37 +139,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pih-e7-voq">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="i4T-La-Jn6"/>
-                                </constraints>
-                                <items>
-                                    <barButtonItem title="Order by Title" id="w0m-tn-Ulw">
-                                        <connections>
-                                            <action selector="pressedOrderButton:" destination="gvQ-6l-Paj" id="fTx-nV-vpX"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="saV-rY-B3C"/>
-                                    <barButtonItem style="plain" id="Rgm-KL-ygu">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Zf3-i3-Zdy">
-                                            <rect key="frame" x="550" y="10" width="30" height="25"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                            <state key="normal" title="Delete" image="trash.png"/>
-                                            <connections>
-                                                <action selector="pressedDeleteButton:" destination="gvQ-6l-Paj" eventType="touchUpInside" id="3bd-w0-vTY"/>
-                                            </connections>
-                                        </button>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LGS-eP-aee">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LGS-eP-aee">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CapturedCell" rowHeight="100" id="igb-AG-ZV3">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="igb-AG-ZV3" id="iro-ua-gzv">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
@@ -242,7 +217,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ABg-2z-5cF" kind="show" id="O3T-Mm-XpM"/>
+                                            <segue destination="ABg-2z-5cF" kind="show" id="vCn-Md-Uzv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -254,29 +229,49 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Pih-e7-voq" secondAttribute="trailing" id="Arx-gS-5Sg"/>
-                            <constraint firstItem="LGS-eP-aee" firstAttribute="top" secondItem="Pih-e7-voq" secondAttribute="bottom" id="Cjl-dv-9N6"/>
-                            <constraint firstItem="Pih-e7-voq" firstAttribute="top" secondItem="0M9-O8-Ax6" secondAttribute="bottom" id="Df0-Bl-lM2"/>
-                            <constraint firstItem="Pih-e7-voq" firstAttribute="leading" secondItem="QsC-TK-WOS" secondAttribute="leading" id="Eoh-op-qKm"/>
+                            <constraint firstItem="LGS-eP-aee" firstAttribute="top" secondItem="0M9-O8-Ax6" secondAttribute="bottom" id="0Dz-wL-5dY"/>
                             <constraint firstItem="Ph1-yq-CF3" firstAttribute="top" secondItem="LGS-eP-aee" secondAttribute="bottom" id="ExY-vB-nRN"/>
                             <constraint firstAttribute="trailing" secondItem="LGS-eP-aee" secondAttribute="trailing" id="Jlg-Z3-Jp2"/>
+                            <constraint firstItem="LGS-eP-aee" firstAttribute="top" secondItem="QsC-TK-WOS" secondAttribute="top" id="KGQ-b8-ZLH"/>
                             <constraint firstItem="LGS-eP-aee" firstAttribute="leading" secondItem="QsC-TK-WOS" secondAttribute="leading" id="mgs-uf-sMU"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="0Dz-wL-5dY"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Captured" image="instagram.png" id="JUX-mi-pIu"/>
+                    <tabBarItem key="tabBarItem" title="Captured" image="instagram.png" id="ixd-YC-Yrg"/>
+                    <navigationItem key="navigationItem" id="FsB-iv-bDY">
+                        <barButtonItem key="leftBarButtonItem" title="Order by Time Descending" id="VGg-gP-svf">
+                            <connections>
+                                <action selector="pressedOrderButton:" destination="gvQ-6l-Paj" id="f4H-5B-7mG"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="5xK-gR-GaR">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DCM-fg-0Rj">
+                                <rect key="frame" x="550" y="9" width="30" height="25"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="delete" image="trash.png"/>
+                                <connections>
+                                    <action selector="pressedDeleteButton:" destination="gvQ-6l-Paj" eventType="touchUpInside" id="K06-s2-jQg"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="buttonOrder" destination="w0m-tn-Ulw" id="YXk-Fh-Yut"/>
+                        <outlet property="buttonOrder" destination="VGg-gP-svf" id="RrY-eP-vtc"/>
                         <outlet property="tableView" destination="LGS-eP-aee" id="z7Z-3x-IlA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="umg-3e-2J8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="414" y="1050"/>
+            <point key="canvasLocation" x="1077" y="1026"/>
         </scene>
-        <!--Captured Image View-->
+        <!--Title-->
         <scene sceneID="zin-Gc-SgD">
             <objects>
-                <viewController id="ABg-2z-5cF" customClass="CapturedImageView" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="ABg-2z-5cF" customClass="CapturedImageView" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="F3o-bZ-siw"/>
                         <viewControllerLayoutGuide type="bottom" id="5Qi-Xa-14u"/>
@@ -285,50 +280,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eE2-qd-GcL">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="iD3-HE-oQw"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="Title" id="XF3-gO-8kK">
-                                        <barButtonItem key="leftBarButtonItem" id="YwM-fG-vbs">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K1K-Q1-WaG">
-                                                <rect key="frame" x="20" y="9" width="30" height="25"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Back" image="back.png"/>
-                                                <connections>
-                                                    <action selector="pressedBackButton:" destination="ABg-2z-5cF" eventType="touchUpInside" id="HLF-SM-Tsz"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                        <rightBarButtonItems>
-                                            <barButtonItem id="SG4-zo-OGR">
-                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="y0k-HV-LM0">
-                                                    <rect key="frame" x="550" y="9" width="30" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Delete" image="trash.png"/>
-                                                    <connections>
-                                                        <action selector="pressedDeleteButton:" destination="ABg-2z-5cF" eventType="touchUpInside" id="Ydx-8P-qti"/>
-                                                    </connections>
-                                                </button>
-                                            </barButtonItem>
-                                            <barButtonItem id="Pql-ak-cVf">
-                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zjS-IO-FKv">
-                                                    <rect key="frame" x="512" y="9" width="30" height="25"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" title="Website" image="domain.png"/>
-                                                    <connections>
-                                                        <action selector="pressedWebsiteButton:" destination="ABg-2z-5cF" eventType="touchUpInside" id="oK1-xa-9Fz"/>
-                                                    </connections>
-                                                </button>
-                                            </barButtonItem>
-                                        </rightBarButtonItems>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlq-yZ-epw">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="ABg-2z-5cF" id="a2g-HO-Neg"/>
                                 </connections>
@@ -336,23 +289,58 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="eE2-qd-GcL" secondAttribute="trailing" id="Akv-JN-13P"/>
                             <constraint firstItem="wlq-yZ-epw" firstAttribute="leading" secondItem="N1U-lY-kRz" secondAttribute="leading" id="BSe-JF-zzh"/>
                             <constraint firstAttribute="trailing" secondItem="wlq-yZ-epw" secondAttribute="trailing" id="C81-Ab-uEA"/>
-                            <constraint firstItem="eE2-qd-GcL" firstAttribute="top" secondItem="F3o-bZ-siw" secondAttribute="bottom" id="aEx-pX-m1N"/>
-                            <constraint firstItem="wlq-yZ-epw" firstAttribute="top" secondItem="eE2-qd-GcL" secondAttribute="bottom" id="dMM-lM-GLX"/>
+                            <constraint firstItem="wlq-yZ-epw" firstAttribute="bottom" secondItem="5Qi-Xa-14u" secondAttribute="top" id="EWW-ee-bH6"/>
+                            <constraint firstItem="wlq-yZ-epw" firstAttribute="top" secondItem="F3o-bZ-siw" secondAttribute="bottom" id="LwZ-ej-0ui"/>
+                            <constraint firstAttribute="bottom" secondItem="wlq-yZ-epw" secondAttribute="bottom" id="SDg-VN-aB2"/>
+                            <constraint firstItem="wlq-yZ-epw" firstAttribute="top" secondItem="F3o-bZ-siw" secondAttribute="bottom" id="THc-ou-ng9"/>
                             <constraint firstItem="5Qi-Xa-14u" firstAttribute="top" secondItem="wlq-yZ-epw" secondAttribute="bottom" id="nQt-7y-c7d"/>
-                            <constraint firstItem="eE2-qd-GcL" firstAttribute="leading" secondItem="N1U-lY-kRz" secondAttribute="leading" id="nfp-aU-nPg"/>
+                            <constraint firstItem="wlq-yZ-epw" firstAttribute="top" secondItem="N1U-lY-kRz" secondAttribute="top" id="u2I-OC-LgZ"/>
+                            <constraint firstItem="5Qi-Xa-14u" firstAttribute="top" secondItem="wlq-yZ-epw" secondAttribute="bottom" id="xGj-GP-zUJ"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="EWW-ee-bH6"/>
+                                <exclude reference="LwZ-ej-0ui"/>
+                                <exclude reference="THc-ou-ng9"/>
+                                <exclude reference="nQt-7y-c7d"/>
+                                <exclude reference="xGj-GP-zUJ"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="FuW-eB-Emp">
+                        <rightBarButtonItems>
+                            <barButtonItem id="RV2-Yj-D2v">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="V4l-Gd-6db">
+                                    <rect key="frame" x="550" y="9" width="30" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="delete" image="trash.png"/>
+                                    <connections>
+                                        <action selector="pressedDeleteButton:" destination="ABg-2z-5cF" eventType="touchUpInside" id="08f-qt-TKe"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem id="0F8-fD-Tw5">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ORP-bb-afA">
+                                    <rect key="frame" x="512" y="9" width="30" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="website" image="domain.png"/>
+                                    <connections>
+                                        <action selector="pressedWebsiteButton:" destination="ABg-2z-5cF" eventType="touchUpInside" id="s7I-hi-YQt"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
-                        <outlet property="navigationBar" destination="eE2-qd-GcL" id="iBa-uc-MZV"/>
+                        <outlet property="navigationItem" destination="FuW-eB-Emp" id="ajQ-1W-TED"/>
                         <outlet property="scrollView" destination="wlq-yZ-epw" id="CVm-X0-WcF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3R0-s6-jqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077" y="1050"/>
+            <point key="canvasLocation" x="1751" y="1026"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -590,7 +578,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="Zqp-yc-5uG">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="oZW-7d-I7M" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="oZW-7d-I7M" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="wnG-kr-FZM">
                         <autoresizingMask key="autoresizingMask"/>
@@ -598,12 +586,35 @@
                     </tabBar>
                     <connections>
                         <segue destination="7fF-uG-VKT" kind="relationship" relationship="viewControllers" id="Sdx-MM-zmc"/>
-                        <segue destination="gvQ-6l-Paj" kind="relationship" relationship="viewControllers" id="Kxz-bD-2oN"/>
+                        <segue destination="oUW-Ww-aLA" kind="relationship" relationship="viewControllers" id="lZY-9y-VhD"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3g8-VE-scs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-302" y="707"/>
+        </scene>
+        <!--Captured-->
+        <scene sceneID="jOk-pW-sbf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oUW-Ww-aLA" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Captured" image="instagram.png" id="CWA-VP-EY9"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qy8-E9-fhh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Fbq-Pp-H6b">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="gvQ-6l-Paj" kind="relationship" relationship="rootViewController" id="t8b-HT-f6g"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wtz-Qe-Brj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="414" y="1026"/>
         </scene>
     </scenes>
     <resources>

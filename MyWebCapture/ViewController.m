@@ -272,16 +272,18 @@
 - (IBAction)pressedHomeButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);
     
-    
-
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-        if( self.completionCallback ) {
-            self.completionCallback();
-        }
-        
-    }];
+    // 네비게이션 컨트롤 이용
+    if( self.navigationController ) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:^{
+            if( self.completionCallback ) {
+                self.completionCallback();
+            }
+            
+        }];
+    }
 }
 - (IBAction)pressedBackwardButton:(id)sender {
     NSLog(@"%s", __FUNCTION__);

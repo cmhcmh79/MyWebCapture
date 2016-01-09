@@ -74,13 +74,24 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self.dataManager readCapturedDataOrderby:[stringOrder[0][self.selectedOrder] lowercaseString]
                                 withAscending:[stringOrder[1][self.selectedDir] isEqualToString:stringOrder[1][0]]];
     [self.tableView reloadData];
     NSLog("captured count:%li", self.dataManager.capturedDatas.count);
+    
+    int count = 0;
+    for( UIViewController *view in self.navigationController.viewControllers ) {
+        NSLog(@"stack[%i] %@", count++ , NSStringFromClass([view class]));
+    }
+    
+    self.navigationController.navigationBarHidden = NO;
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog();
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -101,6 +112,7 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     UITableViewCell *cell = sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     dest.capturedData = self.dataManager.capturedDatas[indexPath.row];
+    //dest.hidesBottomBarWhenPushed = YES;
 }
 
 

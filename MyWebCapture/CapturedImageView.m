@@ -15,7 +15,7 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
 
 @interface CapturedImageView ()
 
-@property (strong, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (strong, nonatomic) IBOutlet UINavigationItem *navigationItem;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) UIView *scaleView;
@@ -30,7 +30,8 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
     // Do any additional setup after loading the view.
     
     // 타이틀 적용
-    self.navigationBar.topItem.title = self.capturedData.title;
+    //self.navigationBar.topItem.title = self.capturedData.title;
+    self.navigationItem.title = self.capturedData.title;
     
     // 이미지 뷰 생성
     UIImage *image = [UIImage imageWithContentsOfFile:[IOSUtils pathDocumentsWithFilename:self.capturedData.filename]];
@@ -76,6 +77,13 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
           self.scrollView.minimumZoomScale,
           self.scrollView.maximumZoomScale,
           self.scrollView.zoomScale);
+    
+    count = 0;
+    for( UIViewController *view in self.navigationController.viewControllers ) {
+        NSLog(@"stack[%i] %@", count++ , NSStringFromClass([view class]));
+    }
+    
+    //[self.tabBarController hi
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,7 +113,7 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
        withCancelButtonAction:nil
            withOkButtonAction:^(UIAlertAction *action) {
                [[DataManager GetSingleInstance] deleteCapturedData:self.capturedData];
-               [self dismissViewControllerAnimated:YES completion:nil];               
+               [self.navigationController popViewControllerAnimated:YES];
            }];
 }
 - (IBAction)pressedWebsiteButton:(id)sender {
@@ -117,7 +125,10 @@ static const CGFloat MEGAPIXCEL_2 = 1024 * 1024 * 2;
         [self dismissViewControllerAnimated:NO completion:nil];
     };
      */
-    [self presentViewController:view animated:YES completion:nil];
+    //[self presentViewController:view animated:YES completion:nil];
+    [self.navigationController pushViewController:view animated:YES];
+//    [self.navigationController setN]
+    self.navigationController.navigationBarHidden = YES;
 }
 
 #pragma mark - UIScrollViewDelegate
