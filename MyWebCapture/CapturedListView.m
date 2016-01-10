@@ -197,52 +197,6 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
            } ];
 }
 
-#pragma mark - CZPickerViewDataSource
-/* number of items for picker */
-- (NSInteger)numberOfRowsInPickerView:(CZPickerView *)pickerView
-{
-    return 12;
-}
-
-/*
- Implement at least one of the following method,
- czpickerView:(CZPickerView *)pickerView
- attributedTitleForRow:(NSInteger)row has higer priority
- */
-
-/* attributed picker item title for each row */
-/*
-- (NSAttributedString *)czpickerView:(CZPickerView *)pickerView
-               attributedTitleForRow:(NSInteger)row;
-*/
-/* picker item title for each row */
-- (NSString *)czpickerView:(CZPickerView *)pickerView titleForRow:(NSInteger)row
-{
-    //return stringOrder[0][row];
-    return [NSString stringWithFormat:@"string-%li", row];
-}
-
-#pragma mark - CZPickerViewDelegate
-/** delegate method for picking one item */
-- (void)czpickerView:(CZPickerView *)pickerView didConfirmWithItemAtRow:(NSInteger)row
-{
-    NSLog(@"row:%li", row);
-}
-
-/** delegate method for picking multiple items,
- implement this method if allowMultipleSelection is YES,
- rows is an array of NSNumbers
- */
-- (void)czpickerView:(CZPickerView *)pickerView didConfirmWithItemsAtRows:(NSArray *)rows
-{
-    NSLog();
-}
-/** delegate method for canceling */
-- (void)czpickerViewDidClickCancelButton:(CZPickerView *)pickerView
-{
-    NSLog();
-}
-
 #pragma mark - button action
 
 // 웹사이트 연결 버튼
@@ -264,6 +218,18 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     CZPickerMultiView *picker = [[CZPickerMultiView alloc] initWithHeaderTitle:@"Order"
                                                    cancelButtonTitle:@"Cancel"
                                                   confirmButtonTitle:@"Ok"];
+    NSArray *strings = [NSArray arrayWithObjects:stringOrder[0][0], stringOrder[0][1], nil];
+    [picker addStrings:strings withDefaultSelect:self.selectedOrder];
+    strings = [NSArray arrayWithObjects:stringOrder[1][0], stringOrder[1][1], nil];
+    [picker addStrings:strings withDefaultSelect:self.selectedDir];
+    
+    [picker setConfirmButtonAction:^(NSArray *selectedStrings, NSArray<NSNumber *> *selectedRows) {
+        self.selectedOrder = selectedRows[0].longValue;
+        self.selectedDir = selectedRows[1].longValue;
+        [self.dataManager readCapturedDataOrderby:[stringOrder[0][self.selectedOrder] lowercaseString]
+                                    withAscending:[stringOrder[1][self.selectedDir] isEqualToString:stringOrder[1][0]]];
+        [self.tableView reloadData];        
+    }];
     [picker show];
 }
 
