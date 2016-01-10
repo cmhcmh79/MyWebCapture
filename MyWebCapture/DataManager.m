@@ -117,17 +117,17 @@ static DataManager *MyInstance = nil;
         NSString *column;
         if( [order isEqualToString:@"time"] ) {
             // 날짜 기준으로 정렬
-            column = @"time";
+            column = [NSString stringWithFormat:@"time %@", dir];
         }
         else {
             // 그밖의 경우 제목 기준으로 정렬
-            column = @"title, url";
+            column = [NSString stringWithFormat:@"title %@, url %@", dir, dir];
         }
         
         RecordSet *set = [self.database
                           executeWithSQL:[NSString
                                           stringWithFormat:@"select no, title, url, filename, isfull, time "
-                                          " from CapturedDataTable order by %@ %@ ", column, dir]];
+                                          " from CapturedDataTable order by %@ ", column]];
         while( set && !set.endOfRecord ) {
             CapturedData *captured = [[CapturedData alloc] init];
             RecordData *data = [set getCollectDataAtColumnName:@"no"];

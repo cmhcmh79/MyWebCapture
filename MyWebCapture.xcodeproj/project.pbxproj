@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3034333C1C2979D30080FA6D /* BookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3034333B1C2979D30080FA6D /* BookmarkViewController.m */; };
 		306B9CE81C3F67B20037CBA2 /* CZPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 306B9CE71C3F67B20037CBA2 /* CZPickerView.m */; };
+		306B9CEB1C3F76050037CBA2 /* CZPickerMultiView.m in Sources */ = {isa = PBXBuildFile; fileRef = 306B9CEA1C3F76050037CBA2 /* CZPickerMultiView.m */; };
 		3088A94B1C37A31B00700CA8 /* CapturedData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3088A94A1C37A31B00700CA8 /* CapturedData.m */; };
 		308CDAC51C3B7BAE0037AE56 /* action.png in Resources */ = {isa = PBXBuildFile; fileRef = 308CDAB91C3B7BAE0037AE56 /* action.png */; };
 		308CDAC61C3B7BAE0037AE56 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 308CDABA1C3B7BAE0037AE56 /* back.png */; };
@@ -66,6 +67,8 @@
 		3034333B1C2979D30080FA6D /* BookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookmarkViewController.m; sourceTree = "<group>"; };
 		306B9CE61C3F67340037CBA2 /* CZPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CZPickerView.h; sourceTree = "<group>"; };
 		306B9CE71C3F67B20037CBA2 /* CZPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZPickerView.m; sourceTree = "<group>"; };
+		306B9CE91C3F76050037CBA2 /* CZPickerMultiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CZPickerMultiView.h; sourceTree = "<group>"; };
+		306B9CEA1C3F76050037CBA2 /* CZPickerMultiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CZPickerMultiView.m; sourceTree = "<group>"; };
 		3088A9491C37A31B00700CA8 /* CapturedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CapturedData.h; sourceTree = "<group>"; };
 		3088A94A1C37A31B00700CA8 /* CapturedData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CapturedData.m; sourceTree = "<group>"; };
 		308CDAB91C3B7BAE0037AE56 /* action.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = action.png; path = image/action.png; sourceTree = "<group>"; };
@@ -183,6 +186,8 @@
 				308CDAD21C3B7ED20037AE56 /* CapturedListView.m */,
 				306B9CE61C3F67340037CBA2 /* CZPickerView.h */,
 				306B9CE71C3F67B20037CBA2 /* CZPickerView.m */,
+				306B9CE91C3F76050037CBA2 /* CZPickerMultiView.h */,
+				306B9CEA1C3F76050037CBA2 /* CZPickerMultiView.m */,
 				308CDAD41C3B7EE70037AE56 /* CapturedImageView.h */,
 				308CDAD51C3B7EE70037AE56 /* CapturedImageView.m */,
 				3034333A1C2979D30080FA6D /* BookmarkViewController.h */,
@@ -408,6 +413,7 @@
 				30C918AD1C252934005595AD /* AddPageViewController.m in Sources */,
 				3088A94B1C37A31B00700CA8 /* CapturedData.m in Sources */,
 				308CDAD31C3B7ED20037AE56 /* CapturedListView.m in Sources */,
+				306B9CEB1C3F76050037CBA2 /* CZPickerMultiView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

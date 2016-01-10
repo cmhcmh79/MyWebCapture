@@ -12,6 +12,7 @@
 #import "CapturedImageView.h"
 #import "ViewController.h"
 #import "CZPickerView.h"
+#import "CZPickerMultiView.h"
 
 /**
  *  테이블 뷰 셀안에 있는 뷰들의 테그 번호 정의
@@ -259,86 +260,11 @@ static NSString * const stringOrder[2][2] = { {@"Time", @"Title"}, {@"Ascending"
     NSLog();
     // 삭제 모드 해제
     [self.tableView setEditing:NO animated:YES];
-    CZPickerView *picker = [[CZPickerView alloc] initWithHeaderTitle:@"Fruits"
+
+    CZPickerMultiView *picker = [[CZPickerMultiView alloc] initWithHeaderTitle:@"Order"
                                                    cancelButtonTitle:@"Cancel"
-                                                  confirmButtonTitle:@"Confirm"];
-    picker.delegate = self;
-    picker.dataSource = self;
-    picker.needFooterView = YES;
+                                                  confirmButtonTitle:@"Ok"];
     [picker show];
-    return;
-    
-    // 모든 뷰 상태 disable 만들기
-    for(UIView *subView in self.view.subviews) {
-        subView.userInteractionEnabled = NO;
-        subView.alpha = 0.3;
-    }
-
-    // 픽커뷰 생성
-    self.pickerView = [[UIPickerView alloc] init];
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
-    
-    self.pickerView.backgroundColor = [UIColor whiteColor];
-    self.pickerView.center = self.view.center;
-    self.pickerView.layer.borderColor = [UIColor grayColor].CGColor;
-    self.pickerView.layer.borderWidth = 1;
-    self.pickerView.layer.cornerRadius = 10;
-    self.pickerView.layer.masksToBounds = YES;
-    
-    [self.view addSubview:self.pickerView];
-    
-    // 현제 설정 선택
-    [self.pickerView selectRow:self.selectedOrder inComponent:0 animated:NO];
-    [self.pickerView selectRow:self.selectedDir inComponent:1 animated:NO];
-    
-    // 버튼 생성
-    self.pickerButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.pickerButton.frame = CGRectMake(self.pickerView.frame.origin.x,
-                              self.pickerView.frame.origin.y + self.pickerView.frame.size.height + 10,
-                              self.pickerView.frame.size.width,
-                              30 );
-    
-    [self.pickerButton  setTitle:@"Select Order" forState:UIControlStateNormal];
-    self.pickerButton.layer.borderWidth = 1;
-    self.pickerButton.layer.borderColor = [UIColor grayColor].CGColor;
-    self.pickerButton.layer.cornerRadius = 10;
-    self.pickerButton.layer.masksToBounds = YES;
-    self.pickerButton.backgroundColor = [UIColor whiteColor];
-    [self.pickerButton addTarget:self action:@selector(pressedSelectOrderButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.pickerButton];
-}
-
-// 픽커 뷰 선택 완료시
-- (void)pressedSelectOrderButton:(id)sender
-{
-    NSLog();
-    self.selectedOrder = [self.pickerView selectedRowInComponent:0];
-    self.selectedDir = [self.pickerView selectedRowInComponent:1];
-    
-    // 버튼 타이틀 변경
-    self.buttonOrder.title = [NSString stringWithFormat:@"Order by %@ %@",
-                              stringOrder[0][self.selectedOrder],
-                              stringOrder[1][self.selectedDir] ];
-    
-    // 픽커 제거
-    [self.pickerView removeFromSuperview];
-    self.pickerView = nil;
-    
-    // 버튼 제거
-    [self.pickerButton removeFromSuperview];
-    self.pickerButton = nil;
-    
-    // 모든 뷰 활성화
-    for(UIView *subView in self.view.subviews) {
-        subView.userInteractionEnabled = YES;
-        subView.alpha = 1.0;
-    }
-    
-    // 갭쳐 데이터 다시 읽기
-    [self.dataManager readCapturedDataOrderby:[stringOrder[0][self.selectedOrder] lowercaseString]
-                                withAscending:[stringOrder[1][self.selectedDir] isEqualToString:stringOrder[1][0]]];
-    [self.tableView reloadData];
 }
 
 - (IBAction)pressedDeleteButton:(id)sender {

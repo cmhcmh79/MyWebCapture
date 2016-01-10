@@ -75,6 +75,8 @@ didConfirmWithItemsAtRows:(NSArray *)rows;
 /** set pre-selected rows, rows should be array of NSNumber. */
 - (void)setSelectedRows: (NSArray *)rows;
 
+- (IBAction)confirmButtonPressed:(id)sender;
+
 @property id<CZPickerViewDelegate> delegate;
 
 @property id<CZPickerViewDataSource> dataSource;
