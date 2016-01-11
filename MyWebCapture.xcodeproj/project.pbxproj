@@ -43,6 +43,18 @@
 		9FC8476A1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
 		9FC8476B1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
 		9FC8476C1C27940600F2AFB9 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 9FC847691C27940600F2AFB9 /* .gitignore */; };
+		9FE456441C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456381C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 1.jpg */; };
+		9FE456451C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456391C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 2.jpg */; };
+		9FE456461C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563A1C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 3.jpg */; };
+		9FE456471C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563B1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 1.jpg */; };
+		9FE456481C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563C1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 2.jpg */; };
+		9FE456491C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563D1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 3.jpg */; };
+		9FE4564A1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563E1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 1.jpg */; };
+		9FE4564B1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE4563F1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 2.jpg */; };
+		9FE4564C1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456401C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 3.jpg */; };
+		9FE4564D1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456411C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 1.jpg */; };
+		9FE4564E1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456421C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 2.jpg */; };
+		9FE4564F1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9FE456431C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 3.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +129,18 @@
 		30EB8E3F1C26A2AE0042E97E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		9FC847691C27940600F2AFB9 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		9FC8476D1C27974D00F2AFB9 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		9FE456381C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "3.5-inch (iPhone 4) - Screenshot 1.jpg"; sourceTree = "<group>"; };
+		9FE456391C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "3.5-inch (iPhone 4) - Screenshot 2.jpg"; sourceTree = "<group>"; };
+		9FE4563A1C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "3.5-inch (iPhone 4) - Screenshot 3.jpg"; sourceTree = "<group>"; };
+		9FE4563B1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4-inch (iPhone 5) - Screenshot 1.jpg"; sourceTree = "<group>"; };
+		9FE4563C1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4-inch (iPhone 5) - Screenshot 2.jpg"; sourceTree = "<group>"; };
+		9FE4563D1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4-inch (iPhone 5) - Screenshot 3.jpg"; sourceTree = "<group>"; };
+		9FE4563E1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4.7-inch (iPhone 6) - Screenshot 1.jpg"; sourceTree = "<group>"; };
+		9FE4563F1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4.7-inch (iPhone 6) - Screenshot 2.jpg"; sourceTree = "<group>"; };
+		9FE456401C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "4.7-inch (iPhone 6) - Screenshot 3.jpg"; sourceTree = "<group>"; };
+		9FE456411C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5.5-inch (iPhone 6+) - Screenshot 1.jpg"; sourceTree = "<group>"; };
+		9FE456421C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5.5-inch (iPhone 6+) - Screenshot 2.jpg"; sourceTree = "<group>"; };
+		9FE456431C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5.5-inch (iPhone 6+) - Screenshot 3.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +233,7 @@
 		309F443F1C2507A700CCC615 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9FE456371C43B53700D40C68 /* Screenshots */,
 				309F44401C2507A700CCC615 /* main.m */,
 				9FC8476D1C27974D00F2AFB9 /* PrefixHeader.pch */,
 			);
@@ -251,6 +276,25 @@
 				308CDAC41C3B7BAE0037AE56 /* refresh.png */,
 			);
 			name = image;
+			sourceTree = "<group>";
+		};
+		9FE456371C43B53700D40C68 /* Screenshots */ = {
+			isa = PBXGroup;
+			children = (
+				9FE456381C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 1.jpg */,
+				9FE456391C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 2.jpg */,
+				9FE4563A1C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 3.jpg */,
+				9FE4563B1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 1.jpg */,
+				9FE4563C1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 2.jpg */,
+				9FE4563D1C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 3.jpg */,
+				9FE4563E1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 1.jpg */,
+				9FE4563F1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 2.jpg */,
+				9FE456401C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 3.jpg */,
+				9FE456411C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 1.jpg */,
+				9FE456421C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 2.jpg */,
+				9FE456431C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 3.jpg */,
+			);
+			path = Screenshots;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,20 +401,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FE456441C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 1.jpg in Resources */,
 				308CDAD81C3B81D80037AE56 /* trash.png in Resources */,
 				9FC8476A1C27940600F2AFB9 /* .gitignore in Resources */,
 				308CDAC51C3B7BAE0037AE56 /* action.png in Resources */,
+				9FE456491C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 3.jpg in Resources */,
+				9FE456461C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 3.jpg in Resources */,
 				308CDACB1C3B7BAE0037AE56 /* home.png in Resources */,
 				308CDAC61C3B7BAE0037AE56 /* back.png in Resources */,
 				308CDACE1C3B7BAE0037AE56 /* literature.png in Resources */,
+				9FE456481C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 2.jpg in Resources */,
 				308CDAC71C3B7BAE0037AE56 /* delete_sign.png in Resources */,
+				9FE4564E1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 2.jpg in Resources */,
 				309F444F1C2507A700CCC615 /* LaunchScreen.storyboard in Resources */,
 				308CDACD1C3B7BAE0037AE56 /* instagram.png in Resources */,
+				9FE456471C43B53700D40C68 /* 4-inch (iPhone 5) - Screenshot 1.jpg in Resources */,
 				308CDACC1C3B7BAE0037AE56 /* icon-default.png in Resources */,
+				9FE4564B1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 2.jpg in Resources */,
 				308CDAC91C3B7BAE0037AE56 /* download.png in Resources */,
+				9FE456451C43B53700D40C68 /* 3.5-inch (iPhone 4) - Screenshot 2.jpg in Resources */,
 				308CDAC81C3B7BAE0037AE56 /* domain.png in Resources */,
+				9FE4564F1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 3.jpg in Resources */,
 				308CDACF1C3B7BAE0037AE56 /* picture.png in Resources */,
+				9FE4564A1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 1.jpg in Resources */,
+				9FE4564C1C43B53700D40C68 /* 4.7-inch (iPhone 6) - Screenshot 3.jpg in Resources */,
 				309F444C1C2507A700CCC615 /* Assets.xcassets in Resources */,
+				9FE4564D1C43B53700D40C68 /* 5.5-inch (iPhone 6+) - Screenshot 1.jpg in Resources */,
 				308CDAD01C3B7BAE0037AE56 /* refresh.png in Resources */,
 				309F444A1C2507A700CCC615 /* Main.storyboard in Resources */,
 				308CDACA1C3B7BAE0037AE56 /* forward.png in Resources */,
