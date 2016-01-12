@@ -307,6 +307,10 @@
                                                                    message:nil /* @"delete ?." */
                                                             preferredStyle:UIAlertControllerStyleActionSheet];
     
+    alert.popoverPresentationController.sourceView = self.view;
+    alert.popoverPresentationController.sourceRect = CGRectMake(0, 0, 50, 50);
+    
+    
     UIAlertAction *actionAddPage = [UIAlertAction actionWithTitle:@"Add Bookmark" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               NSLog(@"AlertAction add page");
